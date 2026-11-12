@@ -1,0 +1,39 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Build outputs
+dist/
+**/dist/
+build/
+**/build/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Temporary cloned repos & cache
+tmp_github/
+**/tmp_github/
+.cache/
+.temp/
+.tmp/
+
+# Editor & OS files
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+.idea/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Temporary migration script
+cleanup_and_migrate_git.ps1
+

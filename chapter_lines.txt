@@ -1,0 +1,141 @@
+Line 472: CHAPTER 1 Introduction to Arm Cortex-M
+Line 504: Chapter 1 |  Introduction to Arm Cortex-M
+Line 556: Chapter 1 |  Introduction to Arm Cortex-M
+Line 620: Chapter 1 |  Introduction to Arm Cortex-M
+Line 691: Chapter 1 |  Introduction to Arm Cortex-M
+Line 769: Chapter 2 |  Introduction to system design with Cortex-M processors
+Line 841: Chapter 2 |  Introduction to system design with Cortex-M processors
+Line 869: Chapter 2 |  Introduction to system design with Cortex-M processors
+Line 932: Chapter 2 |  Introduction to system design with Cortex-M processors
+Line 983: Chapter 2 |  Introduction to system design with Cortex-M processors
+Line 1049: Chapter 2 |  Introduction to system design with Cortex-M processors
+Line 1100: Chapter 2 |  Introduction to system design with Cortex-M processors
+Line 1163: Chapter 2 |  Introduction to system design with Cortex-M processors
+Line 1216: Chapter 2 |  Introduction to system design with Cortex-M processors
+Line 1273: Chapter 2 |  Introduction to system design with Cortex-M processors
+Line 1319: Chapter 2 |  Introduction to system design with Cortex-M processors
+Line 1327: CHAPTER 3 AMBA, AHB, and APB
+Line 1365: Chapter 3 |  AMBA, AHB, and APB
+Line 1429: Chapter 3 |  AMBA, AHB, and APB
+Line 1510: Chapter 3 |  AMBA, AHB, and APB
+Line 1571: Chapter 3 |  AMBA, AHB, and APB
+Line 1626: Chapter 3 |  AMBA, AHB, and APB
+Line 1700: Chapter 3 |  AMBA, AHB, and APB
+Line 1788: Chapter 3 |  AMBA, AHB, and APB
+Line 1844: Chapter 3 |  AMBA, AHB, and APB
+Line 1917: Chapter 3 |  AMBA, AHB, and APB
+Line 1963: Chapter 3 |  AMBA, AHB, and APB
+Line 2005: Chapter 3 |  AMBA, AHB, and APB
+Line 2072: Chapter 3 |  AMBA, AHB, and APB
+Line 2162: Chapter 3 |  AMBA, AHB, and APB
+Line 2227: Chapter 3 |  AMBA, AHB, and APB
+Line 2296: Chapter 3 |  AMBA, AHB, and APB
+Line 2342: Chapter 3 |  AMBA, AHB, and APB
+Line 2415: Chapter 3 |  AMBA, AHB, and APB
+Line 2473: Chapter 4 |  Building simple bus systems for Cortex-M processors
+Line 2528: Chapter 4 |  Building simple bus systems for Cortex-M processors
+Line 2575: Chapter 4 |  Building simple bus systems for Cortex-M processors
+Line 2634: Chapter 4 |  Building simple bus systems for Cortex-M processors
+Line 2684: Chapter 4 |  Building simple bus systems for Cortex-M processors
+Line 2731: Chapter 4 |  Building simple bus systems for Cortex-M processors
+Line 2791: Chapter 4 |  Building simple bus systems for Cortex-M processors
+Line 2839: Chapter 4 |  Building simple bus systems for Cortex-M processors
+Line 2890: Chapter 4 |  Building simple bus systems for Cortex-M processors
+Line 2934: Chapter 4 |  Building simple bus systems for Cortex-M processors
+Line 2988: Chapter 4 |  Building simple bus systems for Cortex-M processors
+Line 2992: CHAPTER 5
+Line 3022: Chapter 5 |  Debug integration with Cortex-M processor systems
+Line 3090: Chapter 5 |  Debug integration with Cortex-M processor systems
+Line 3160: Chapter 5 |  Debug integration with Cortex-M processor systems
+Line 3214: Chapter 5 |  Debug integration with Cortex-M processor systems
+Line 3262: Chapter 5 |  Debug integration with Cortex-M processor systems
+Line 3324: Chapter 5 |  Debug integration with Cortex-M processor systems
+Line 3389: Chapter 5 |  Debug integration with Cortex-M processor systems
+Line 3442: Chapter 5 |  Debug integration with Cortex-M processor systems
+Line 3491: Chapter 5 |  Debug integration with Cortex-M processor systems
+Line 3541: Chapter 5 |  Debug integration with Cortex-M processor systems
+Line 3588: Chapter 5 |  Debug integration with Cortex-M processor systems
+Line 3592: CHAPTER 6 Low-power support
+Line 3628: Chapter 6 |  Low-power support
+Line 3687: Chapter 6 |  Low-power support
+Line 3757: Chapter 6 |  Low-power support
+Line 3802: Chapter 6 |  Low-power support
+Line 3874: Chapter 6 |  Low-power support
+Line 3924: Chapter 6 |  Low-power support
+Line 3984: Chapter 6 |  Low-power support
+Line 4034: Chapter 6 |  Low-power support
+Line 4087: Chapter 6 |  Low-power support
+Line 4154: Chapter 6 |  Low-power support
+Line 4158: CHAPTER 7
+Line 4185: Chapter 7 |  Design of bus infrastructure components
+Line 4236: Chapter 7 |  Design of bus infrastructure components
+Line 4292: Chapter 7 |  Design of bus infrastructure components
+Line 4332: Chapter 7 |  Design of bus infrastructure components
+Line 4374: Chapter 7 |  Design of bus infrastructure components
+Line 4416: Chapter 7 |  Design of bus infrastructure components
+Line 4439: Chapter 7 |  Design of bus infrastructure components
+Line 4507: Chapter 7 |  Design of bus infrastructure components
+Line 4539: Chapter 7 |  Design of bus infrastructure components
+Line 4581: Chapter 7 |  Design of bus infrastructure components
+Line 4616: Chapter 7 |  Design of bus infrastructure components
+Line 4700: Chapter 7 |  Design of bus infrastructure components
+Line 4714: Chapter 7 |  Design of bus infrastructure components
+Line 4750: Chapter 7 |  Design of bus infrastructure components
+Line 4764: CHAPTER 8
+Line 4790: Chapter 8 |  Design of simple peripherals
+Line 4843: Chapter 8 |  Design of simple peripherals
+Line 4893: Chapter 8 |  Design of simple peripherals
+Line 4926: Chapter 8 |  Design of simple peripherals
+Line 4971: Chapter 8 |  Design of simple peripherals
+Line 5009: Chapter 8 |  Design of simple peripherals
+Line 5039: Chapter 8 |  Design of simple peripherals
+Line 5085: Chapter 8 |  Design of simple peripherals
+Line 5101: Chapter 8 |  Design of simple peripherals
+Line 5139: Chapter 8 |  Design of simple peripherals
+Line 5216: Chapter 8 |  Design of simple peripherals
+Line 5232: Chapter 8 |  Design of simple peripherals
+Line 5250: Chapter 8 |  Design of simple peripherals
+Line 5270: Chapter 8 |  Design of simple peripherals
+Line 5329: Chapter 8 |  Design of simple peripherals
+Line 5333: CHAPTER 9 Putting the system together
+Line 5364: Chapter 9 |  Putting the system together
+Line 5424: Chapter 9 |  Putting the system together
+Line 5504: Chapter 9 |  Putting the system together
+Line 5546: Chapter 9 |  Putting the system together
+Line 5605: Chapter 9 |  Putting the system together
+Line 5648: Chapter 9 |  Putting the system together
+Line 5686: Chapter 9 |  Putting the system together
+Line 5732: Chapter 9 |  Putting the system together
+Line 5774: Chapter 9 |  Putting the system together
+Line 5833: Chapter 9 |  Putting the system together
+Line 5887: Chapter 9 |  Putting the system together
+Line 5947: Chapter 9 |  Putting the system together
+Line 5964: CHAPTER 10
+Line 5998: Chapter 10 |  Beyond the processor system
+Line 6049: Chapter 10 |  Beyond the processor system
+Line 6102: Chapter 10 |  Beyond the processor system
+Line 6171: Chapter 10 |  Beyond the processor system
+Line 6230: Chapter 10 |  Beyond the processor system
+Line 6289: Chapter 10 |  Beyond the processor system
+Line 6346: Chapter 10 |  Beyond the processor system
+Line 6398: Chapter 10 |  Beyond the processor system
+Line 6472: Chapter 10 |  Beyond the processor system
+Line 6498: Chapter 10 |  Beyond the processor system
+Line 6538: Chapter 11 |  Software development
+Line 6596: Chapter 11 |  Software development
+Line 6650: Chapter 11 |  Software development
+Line 6718: Chapter 11 |  Software development
+Line 6758: Chapter 11 |  Software development
+Line 6800: Chapter 11 |  Software development
+Line 6856: Chapter 11 |  Software development
+Line 6904: Chapter 11 |  Software development
+Line 6942: Chapter 11 |  Software development
+Line 6974: Chapter 11 |  Software development
+Line 7014: Chapter 11 |  Software development
+Line 7059: Chapter 11 |  Software development
+Line 7091: Chapter 11 |  Software development
+Line 7123: Chapter 11 |  Software development
+Line 7181: Chapter 11 |  Software development
+Line 7227: Chapter 11 |  Software development
+Line 7257: Chapter 11 |  Software development
+Line 7285: Chapter 11 |  Software development

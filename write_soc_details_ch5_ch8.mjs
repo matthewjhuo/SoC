@@ -1,0 +1,293 @@
+import fs from 'fs';
+
+const data = {
+    "soc-ch5": [
+        {
+            title: "5.1 CoreSight 標准除錯架構與 DAP",
+            content: "ARM CoreSight 技術提供了完整的晶片上偵錯與追蹤解決方案。DAP (Debug Access Port) 是核心對外通訊的窗口，分為 DP (Debug Port) 和 AP (Access Port)。\nDP 支援外部實體連接腳位，如 JTAG 或兩線式的 SWD (Serial Wire Debug) 介面。\nAP 則是把 DP 傳來的命令轉化為晶片內部的匯流排存取操作，最常見的是連接系統記憶體映射空間的 AHB-AP，以及連接除錯暫存器匯流排的 APB-AP。"
+        },
+        {
+            title: "5.2 ROM Table 組件自動識別機制",
+            content: "為了使除錯主機（如 J-Link、Ulink）能自動探測 SoC 中有哪些處理器核心與除錯組件，CoreSight 定義了 ROM Table 規範。各 AP 內部放置了一個唯讀的 ROM Table 暫存器，記錄了連接至該 AP 的所有除錯組件（如 Core, NVIC, ETM, TPIU）相對於該 ROM Table 的偏移位址。\n除錯軟體連線後，會循著 ROM Table 的指標層層讀取，並藉由讀取各組件後段的 Peripheral ID (PID0-PID4) 與 Component ID (CID0-CID3) 暫存器來識別其為 Cortex-M 內建單元還是自定義的硬體加速器。"
+        },
+        {
+            title: "5.3 系統追蹤 (Trace) 與數據匯流排整合",
+            content: "追蹤（Trace）是晶片執行時免停機進行資料採集的重要模組。常見 Trace 單元包括：\n1. ETM (Embedded Trace Macrocell)：即時硬體追蹤，提供 CPU 指令流與資料流的高頻寬輸出。\n2. ITM (Instrumentation Trace Macrocell)：軟體檢測追蹤，允許應用程式碼寫入特定暫存器，類似快讀 printf 輸出。\n3. TPIU (Trace Port Interface Unit)：將追蹤資料打包輸出給晶片外部除錯器。\n4. MTB (Micro Trace Buffer)：針對超低功耗核心，將指令流寫入晶片本機的一小塊 SRAM 迴圈緩衝區供隨時提取。"
+        },
+        {
+            title: "5.4 除錯協議切換暫存器邏輯 (Verilog)",
+            code: `module debug_swd_jtag_mux (
+  input  logic        sys_rst_n,
+  input  logic        protocol_switch_rstd, // 協定切換序列偵測指示
+  input  logic [1:0]  pin_mux_sel,          // 00=SWD, 01=JTAG
+  // 實體除錯引腳
+  input  logic        TCK_SWCLK,
+  input  logic        TMS_SWDIO_i,
+  output logic        TMS_SWDIO_o,
+  output logic        TMS_SWDIO_oe,
+  input  logic        TDI,
+  output logic        TDO_swo,
+  // 內部分流除錯訊號
+  output logic        swd_clk,
+  inout  wire         swd_data,
+  output logic        jtag_tck,
+  output logic        jtag_tms,
+  output logic        jtag_tdi,
+  input  logic        jtag_tdo
+);
+  // 根據 pin_mux_sel 或是 protocol_switch_rstd 切換 SWD 或是 JTAG
+  always_comb begin
+    swd_clk  = 1'b0;
+    jtag_tck = 1'b0;
+    jtag_tms = 1'b0;
+    jtag_tdi = 1'b0;
+    if (pin_mux_sel == 2'b00 || protocol_switch_rstd) begin
+      swd_clk  = TCK_SWCLK;
+      // SWD 雙向資料腳位分流控制邏輯
+    end else begin
+      jtag_tck = TCK_SWCLK;
+      jtag_tms = TMS_SWDIO_i;
+      jtag_tdi = TDI;
+    end
+  end
+endmodule`,
+            lang: "verilog"
+        },
+        {
+            title: "5.5 實作演練：除錯控制暫存器仿真 (Hands-on Lab)",
+            content: "1. 模擬除錯引腳多路選擇器的切換行為，驗證切換為 JTAG 模式時 TDI 與 jtag_tdi 是否相連。\n2. 在測試平台中發送 SWJ-DP 的二位元組切換命令序列，檢驗 protocol_switch_rstd 控制狀態暫存器的變化。\n3. 分析 ROM Table 的地址偏移量計算公式，動態構建一組 32 位元 ROM 表位址數據。"
+        }
+    ],
+    "soc-ch6": [
+        {
+            title: "6.1 SoC 低功耗設計狀態與策略",
+            content: "低功耗對於手持與 IoT 晶片至關重要。Cortex-M 提供三種主要功耗狀態：\n1. Active Mode：CPU 全速運轉。\n2. Sleep Mode：時脈停止（Clock Gating），CPU 暫停執行但邏輯與內部 registers 保持狀態，中斷可瞬間喚醒。\n3. Deep Sleep Mode：關閉主 PLL，減少漏電流，但喚醒常需要較長等待。\n4. Standby Mode (部分 SoC 支援)：電源域斷電（Power Gating），暫存器內容遺失，只能透過 Power-On Reset 喚醒。"
+        },
+        {
+            title: "6.2 時脈閘控與電源閘控 (Clock & Power Gating)",
+            content: "SoC 層面的省電技術：\n1. 時脈閘控（Clock Gating）：利用 CG Cell (Clock Gate Integrated Cell) 在不使用周邊時切斷其時脈翻轉，大幅降低動態功耗。\n2. 電源閘控（Power Gating）：利用路徑開關 (MTCMOS) 將不使用的電源網格斷路，徹底阻斷靜態漏電流。此時需要用到動態電源控制器（PMC）和信號隔離單元（Isolation Cell）來隔離不同電壓域。"
+        },
+        {
+            title: "6.3 喚醒中斷控制器 (WIC) 運作原理",
+            content: "WIC (Wakeup Interrupt Controller) 是實現極低功耗深度休眠的關鍵。在 Deep Sleep 期，CPU 及 NVIC 所在的電源域可能會完全斷電以消彌靜態電流，此時 NVIC 無法工作。\nWIC 為一個獨立於核心的超袖珍狀態監聽硬體，僅由常開的電源域（Always-On Power Domain）供電。\n當 CPU 準備休眠時，會將中斷狀態同步給 WIC。當外設喚醒訊號觸發時，WIC 會優先拉高主電壓域的 Enable 訊號，待 PLL 穩定與核心重新上電後，將中斷傳回給 NVIC 完成中斷服務。"
+        },
+        {
+            title: "6.4 節電狀態控制器握手線路 (Verilog)",
+            code: `module power_handshake_controller (
+  input  logic        clk,
+  input  logic        rst_n,
+  // 處理器輸出訊號
+  input  logic        sleep_req,      // CPU 休眠請求
+  output logic        sleep_ack,      // 休眠控制器響應確認
+  // 控制外圍線路之電源關閉與時脈閘控
+  output logic        isolate_en,     // 隔離單元使能
+  output logic        power_gate_en,  // 電源網格切斷
+  output logic        clock_gate_en   // 時脈切斷
+);
+  typedef enum logic [1:0] {
+    ST_ACTIVE,
+    ST_CLOCK_OFF,
+    ST_POWER_OFF
+  } state_t;
+  
+  state_t state, next_state;
+
+  always_ff @(posedge clk or negedge rst_n) begin
+    if (!rst_n) state <= ST_ACTIVE;
+    else        state <= next_state;
+  end
+
+  always_comb begin
+    next_state    = state;
+    sleep_ack     = 1'b0;
+    isolate_en    = 1'b0;
+    power_gate_en = 1'b0;
+    clock_gate_en = 1'b0;
+
+    case (state)
+      ST_ACTIVE: begin
+        if (sleep_req) next_state = ST_CLOCK_OFF;
+      end
+      ST_CLOCK_OFF: begin
+        clock_gate_en = 1'b1;
+        isolate_en    = 1'b1;
+        if (sleep_req) next_state = ST_POWER_OFF;
+        else           next_state = ST_ACTIVE;
+      end
+      ST_POWER_OFF: begin
+        clock_gate_en = 1'b1;
+        isolate_en    = 1'b1;
+        power_gate_en = 1'b1;
+        sleep_ack     = 1'b1;
+        if (!sleep_req) next_state = ST_CLOCK_OFF;
+      end
+    endcase
+  end
+endmodule`,
+            lang: "verilog"
+        },
+        {
+            title: "6.5 實作演練：休眠喚醒時序仿真 (Hands-on Lab)",
+            content: "1. 仿真 Power Handshake 狀態機，模擬 sleep_req 電平變化與各控制引腳 (clock_gate_en, isolate_en, power_gate_en) 的輸出延遲關係。\n2. 驗證在休眠釋放後，電源必須先開啟、信號先解除隔離、最後才能恢復時脈之安全時序規避。\n3. 分析休眠時晶片漏電流估計與 WFI (Wait For Interrupt) 指令在軟體上的實作。"
+        }
+    ],
+    "soc-ch7": [
+        {
+            title: "7.1 AHB 位址編譯與預設從屬器 (Default Slave)",
+            content: "在一個 AHB 匯流排架構中，如果 Master 對一個未映射的非法位址進行讀寫，必須有一個組件扮演響應者的角色，這就是 Default Slave。\n當解碼器判斷位址落在空白區間時，會拉高 HSEL_DefSlave。\nDefault Slave 的唯一功能是負責為任何非法傳輸返回符合 AMBA 標準的雙週期錯誤響應（2-cycle ERROR Response）。"
+        },
+        {
+            title: "7.2 AHB 從屬多路選通器 (Slave Mux) 職責",
+            content: "在匯流排中，多個 Slave 共用同一條資料讀取匯流排（HRDATA）和狀態響應匯流排（HREADY, HRESP）。因此，SoC 需要一個多路選擇選通器（Slave Multiplexer）。\n它根據中央解碼器解出的選擇結果，選擇對應 Slave 的 HREADYOUT、HRESP 以及 HRDATA 送回給 Master。由於資料讀寫存在一個時脈的管線延遲，Mux 在進行數據多路復用時，必須使用寄存器（Sampled Read Select Register）將位址階段所選擇的 Slave 代號保存一拍，如此才能在下一個數據階段選中正確的 Slave 回傳值。"
+        },
+        {
+            title: "7.3 AHB 到 APB 匯流排橋接器 (AHB-to-APB Bridge)",
+            content: "APB 週邊通常運轉在較低時脈。AHB-to-APB Bridge 負責轉換匯流排協定：它在 AHB 端充當 Slave 接收 Master 請求（地址與寫資料），並在 APB 端充當 Master 去驅動 PSEL, PADDR, PWRITE, PENABLE, PWDATA 等信號。\n橋接器內部還必須處理時脈分頻對齊，並在 APB 外設未就緒時，透過拉低 AHB 端的 HREADYOUT 來延長主控端等待時間。"
+        },
+        {
+            title: "7.4 AHB Default Slave 與 Slave Mux (Verilog)",
+            code: `// AHB-Lite 預設從屬器模型 - 當訪問非法地址時返回 2-Cycle ERROR
+module ahb_defslave (
+  input  wire       HCLK,
+  input  wire       HRESETn,
+  input  wire       HSEL,
+  input  wire [1:0] HTRANS,
+  input  wire       HREADY,
+  output logic      HREADYOUT,
+  output logic      HRESP
+);
+  reg [1:0] RespState;
+  wire      TransReq;
+
+  assign TransReq = HSEL & HTRANS[1] & HREADY;
+
+  // RespState: 01=IDLE/READY, 10=ERROR_CYCLE1, 11=ERROR_CYCLE2
+  always @(posedge HCLK or negedge HRESETn) begin
+    if (~HRESETn) begin
+      RespState <= 2'b01;
+    end else begin
+      case (RespState)
+        2'b01: begin
+          if (TransReq) RespState <= 2'b10; // 發起非法存取的下個週期進入第一拍錯誤
+        end
+        2'b10: begin
+          RespState <= 2'b11; // 進入第二拍錯誤，同時輸出 HREADYOUT=0/HRESP=1
+        end
+        2'b11: begin
+          RespState <= 2'b01; // 返回 IDLE，輸出 HREADYOUT=1/HRESP=1 完成出錯傳輸
+        end
+        default: RespState <= 2'b01;
+      endcase
+    end
+  end
+
+  assign HREADYOUT = (RespState == 2'b10) ? 1'b0 : 1'b1;
+  assign HRESP     = (RespState == 2'b01) ? 1'b0 : 1'b1;
+endmodule`,
+            lang: "verilog"
+        },
+        {
+            title: "7.5 實作演練：Default Slave 錯誤發射時序 (Hands-on Lab)",
+            content: "1. 將 ahb_defslave 實例化，模擬在 HSEL 觸發後，如何輸出的雙週期錯誤波形（第一週期：HREADYOUT=0, HRESP=1；第二週期：HREADYOUT=1, HRESP=1）。\n2. 編寫 SVA 驗證 Default Slave 確實在 HTRANS 開始後觸發 ERROR 時序拉高。\n3. 分析多 Master 時，仲裁器與 Slave Mux 共同配合時所應採取的 Pipeline 保留和切換策略。"
+        }
+    ],
+    "soc-ch8": [
+        {
+            title: "8.1 程式設計模型與周邊暫存器的基底位址",
+            content: "微控制器周邊是透過軟體讀寫暫存器來操作的，這組暫存器的位址區間和功能被稱為 Programmer's Model。\n每個暫存器會被指配特定偏移量（Register Offset），例如 GPIO_IN 在 0x0、GPIO_OUT 在 0x4。\n設計外設硬體時，必須對解出的 PSEL 與 PADDR 進行解碼，根據 PWRITE 來執行暫存器在相對寫使能觸發下的資料更新。"
+        },
+        {
+            title: "8.2 APB GPIO 暫存器控制元件",
+            content: "通用輸入輸出埠 (GPIO) 是最基本的週邊。最簡單的 GPIO 包含三個寄存器：\n1. DATAIN：唯讀暫存器，直接取樣實體引腳上的狀態。\n2. DATAOUT：可讀寫暫存器，保存軟體想要輸出的電平資料。\n3. OUTENABLE：可讀寫暫存器，控制各實體引腳的三態緩衝區（Tri-state Buffer）方向開關。\n此外還能更進一步加入中斷觸發（如上升/下降沿中斷暫存器）。"
+        },
+        {
+            title: "8.3 APB 定時器 (Timer) 控制核心",
+            content: "定時器通常用來實現精準的定時中斷。典型 APB Timer 包含：\n1. CTRL：控制暫存器，決定定時器啟用（EN）、中斷使能（INTEN）以及時脈來源選擇。\n2. VALUE：目前計數值暫存器，每個 active clk 下減 1（或是加 1）。\n3. RELOAD：重載值暫存器，當 VALUE 計數減到 0 時，會自動複製 RELOAD 暫存器數值，同時觸發中斷旗標（Interrupt Status）。"
+        },
+        {
+            title: "8.4 APB Timer 積體電路模組 (Verilog)",
+            code: `module apb_timer (
+  input  logic        PCLK,
+  input  logic        PRESETn,
+  input  logic        PSEL,
+  input  logic [7:2]  PADDR,
+  input  logic        PENABLE,
+  input  logic        PWRITE,
+  input  logic [31:0] PWDATA,
+  output logic [31:0] PRDATA,
+  output logic        PREADY,
+  output logic        PSLVERR,
+  output logic        TIMERINT  // 定時器中斷輸出
+);
+  // 定義暫存器偏移量
+  // 0x00: CTRL [3]TimerIntEn [0]Enable
+  // 0x04: VALUE [31:0] Current Value
+  // 0x08: RELOAD [31:0] Reload Value
+  // 0x0C: INTSTATUS [0] Write 1 to Clear
+  
+  logic [31:0] r_ctrl;
+  logic [31:0] r_value;
+  logic [31:0] r_reload;
+  logic        r_intstatus;
+
+  assign PREADY  = 1'b1; // 無等待狀態週邊
+  assign PSLVERR = 1'b0; // 始終返回正常
+
+  wire write_en = PSEL && PENABLE && PWRITE;
+  
+  // 寫入暫存器控制
+  always_ff @(posedge PCLK or negedge PRESETn) begin
+    if (!PRESETn) begin
+      r_ctrl      <= 32'h0;
+      r_value     <= 32'h0;
+      r_reload    <= 32'h0;
+      r_intstatus <= 1'b0;
+    end else begin
+      // 計數下減行為
+      if (r_ctrl[0]) begin
+        if (r_value == 32'h0) begin
+          r_value <= r_reload;
+          if (r_ctrl[3]) r_intstatus <= 1'b1; // 中斷使能狀況下觸發計數溢出中斷
+        end else begin
+          r_value <= r_value - 1;
+        end
+      end
+      
+      // APB 寫入更新暫存器的值
+      if (write_en) begin
+        case (PADDR[3:2])
+          2'b00: r_ctrl   <= PWDATA;
+          2'b01: r_value  <= PWDATA;
+          2'b10: r_reload <= PWDATA;
+          2'b11: if (PWDATA[0]) r_intstatus <= 1'b0; // 清除中斷旗標(Write 1 to Clear)
+        endcase
+      end
+    end
+  end
+
+  // 讀取暫存器多路資料復用
+  always_comb begin
+    PRDATA = 32'h0;
+    if (PSEL && !PWRITE) begin
+      case (PADDR[3:2])
+        2'b00: PRDATA = r_ctrl;
+        2'b01: PRDATA = r_value;
+        2'b10: PRDATA = r_reload;
+        2'b11: PRDATA = {31'h0, r_intstatus};
+      endcase
+    end
+  end
+
+  assign TIMERINT = r_intstatus;
+endmodule`,
+            lang: "verilog"
+        },
+        {
+            title: "8.5 實作演練：定時中斷與暫存器讀寫 (Hands-on Lab)",
+            content: "1. 模擬 apb_timer，先寫入重載值 100，接著寫入 0x09 (啟用並開啟中斷) 至主控制暫存器。\n2. 觀察當前計數器減到 0 時，位址 0x0C 的 INTSTATUS 暫存器及外部中斷 TIMERINT 引腳是否同拉高。\n3. 編寫 Testbench 向 0x0C 寫入 0x01，驗證定時器中斷狀態的 W1C (寫一清零) 電路功能運作。"
+        }
+    ]
+};
+
+fs.writeFileSync('c:\\Users\\卓\\Desktop\\antigravity\\SoC\\soc_details_ch5_ch8.json', JSON.stringify(data, null, 2));
+console.log("Written Ch5-Ch8 details to JSON successfully.");

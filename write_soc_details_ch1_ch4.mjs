@@ -1,0 +1,183 @@
+import fs from 'fs';
+
+const data = {
+    "soc-ch1": [
+        {
+            title: "1.1 Arm Cortex-M 處理器架構與特性",
+            content: "在現代數位系統中，CPU 比單純的 FSM (有限狀態機) 具有更高的靈活性。Arm Cortex-M 系列（包括 Cortex-M0/M0+/M1/M3/M4/M7/M23/M33）是 32 位元 RISC 處理器，為深度嵌入式和低功耗、成本敏感型微控制器設計。主要優點包括：優異的效能功耗比、高代碼密度（Thumb-2 指令集）、中斷延遲低（Nested Vectored Interrupt Controller, NVIC）以及廣大健全的軟硬體生態系。"
+        },
+        {
+            title: "1.2 軟體執行模式與暫存器結構",
+            content: "Cortex-M 處理器支援兩種執行模式：Thread Mode（執行應用程式碼，可使用特權或非特權權限）與 Handler Mode（執行異常與中斷服務程式，始終為特權權限）。\n暫存器設定包含 R0-R12 通用暫存器、R13 堆疊指標（SP，分為實體隔離的 MSP 主堆疊指標與 PSP 進程堆疊指標）、R14 連結暫存器（LR）、R15 程式計數器（PC），以及特殊的程式狀態暫存器 (xPSR) 與中斷屏蔽暫存器（PRIMASK, FAULTMASK, BASEPRI）。"
+        },
+        {
+            title: "1.3 授權模式 (Licensing) 與交付物",
+            content: "Arm 提供了多種靈活的 IP 授權模式以降低開發門檻。DesignStart Eval 提供免費下載的混淆版 Verilog 模擬模型，適合研究與評估；DesignStart Pro 提供低成本、免前期授權金的 RTL 供晶片量產；而 Arm Flexible Access 則允許設計者在支付授權費前，自由探索並設計多種 Arm IP 組合。交付物中通常包含處理器 RTL、硬體整合手冊、基礎軟體驅動 (CMSIS) 以及模擬測試平台。"
+        },
+        {
+            title: "1.4 時脈控制與重置產生器 (Verilog)",
+            code: `\`timescale 1ns/1ps
+
+module tb_cortex_m3_clock();
+  // 標準 SoC 時脈控制與重置產生器
+  logic clk;
+  logic rst_n;
+  
+  initial begin
+    clk = 0;
+    forever #5 clk = ~clk; // 100MHz 系統主時脈
+  end
+  
+  initial begin
+    rst_n = 0;
+    #22 rst_n = 1; // 異步復位，延遲釋放
+  end
+
+  initial begin
+    $timeformat(-9, 2, " ns", 10);
+    $display("[%0t] SoC Testbench Harness Initialized.", $time);
+    #100;
+    $finish;
+  end
+endmodule`,
+            lang: "verilog"
+        },
+        {
+            title: "1.5 實作演練：時序模擬與驗證 (Hands-on Lab)",
+            content: "1. 在模擬器（如 Icarus Verilog）中載入時脈與重置產生模組。\n2. 觀察時脈輸出與 rst_n 的釋放邊緣是否符合異步重置、同步釋放的防抖動時序。\n3. 修改模擬參數，加入 $timeformat 並輸出日誌文件，確保時序精度。"
+        }
+    ],
+    "soc-ch2": [
+        {
+            title: "2.1 記憶體系統與層次結構",
+            content: "Cortex-M 微控制器通常需要非揮發性記憶體（ROM 或 Flash）存取唯讀程式碼與常量，以及揮發性記憶體（SRAM）供堆疊、堆置與全局暫存使用。為了達到零等待狀態（Zero-Wait State）的極速存取，高性能 SoC 會配置緊耦合記憶體（Tightly-Coupled Memory, TCM），如 ITCM（指令）和 DTCM（資料）。此外，較高階的核心（如 Cortex-M7）更導入了指令與資料快取（Cache）。"
+        },
+        {
+            title: "2.2 記憶體映射與位元帶存取 (Bit-Banding)",
+            content: "Cortex-M 採用 4GB 統一的扁平記憶體映射（Memory Map），位址空間被劃分為代碼區（Code）、SRAM區、周邊區（Peripheral）、外部RAM區與私有周邊匯流排區（Private Peripheral Bus, PPB，用於配置 NVIC、SysTick 與除錯單元）。\n部分 Cortex-M3/M4 處理器支援 Bit-Banding，將 SRAM 及周邊區的 1 個字（32位元）映射到獨立的 Alias 位址區，藉由存取該位址來實現單一 bit 的原子性（Atomic）讀寫操作，避免了傳統讀-改-寫（Read-Modify-Write）帶來的競態條件問題。"
+        },
+        {
+            title: "2.3 位元組排列順序 (Endianness)",
+            content: "Cortex-M 處理器主要使用小端序（Little-Endian）編碼配置，亦即低位元組儲存在記憶體的低位址處。但也支援大端序（Big-Endian）配置。設計 SoC 匯流排介面時，必須嚴格注意數據線的位元排列對應（如 32-bit APB 匯流排的 bit[7:0], bit[15:8], bit[23:16], bit[31:24] 必須準確對應各 Byte Lane 的選取訊號），否則會導致軟體讀取暫存器出錯。"
+        },
+        {
+            title: "2.4 雙埠靜態隨機記憶體模型 (Verilog)",
+            code: `module sram_model (
+  input  logic        clk,
+  input  logic        cs_n,    // 片選訊號 (低電平有效)
+  input  logic        we_n,    // 寫啟用訊號 (低電平有效)
+  input  logic [9:0]  addr,    // 1024 字位址 (32-bit 字)
+  input  logic [31:0] din,     // 寫入數據
+  output logic [31:0] dout     // 讀取輸出
+);
+  // 定義 1024 x 32-bit 記憶體陣列
+  logic [31:0] mem [0:1023];
+
+  always_ff @(posedge clk) begin
+    if (!cs_n) begin
+      if (!we_n)
+        mem[addr] <= din;
+      dout <= mem[addr];
+    end
+  end
+endmodule`,
+            lang: "verilog"
+        },
+        {
+            title: "2.5 實作演練：記憶體讀寫時序驗證 (Hands-on Lab)",
+            content: "1. 使用 SRAM 仿真模型建立測試平台，依序對位址 0x00 到 0x0F 進行寫入與重複讀取操作。\n2. 觀察 cs_n 與 we_n 拉低時，寫入資料 dout 與 mem 狀態的變化時序。\n3. 分析軟體存取單個位元組（Byte）與半字（Half-word）在 32-bit SRAM 匯流排上的位元對齊行為。"
+        }
+    ],
+    "soc-ch3": [
+        {
+            title: "3.1 AMBA 匯流排家族與 AHB/APB 概覽",
+            content: "ARM 推出的 AMBA (Advanced Microcontroller Bus Architecture) 是片上系統 (SoC) 開發的工業標準匯流排。其中，AHB (Advanced High-performance Bus) 是高性能皮線化（Pipelined）系統主幹匯流排，連接 CPU、SRAM、Flash 和 DMA。它支援管線化傳輸、突發傳輸，多Master仲裁。而 APB (Advanced Peripheral Bus) 是為低功耗、低頻寬周邊控制暫存器設計的無管線協議，控制開銷極低，不含複雜管線與仲裁訊號。"
+        },
+        {
+            title: "3.2 APB 協議訊號與傳輸狀態機",
+            content: "APB 匯流排包含以下核心訊號：PCLK（時脈）、PRESETn（重置）、PADDR（位址）、PSEL（片選）、PENABLE（選通）、PWRITE（讀寫狀態，1=寫，0=讀）、PWDATA（寫資料）、PRDATA（讀資料）、PREADY（準備就緒）、PSLVERR（傳輸錯誤）。\nAPB 的傳輸狀態機只有三個：\n1. IDLE：默認狀態，PSEL=0, PENABLE=0。\n2. SETUP：當發起傳輸時進入，PSEL=1, PENABLE=0。在此週期位址與控制訊號必須穩定。\n3. ACCESS：下一個時脈沿進入，PENABLE=1。若周邊的 PREADY 為 1，則傳輸在下一個時脈沿完成並返回 IDLE，否則保持在 ACCESS 狀態直到 PREADY=1。"
+        },
+        {
+            title: "3.3 AHB 協議特性與管線化傳輸",
+            content: "AHB-Lite 是針對單一 Master (如 Cortex-M 內核) 設計的簡化版 AHB 匯流排。AHB 最重要的特性是位址階段（Address Phase）與數據階段（Data Phase）的管線化（Pipelined）。\n在時脈沿上升時，Master 輸出 HADDR 與控制訊號（位址階段）；在下一個時脈週期中，Slave 進行讀寫並通過 HWDATA/HRDATA 傳輸（數據階段）。\nHREADY 訊號由 Slave 控制，當其為 0 時代表 Slave 需插入等待週期（Wait States），Master 的位址階段與前次傳輸的數據階段都會被鎖定，直至 HREADYOUT 為 1。\nHTRANS 訊號決定當前週期傳輸類型：00 (IDLE), 01 (BUSY), 10 (NONSEQ, 非連續), 11 (SEQ, 連續)。"
+        },
+        {
+            title: "3.4 APB 傳輸協議斷言 Checker (SystemVerilog SVA)",
+            code: `module apb_protocol_checker (
+  input logic PCLK,
+  input logic PRESETn,
+  input logic PSEL,
+  input logic PENABLE,
+  input logic PWRITE,
+  input logic [31:0] PADDR
+);
+  // 斷言 1: PENABLE 必須在 PSEL 拉高的下一個週期被拉高 (Setup Phase -> Access Phase)
+  property p_sel_then_enable;
+    @(posedge PCLK) disable iff (!PRESETn)
+    PSEL && !PENABLE => ##1 PENABLE;
+  endproperty
+
+  apb_sel_enable_assert: assert property (p_sel_then_enable)
+    else $error("[APB Protocol Violation] PENABLE did not rise on the cycle after PSEL!");
+
+  // 斷言 2: 在傳輸期間，PADDR 不能隨意變更
+  property p_addr_stable_during_trans;
+    @(posedge PCLK) disable iff (!PRESETn)
+    (PSEL && !PENABLE) => ##1 (PADDR == $past(PADDR) && PSEL);
+  endproperty
+
+  apb_addr_stable_assert: assert property (p_addr_stable_during_trans)
+    else $error("[APB Protocol Violation] PADDR changed during setup-to-access phase!");
+endmodule`,
+            lang: "verilog"
+        },
+        {
+            title: "3.5 實作演練：SVA 協定檢查 (Hands-on Lab)",
+            content: "1. 將 APB Protocol Checker 整合至 APB 周邊的 Testbench 中。\n2. 刻意撰寫一個錯誤的 APB 驅動程式（如 PSEL 拉高後，延遲兩個週期才拉高 PENABLE），執行模擬並觀察 SVA 報告。\n3. 進一步編寫 AHB 的 HREADYOUT 和 HRESP 錯誤檢查機制。"
+        }
+    ],
+    "soc-ch4": [
+        {
+            title: "4.1 Cortex-M 匯流排介面與拓撲",
+            content: "Cortex-M 處理器通常暴露一個或多個 AHB-Lite 主控埠。例如，Cortex-M3/M4 將內部匯流排分拆為 I-CODE（用於提指令）、D-CODE（用於提取向量表和除錯資料）以及 System Bus（存取 SRAM、外設和系統記憶體）。在典型的 SoC 整合中，為了減少多個匯流排對系統的布線壓力，會使用 Code Bus Mux 把 I-CODE 與 D-CODE 合併為單一的 Code Bus，再配合 System Bus 共同連接到匯流排解碼矩陣。"
+        },
+        {
+            title: "4.2 位址解碼 (Address Decoding) 設計原理",
+            content: "SoC 當中包含多個 Master 和多個 Slave。為了讓 Master 能夠正確存取不同的 Slave，必須實作中央位址解碼器。解碼器根據 Master 輸出的 HADDR，判斷當前位址落在哪個 Slave 的定址區間內，從而輸出對應的 HSELx 選擇訊號給各自的 Slave。如果 HADDR 指向的位址沒有對應任何合法的 Slave，則解碼器必須選通一個預設從屬器（Default Slave），並返回 AHB 錯誤回應（ERROR Response），防止匯流排鎖死。"
+        },
+        {
+            title: "4.3 地址重映射 (Address Remap) 控制",
+            content: "Cortex-M 處理器復位後，固定從 0x0000_0000 位址讀取 MSP 指標（位址 0x0）與 Reset Handler 的進入點指標（位址 0x4）。在實際晶片中，0x0000_0000 預設對應實體 ROM 或 Flash。但是，當軟體進入執行階段後，為了提高中斷向量表存取速度或進行線上韌體更新，需要將該低位址映射至 SRAM。此時，SoC 會設計一個暫存器控制的 Remap Mux，硬體上根據 remap 開關，將送往 0x0 地址區間的 AHB 存取重新導向 Flash 或 SRAM 的實體基底位址。"
+        },
+        {
+            title: "4.4 地址重映射 Multiplexer (Verilog)",
+            code: `module address_remap_mux (
+  input  logic        remap_en,     // 0=映射到 Flash, 1=映射到 SRAM
+  input  logic [31:0] haddr_in,     // Master 輸入位址端口
+  output logic [31:0] haddr_out    // 輸出至解碼器的實體位址
+);
+  always_comb begin
+    haddr_out = haddr_in;
+    // 判斷是否存取最低 1MB (0x0000_0000 到 0x000F_FFFF) 的向量表區間
+    if (haddr_in[31:20] == 12'h000) begin
+      if (remap_en) begin
+        // 重映射到 SRAM 的開頭位址 (假設實體 SRAM 基底為 0x2000_0000)
+        haddr_out = {12'h200, haddr_in[19:0]};
+      end else begin
+        // 映射到實體 Boot Flash (假設實體 Flash 基底為 0x0800_0000)
+        haddr_out = {12'h080, haddr_in[19:0]};
+      end
+    end
+  end
+endmodule`,
+            lang: "verilog"
+        },
+        {
+            title: "4.5 實作演練：Remap 功能驗證 (Hands-on Lab)",
+            content: "1. 將 Address Remap Mux 實例化，並給定隨機位址 haddr_in。\n2. 切換 remap_en 訊號，驗證當 haddr_in = 0x0000_0004 時，輸出 haddr_out 是否在 0x0800_0004 和 0x2000_0004 之間正確切換。\n3. 在模擬器中編寫 TB，驗證如果 remap_en 改變時，對位址 0x0000_0000 讀寫的資料是否正確對應到 SRAM 背後的實體存取儲存單元。"
+        }
+    ]
+};
+
+fs.writeFileSync('c:\\Users\\卓\\Desktop\\antigravity\\SoC\\soc_details_ch1_ch4.json', JSON.stringify(data, null, 2));
+console.log("Written Ch1-Ch4 details to JSON successfully.");

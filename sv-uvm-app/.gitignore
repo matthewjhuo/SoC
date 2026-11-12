@@ -1,0 +1,14 @@
+# Dependency and build outputs
+node_modules/
+dist/
+
+# Local EDA simulation artifacts
+sim_workspace/
+*.vcd
+*.vvp
+
+# Local logs and temporary outputs
+*.log
+*.err
+*.out
+*.tmp

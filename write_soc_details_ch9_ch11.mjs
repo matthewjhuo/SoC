@@ -1,0 +1,180 @@
+import fs from 'fs';
+
+const data = {
+    "soc-ch9": [
+        {
+            title: "9.1 系統頂層互連與整合 (Top-level Interconnect)",
+            content: "當設計好 CPU、處理器匯流排、解碼器、多路選擇器以及外設後，下一步就是在晶片頂層（SoC Top-level）將它們連接在一起。這包括將 Cortex-M 終端與復合的 AHB-Lite 匯流排矩陣相連，將 SRAM/ROM 連接至其專用的控制器控端，並將外圍組件懸掛在 APB Bridge 之下。\n整合的關鍵在於地址與數據通路的匹配，並正確引出除錯埠、I/O 埠、中斷訊號與電源訊號。"
+        },
+        {
+            title: "9.2 時脈與位元重置樹分佈設計 (Clock & Reset Tree)",
+            content: "SoC 當中包含不同的時脈與重置域：\n1. 時脈分佈：時脈產生器（CGU）根據晶振與 PLL 產生 CPUCLK、HCLK（AHB 匯流排時脈）、PCLK（APB 週邊時脈）。為避免動態功耗過高，需支援動態分頻與局部 peripheral 時脈切斷。\n2. 重置分佈：SoC 通常使用異步重置、同步釋放機制。重置源包含 Power-On Reset (POR)、外部重置、看門狗（WDT）超時重置以及軟體觸發的 System Reset (SYSRESETREQ)。必須確保重置撤銷（rst_n 變高）在時脈下降沿過渡，避免 Setup/Hold Time 違規導致亞穩態（Metastability）。"
+        },
+        {
+            title: "9.3 晶片層模擬測試平台 (Simulation Testbench)",
+            content: "驗證完整的 SoC 發育需要建構系統層 Testbench。這通常在 Verilog/SystemVerilog 當中實例化晶片頂層模組，並在外接入拉高/拉低控制，模擬 Flash/ROM 當中預先編譯好的中斷與韌體程式。\n除錯時，可透過 Verilog 的 $readmemh 將軟體編譯產生的十六進位檔案（.hex 或 .bin）讀入唯讀 ROM 或 Flash 記憶體陣列的模型中，讓虛擬 CPU 能夠在重置釋放後直接載入代碼執行，藉此模擬一秒內的點燈或週邊晶片級互動。"
+        },
+        {
+            title: "9.4 系統頂層包裝器腳本 (Verilog RTL)",
+            code: `// SoC Top Level 整合架構骨架範例
+module soc_top (
+  input  logic        osc_clk,     // 外部晶振時脈
+  input  logic        ext_rst_n,   // 外部重置引腳
+  // GPIO 實體埠
+  inout  wire  [7:0]  gpio_pins,
+  // UART 實體埠
+  input  logic        rxd,
+  output logic        txd
+);
+  // 內部時脈重置信號
+  logic clk;
+  logic rst_n;
+  
+  // 匯流排信號
+  logic [31:0] haddr;
+  logic        hwrite;
+  logic [1:0]  htrans;
+  logic [2:0]  hsize;
+  logic [31:0] hwdata;
+  logic [31:0] hrdata;
+  logic        hready;
+  logic        hresp;
+
+  // 1. 時脈與復位控制單元 (Reset Synchronizer)
+  // 此處省略 PLL 鎖相環與 Synchronizer 實作，假設直連
+  assign clk   = osc_clk;
+  assign rst_n = ext_rst_n;
+
+  // 2. 仿真 Cortex-M3/M0 內核虛擬 IP
+  // 在此作為 Bus Master 發射讀寫訊號
+  // (實際設計中會在這裡實例化 cortex_m_core 核心組件)
+
+  // 3. AHB 位址解碼器與 Slave Mux 系統
+  // 根據 haddr 選通 AHB ROM, AHB SRAM 或 APB 橋接器
+
+  // 4. APB 橋接器與 GPIO/UART 週邊整合
+  // 將 AHB 存取轉接至 APB 並連接口線
+
+endmodule`,
+            lang: "verilog"
+        },
+        {
+            title: "9.5 實作演練：軟硬體聯合仿真 (Hands-on Lab)",
+            content: "1. 閱讀 soc_top 架構骨架，分析外部時脈與復位訊號的分流路徑。\n2. 撰寫一個簡單的仿真腳本，確認復位訊號釋放後，虛擬 CPU 發出的第一個 AHB 讀取位址是否確實為 0x0000_0000 處的向量表。\n3. 分析如何向 ROM 模型中載入 hex 測試檔，使其能在模擬器中輸出 UART 資料波形。"
+        }
+    ],
+    "soc-ch10": [
+        {
+            title: "10.1 直接記憶體存取 (DMA) 核心整合",
+            content: "在沒有 DMA (Direct Memory Access) 的系統中，所有資料搬移（如從 UART 接收 FIFO 到 SRAM）都必須經過 CPU 執行載入/儲存（LDR/STR）指令，這會消耗大量處理器時序。\nDMA 控制器是第三方的 Bus Master，擁有獲得匯流排掌控權的能力。\n它透過額外的硬體請求/回應握手線（DMA Request / Single / Ack）與週邊相連，能直接在記憶體與外設之間、或是記憶體與記憶體之間高速傳輸數據，過程中無需 CPU 介入，完成傳輸後再以中斷通知 CPU。"
+        },
+        {
+            title: "10.2 混合信號元件與 SoC 周邊整合 (ADC/DAC)",
+            content: "數位 SoC 經常需要與類比元件（如模數轉換器 ADC、數模轉換器 DAC）進行介面整合。整合方式通常是在數位端設計一個 APB / AHB 暫存器介面的數位包裝器（Register Wrapper）。\n該 Wrapper 把處理器寫入的配置寫入 DAC 的資料暫存器，或是將 ADC 轉換完成的序列二進位結果透過 FIFO 緩衝起，並提供轉換完成中斷（Conversion Complete Interrupt），以便 CPU 或 DMA 來搬移資料頻寬。"
+        },
+        {
+            title: "10.3 實例剖析：藍牙 IoT 晶片架構 (Beetle Case Study)",
+            content: "以 ARM 官方的 Beetle IoT 測試晶片為例，這是一顆高度集成的 SoC。它採用雙層匯流排架構（高速 AHB 連接 Cortex-M3、SRAM 與 Flash，低速 APB 連接藍牙無線發射射頻 TRx、真實計時器 RTC、GPIO 等）。\nBeetle 晶片展現了極致的電源分區設計（Power Islands），將運算核心與常開的 RTC / 喚醒中斷感測網路硬隔離在不同電壓島中，藍牙射頻亦有專用的低功耗控制機制，這是現代低碳低功耗晶片設計的教科書範例。"
+        },
+        {
+            title: "10.4 DMA 傳輸請求通道仲裁器 (Verilog)",
+            code: `module dma_channel_arbiter (
+  input  logic        clk,
+  input  logic        rst_n,
+  // 兩組周邊的 DMA 傳輸要求
+  input  logic        req_ch0,   // 通道 0 請求 (優先權高)
+  input  logic        req_ch1,   // 通道 1 請求 (優先權低)
+  output logic        ack_ch0,   // 通道 0 答覆
+  output logic        ack_ch1,   // 通道 1 答覆
+  output logic [1:0]  active_ch  // 當前致能的通道 ID
+);
+  always_ff @(posedge clk or negedge rst_n) begin
+    if (!rst_n) begin
+      ack_ch0   <= 1'b0;
+      ack_ch1   <= 1'b0;
+      active_ch <= 2'b00;
+    end else begin
+      // 固定優先級仲裁 (Fixed Priority)
+      if (req_ch0) begin
+        ack_ch0   <= 1'b1;
+        ack_ch1   <= 1'b0;
+        active_ch <= 2'b01;
+      end else if (req_ch1) begin
+        ack_ch0   <= 1'b0;
+        ack_ch1   <= 1'b1;
+        active_ch <= 2'b10;
+      end else begin
+        ack_ch0   <= 1'b0;
+        ack_ch1   <= 1'b0;
+        active_ch <= 2'b00;
+      end
+    end
+  end
+endmodule`,
+            lang: "verilog"
+        },
+        {
+            title: "10.5 實作演練：DMA 優先級仿真 (Hands-on Lab)",
+            content: "1. 仿真 dma_channel_arbiter 模組，同時拉高 req_ch0 與 req_ch1，驗證通道 0 是否優先獲得 ack 答覆。\n2. 在通道 0 執行傳輸期間拉低 req_ch0，觀察通道 1 是否能夠順利接替獲得授權。\n3. 分析多 Master 匯流排矩陣中，DMA 與 CPU 同時搶占主記憶體時，匯流排層級仲裁器（Arbiter）的優先分配策略。"
+        }
+    ],
+    "soc-ch11": [
+        {
+            title: "11.1 外設驅動層 (HAL) 與 CMSIS-CORE 標准",
+            content: "在軟體開發中，為了避免工程師直接對暫存器二進位硬編碼，ARM 建立了 CMSIS (Cortex Microcontroller Software Interface Standard) 規範。\nCMSIS-CORE 定義了統一的暫存器結構體，例如以 typedef struct 定義 `GPIO_TypeDef`，將成員對應至 GPIO 的偏移地址。透過指標 `((GPIO_TypeDef *) GPIO_BASE)` 即可用點運算子結構化操作硬體暫存器，大幅提高了程式碼在不同晶片供應商之間的移植性。"
+        },
+        {
+            title: "11.2 中斷向量重新定向與引導載入程式 (Bootloader)",
+            content: "軟體系統啟動時，通常會需要中斷桌的重新映射。Cortex-M 具有向量表偏移暫存器 (VTOR, Vector Table Offset Register)。\n微控制器的引導程序（Bootloader）在 Flash 前端執行，當準備加載運行 APP 程式前，會先驗證 APP 映像檔的合法性，接著將 VTOR 修改為 APP 的起始位址（如 0x0801_0000），然後讀取該位址的 MSP 與 Reset_Handler，最後使用跳躍指令跳入該端點執行，實現完整的 Boot 流程。"
+        },
+        {
+            title: "11.3 中斷驅動程式設計與 NVIC 優先權",
+            content: "NVIC (Nested Vectored Interrupt Controller) 可實現極佳的中斷嵌套與即時中斷響應。優先級分為搶占優先級（Preemption Priority）和子優先級（Subpriority）。\n高搶占優先級的中斷能直接打斷低搶占優先級中斷的執行（搶占嵌套）；若搶占優先級相同，則同時懸掛時僅依據子優先級排序執行，不會發生搶占打斷。寫軟體時，必須在 CMSIS 中調用 `NVIC_SetPriority(IRQn, priority)` 設定，並定義中斷服務常式名（如 `USART1_IRQHandler`）。"
+        },
+        {
+            title: "11.4 SysTick 定時器初始化與 C 驅動模板",
+            code: `#include "cortex_m3_harness.h" // 包含模擬硬體對應之 CMSIS 頭文件
+
+// 聲明全局計數變量
+volatile uint32_t msTicks = 0;
+
+// SysTick 中斷服務常式 (Interrupt Service Routine)
+void SysTick_Handler(void) {
+  msTicks++; // 每次溢出加 1 毫秒
+}
+
+// 延時函數
+void Delay(uint32_t dlyTicks) {
+  uint32_t curTicks = msTicks;
+  while ((msTicks - curTicks) < dlyTicks);
+}
+
+int main(void) {
+  // 初始化 SysTick，配置為 1 毫秒觸發一次中斷
+  // SystemCoreClock 假設為 50MHz
+  if (SysTick_Config(50000000 / 1000)) {
+    while(1); // 初始化失敗死循環
+  end
+
+  // 啟用 NVIC 當中的外部中斷 0x05 (假設為 GPIO 中斷)
+  NVIC_EnableIRQ(GPIO_IRQn);
+  NVIC_SetPriority(GPIO_IRQn, 2); // 優先級設為 2
+
+  while(1) {
+    // 軟體循環
+    Delay(500); // 延遲 500ms
+    // 對 GPIO 資料暫存器做 Toggle 閃燈
+    GPIO->DATAOUT ^= 0x01; 
+  }
+}`,
+            lang: "c"
+        },
+        {
+            title: "11.5 實作演練：CMSIS 啟動引導與 RTOS 移植 (Hands-on Lab)",
+            content: "1. 閱讀 SysTick 定時器初始化驅動代碼，計算 50MHz 時脈下定時 1ms 的 Reload 值是多少。\n2. 配置 GCC 或 Keil 軟體編譯鏈，將該程式編譯成二進位映像，並在預設 Testbench 模擬器中執行，檢查 UART 日誌是否每隔定時時間即輸出一次閃燈切換指示。\n3. 研究如何導入實時操作系統（如 Keil RTX、FreeRTOS），分析任務調度器的 SysTick 滴答切換機制。"
+        }
+    ]
+};
+
+fs.writeFileSync('c:\\Users\\卓\\Desktop\\antigravity\\SoC\\soc_details_ch9_ch11.json', JSON.stringify(data, null, 2));
+console.log("Written Ch9-Ch11 details to JSON successfully.");

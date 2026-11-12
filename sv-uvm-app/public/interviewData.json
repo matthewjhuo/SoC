@@ -1,0 +1,1446 @@
+{
+  "sv": [
+    {
+      "q": "What is virtual function?",
+      "a": "In SystemVerilog, a virtual function is a type of function that allows a base class to define a function signature which can be overwritten in a derived class. This means that a virtual function can be customized by a subclass to perform a different function than the base class. Virtual functions are an important aspect of object-oriented programming (OOP) and are used heavily in verification methodologies such as the Universal Verification Methodology (UVM). In UVM, virtual functions are used to customize the behavior of verification components and facilitate the reuse of code across different testbenches."
+    },
+    {
+      "q": "Difference between static and dynamic casting.",
+      "a": "Static and dynamic casting are type conversion operations used to convert between different data types. Static casting is a compile-time operation in which the compiler converts a given data type into another data type. It is called static casting because the conversion is determined and enforced by the compiler at the time of compilation. Static casting is a simple and efficient process, but it can lead to errors or loss of information if the conversion is not compatible. Dynamic casting, on the other hand, is a run-time operation in which the type of an object is determined at run-time and then explicitly converted to a different type. Dynamic casting is more complex and less efficient than static casting, but it is safer as it can detect and handle errors during runtime."
+    },
+    {
+      "q": "Difference between virtual and pure virtual function.",
+      "a": "In Verilog and SystemVerilog, virtual and pure virtual functions are used in polymorphism and inheritance. A virtual function is a function declared in a base class that can be overwritten in a derived class, enabling runtime polymorphism. When the function is called on an object of the derived class, the derived class's implementation of the function is executed. If there is no implementation in the derived class, the base class's implementation is executed. The syntax for a virtual function is declared by using the keyword virtual in the base class. A pure virtual function, on the other hand, is a virtual function that has no implementation in the base class. This means that derived classes must provide an implementation for the function. If a derived class doesn't overwrite the pure virtual function, it will remain abstract and cannot be instantiated. Pure virtual functions are used to create abstract classes that act as a blueprint for derived classes. virtualclassBasePacket; purev"
+    },
+    {
+      "q": "Why do we need randomization in SystemVerilog?",
+      "a": "In SystemVerilog, randomization is the process of generating random stimuli or inputs to the design, which can help verify its functionality and reliability. Here are some reasons why we need randomization in SystemVerilog."
+    },
+    {
+      "q": "Difference between while and do while.",
+      "a": "In programming languages, the while loop and do-while loop are used for repetitive execution of a code block based on certain conditions. Here are the differences between while and do-while loops: - 1) Execution: In the while loop, the condition is checked first, and if it is true, then the code block is executed. However, in the do-while loop, the code block is executed first, and then the condition is checked. This means that the code block will be executed at least once in the dowhile loop, even if the condition is initially false. - 2) Loop condition: In the while loop, the loop condition is checked at the beginning of each iteration. If the condition is false, the loop is terminated, and the control goes to the next statement after the loop. However, in the do-while loop, the loop condition is checked at the end of each iteration. This means that the code block is executed at least once, even if the condition is false. - 3) Initialization: In the while loop, the initialization of "
+    },
+    {
+      "q": "Explain bidirectional constraints",
+      "a": "Bidirectional constraints are used to specify a relationship between two or more variables or signals, such that the value of one variable is dependent on the value of the other variable(s). In SystemVerilog, constraints are solved bidirectionally. For example, if we have two signals, data_valid and data_ready we can specify the constraint that when data_valid is asserted data_ready must be asserted, using the following conditional constraint: data_valid->data_ready;"
+    },
+    {
+      "q": "Difference between integer and int.",
+      "a": "integer is a 4-state data type where as int is a 2-state data type. Both can hold 32-bit signed numbers."
+    },
+    {
+      "q": "Write a constraint to have a variable divisible by 5.",
+      "a": "classDivisibleBy5Class; randbit[3:0]my_variable; constraintc_div5{ my_variable%5==0; } functionvoidpost_randomize(); //Additionalpost-randomizationchecksoractionscanbeaddedhere //ifneeded. $display(\"Randomizedvalue:%0d\",my_variable); endfunction endclass moduletest; initialbegin DivisibleBy5Classobj; obj=new; repeat(5)begin obj.randomize(); obj.post_randomize(); end end endmodule Here, the modulo operator % is used to retrieve the remainder of a division operation, and the constraint ensures that the remainder of the division of my_variable by 5 is equal to zero, which means my_variable is divisible by 5."
+    },
+    {
+      "q": "What are parameterized classes?",
+      "a": "Parameterized classes in object-oriented programming (OOP) are classes that are defined with one or more parameters, allowing them to be customized or specialized during their instantiation or creation. classstack#(typeT=int);Titem; functionTadd_a(Ta);returnitem+a; endfunction endclass"
+    },
+    {
+      "q": "How can you establish communication between monitor and scoreboard in SystemVerilog?",
+      "a": "In SystemVerilog, a monitor and scoreboard are typically used in a verification environment to check that a design is behaving correctly. The monitor observes the signals of the design and generates transactions, while the scoreboard compares these transactions against expected values and generates results, and they can be connected using a mailbox."
+    },
+    {
+      "q": "Is it possible to override existing constraints?",
+      "a": "Yes, it's possible to override existing constraints in SystemVerilog using inline constraints or inheritance. classABC; randbit[3:0]data; constraintc_data{datainside{[5:10]};}endclass moduletb; initialbegin ABCabc=new; end endmodule //Useinlineconstrainttooverridewithnewvalue //NotethatthisshouldnotcontradictthehardconstraintsinABC abc.randomize()with{data==8;}; Another way is to redefine the constraint block in an inherited class. classDEFextendsABC; constraintc_data{datainside{[0:5]};}endclass moduletb; initialbegin DEFdef=new;def.randomize(); end endmodule"
+    },
+    {
+      "q": "What will be your approach if functional coverage is 100% but code coverage is too low ?",
+      "a": "If the functional coverage is 100% but the code coverage is too low, it typically means that there are parts of the code that are never executed and therefore not covered by the test cases. Here are some possible approaches to improve code coverage: - 1) Review the code and identify the uncovered areas: You can go through the code manually or use a code coverage tool to identify the parts of the code that are not covered by the tests. This will help you to focus on the areas that need to be tested more thoroughly. - 2) Addnew test cases: Once you have identified the uncovered areas, you can add new test cases to cover them. You can use different techniques such as random testing, directed testing or assertion-based testing to create new test cases. - 3) Modify existing test cases: You can also modify the existing test cases to cover the uncovered areas. For example, you can change the parameters or stimuli of the test cases to target specific areas of the code. - 4) Use code coverage m"
+    },
+    {
+      "q": "What are the types of assertions?",
+      "a": "Assertions are statements that specify a particular relationship between two or more signals or variables. There are two main types of assertions, which are as follows: - 1) Immediate assertion: Checks whether a particular condition is true at a particular point in time. - 2) Concurrent assertion: Checks whether a particular condition is always true over a period of time."
+    },
+    {
+      "q": "How to find indices associated with associative array items?",
+      "a": "Array manipulation functions can be used to query indices and values in SystemVerilog arrays. moduletb; intfruit_hash[string]; stringidx_q[$]; initialbegin fruit_hash[\"apple\"]=5; fruit_hash[\"pear\"]=3; fruit_hash[\"mango\"]=9; idx_q=fruit_hash.find_indexwith(1); $display(\"idx_q=%p\",idx_q); end endmodule //Output //idx_q='{\"apple\",\"mango\",\"pear\"}"
+    },
+    {
+      "q": "Give an example of a function call inside a constraint.",
+      "a": "The function must return a value that can be used in the constraint expression. Here's an example: functionintrand_range(inta,b); return(a+b)%2; endfunction classABC; randbitmy_val; constraintmy_val_c{ my_val==rand_range(a,b); } endmodule"
+    },
+    {
+      "q": "What are pass-by-value and pass-by-reference methods?",
+      "a": "Pass-by-valueand pass-by-reference are twoways ofpassing argumentstoa function or a method in programming languages. In pass-by-value method, a copy of the value of the argument is passed to the function or method. Any change made to the value inside the function or method does not affect the original value of the argument. functionvoidabc(inta,b); In pass-by-reference method, a reference to the memory location of the argument is passed to the function or method. Any changes made to the value inside the function or method will affect the original value of the argument. functionvoidabc(refinta,b);"
+    },
+    {
+      "q": "Difference between initial and final block.",
+      "a": "The initial block is executed at the start of the simulation, i.e. at time 0 units. This is useful for initializing variables and setting up initial configurations. This is the very basic procedural construct supported since the first version of Verilog. However, the final block was introduced in SystemVerilog and is executed just before the simulation ends. This does not consume any time and hence is very ideal to do last minute housekeeping tasks and print reports."
+    },
+    {
+      "q": "What are the default values of variables in the SystemVerilog ?",
+      "a": "The default value of all 2-state variables are zero, and 4-state variables are X. Inputs that are not connected are Z."
+    },
+    {
+      "q": "What is polymorphism and its advantages?",
+      "a": "Polymorphism is a fundamental concept in object-oriented programming that allows objects of different classes to be treated as if they are objects of the same class. The advantages of polymorphism in object-oriented programming are: - 1) Code reusability: Polymorphism enables code reuse, as objects of different classes can be treated as if they are objects of the same class. This means that common behaviors and methods can be defined in a superclass and inherited by multiple subclasses. - 2) Flexibility and extensibility: Polymorphism allows objects to behave differently based on the context in which they are called, improving the flexibility of the code. It also enables extensibility by allowing new subclasses to be added to a program easily without modifying the existing code. - 3) Code readability and maintainability: Polymorphism can improve the readability and maintainability of the code by reducing the amount of redundant code and making it easier to understand the relationship b"
+    },
+    {
+      "q": "What is the purpose of this pointer in SystemVerilog ?",
+      "a": "The this keyword is used to explicitly reference the current class object. This is mostly used within class definitions to be able to specifically reference variables and methods belonging to the same class."
+    },
+    {
+      "q": "What is a SystemVerilog interface?",
+      "a": "SystemVerilog interfaces are a way to create structured hierarchical connections between modules and blocks in a design. They provide a way to bundle signals and functionality into reusable components, which can be easily instantiated and connected in a design. - 1) Modular design: Interfaces provide a modular approach to design, making it easier to create and reuse building blocks in a system. - 2) Encapsulation: They help in encapsulating the functionality and signals inside a module or block, making it easier to understand and maintain. - 3) Configurability: Interfaces can be parameterized, allowing for easy configurability and scalability."
+    },
+    {
+      "q": "Difference between reg and logic.",
+      "a": "Both reg and logic are used to store 4-state logic values that can be referenced later. The main difference is that logic signals can be used in both procedural and continuous assignments whereas reg can only be used in procedural code."
+    },
+    {
+      "q": "Difference between :/ and := operators in randomization.",
+      "a": "Both operators are used in distribution constraints to assign weightage to different values in the distribution. The :/ operator assigns the specified weight to the item, or if the item is a range, then the weight of each value is divided by N. The := operator assigns the specified weight to the item or if the item is a range, then to every value value in the range."
+    },
+    {
+      "q": "How to disable randomization?",
+      "a": "Randomization of variables can be disabled with rand_mode. classABC; randbit[3:0]data; endclass moduletb; initialbegin ABCm_abc=new; m_abc.data.rand_mode(0);//Disablerandomization m_abc.data.rand_mode(1);//Enablerandomization end endmodule"
+    },
+    {
+      "q": "Different types of code coverage.",
+      "a": "Code coverage is a metric used to measure how well tests have exercised the design under test. It typically reports on the percentage of execution achieved across various dimensions of the design, such as statements, branches, and expressions, toggle, assertions and FSM."
+    },
+    {
+      "q": "Write a constraint to detect odd numbers of ones in an 8-bit sequence.",
+      "a": "Here's an example constraint that detects odd numbers of ones in an 8-bit sequence: classABC; randbit[7:0]data; constraintc_data{$countones(data)%2!=0;} endclass moduletb; initialbegin ABCm_abc=new; for(bytei=0;i"
+    },
+    {
+      "q": "What are local and protected access qualifiers?",
+      "a": "A class member declared as local is available only to methods inside the class and are not visible within subclasses. A class member declared as protected is available to methods inside the class and also to methods within subclasses."
+    },
+    {
+      "q": "How does OOP concepts help in verification?",
+      "a": "- 1) Modular Design: Each module/class represents different aspects of the design. As a result, it becomes easier to develop a test bench by reusing and integrating these modular components. This saves time and effort in developing test cases and makes the system more scalable. - 2) Encapsulation: Operations performed on any data object can be defined within the same class. For example, a function to pack a data array into a stream of 64 bit data. - 3) Inheritance: Allows to create a base class and extend it with further derived classes. - 4) Common properties and methods are usually defined in base classes so that all subclasses have access and hence avoid code duplication - 5) Polymorphism: Allows different implementations of the same method or function. - 6) Polymorphism helps to implement alternate test case scenarios without affecting the rest of the code significantly."
+    },
+    {
+      "q": "What is a virtual interface?",
+      "a": "An interface is a collection of signals that allow connections to the DUT from the testbench. The handle to this interface is made available in classes by making it virtual. Hence a virtual interface is nothing but a handle that can hold a reference to the actual interface. Remember that an interface is declared at the testbench top level so that it can be passed to the DUT. So, rest of the components get access to this interface via a virtual interface. classwishbone_monitor; virtualwishbone_ifm_vif;//Avirtualinterfacehandle virtualtaskmonitor; forever begin @(m_vif.clk); //Restofthecode end endtask endclass"
+    },
+    {
+      "q": "Why logic was introduced in SV?",
+      "a": "logic is a new SystemVerilog data type, when compared to Verilog which can be used in place of reg and wire in both procedural blocks and continuous assignments. It removes the hassle of having to redefine an existing signal as reg or wire depending on where it is used."
+    },
+    {
+      "q": "Write a small function to push 10 unique values from 0 to 50 into a queue.",
+      "a": "functionrandom(); bit[7:0]array[$]; for(inti=0;i"
+    },
+    {
+      "q": "Write constraints to randomize with the following requirements.",
+      "a": "Assume memory region from 0x0 to 0x100. There is a small region in between from 0x20 to 0xE0 that is reserved. Write system verilog constraints to choose a block of memory of size 16 bytes that is outside the reserved region and inside the entire memory range. The starting address of the block should be 4-byte aligned. randbit[31:0]addr; intsize='h10; constraintc_addr{ addrinside{[0:'h100]};//Ensureit'swithinmemoryregion !(addrinside{['h20:'hE0]});//Ensureit'snotinthereservedregion addr%4==0;//Ensureit's4-bytealigned (addr+size)inside{[0:'h20],['hE0:'h100]};//Ensureit'seitherin thelowerorupperregion !(addr+sizeinside{'h20,'h100});//Ensurethelastaddrdoesnothit thelimit }"
+    },
+    {
+      "q": "Write constraints to randomize with the following requirements.",
+      "a": "Assume a memory region exists from 0x2000 to 0x4000 that is byte addressable. Write SV constraints to randomly pick an address within this memory region that is aligned to 4-byte boundary. bit[31:0]addr; constraintc_addr{ addrinside{[32'h2000:32'h4000]}; addr%4==0; //addr[1:0]==0;Alsookay } Provide a solution for the following requirement. Assume a class called \"ABC\" has been used throughout in a project. In a derivative project, you had to extend \"ABC\" to form \"DEF\" and add some more variables and functions within it. What will happen if you try to use an object of \"ABC\" that was created in the legacy testbench to access these new variables or functions? It will result in a compilation error because the new variables do not exist in the base class. Instead, you need to declare a local variable of type \"DEF\" and perform a dynamic cast if required to access the new variables and functions. Randomly generate 8, 16, 32, 64 with equal probability using SystemVerilog constructs. moduletb; i"
+    },
+    {
+      "q": "What is the difference between a mailbox and queue?",
+      "a": "A queue is a variable size ordered collection of elements of the same type. Read more on SystemVerilog Queues A mailbox is a communication mechanism used by testbench components to send a data message from one to another. A mailbox has to be parameterized to hold a particular element and can be either bounded or unbounded. It can also suspend the thread by tasks like get() and put(). So a component can wait until an item is available in the mailbox."
+    },
+    {
+      "q": "What is the difference between rand and randc?",
+      "a": "SystemVerilog allows us to randomize variables inside a class using rand and randc constructs. rand randomizes the variable and can have repetitive values before the entire set of allowable values are used. For example, a 2-bit variable when used with rand can give values 1, 3, 3,2,1,3,0. randc randomizes the variable and repeats a value only after the entire set of allowable values are used. For example, a 2-bit variable when used with randc can give values [1, 3, 2, 0], [0, 3, 1, 2], 1 ... The values in the square brackets show a set."
+    },
+    {
+      "q": "How can we reference variables and methods defined in the parent class from a child class?",
+      "a": "The super keyword is used to access variables and methods of the parent class and is a very basic construct of OOP."
+    },
+    {
+      "q": "Where is extern keyword used?",
+      "a": "An extern keyword is used to define methods and constraints outside the class definition. For example, we could have the declaration of functions and constraints within the class body, but do the complete definition later on outside the class body."
+    },
+    {
+      "q": "Give one way to avoid race conditions between DUT and testbench in a verification environment.",
+      "a": "Clock edges are the most probable points for a race condition to arise. The DUT may sample one value but the testbench may sample something else. Although race conditions may arise from improper coding practices, use of SystemVerilog Clocking Blocks allows the testbench to sample DUT appropriately and drive inputs to the DUT with a small skew. Also, this allows the skews to be changed later on with minimal code change. Race condition can also be avoided by the use of program blocks and the use of non- blocking assigments."
+    },
+    {
+      "q": "What is the difference between logic and bit in SystemVerilog?",
+      "a": "In SystemVerilog, a bit is a single binary digit that can have a value of 0 or 1, while logic is a data type used for representing a single wire or net that can have multiple states such as 0, 1, Z (highimpedance), X (unknown), or L (weakly driven low) and H (weakly driven high)."
+    },
+    {
+      "q": "How to check if any bit of the expression is X or Z?",
+      "a": "//Tocheckifallbitsofvariable\"xyz\"areZ if(xyz==='Z) begin $display(\"AllbitsinxyzareZ\"); end //Tocheckifanybitin\"xyz\"isZ if($countbits(xyz,'Z)) begin $display(\"SomebitinxyzisZ\"); end //TocheckifsignalisX if($isunknown(xyz)) begin $display(\"xyzisunknownorhasvalueX\"); end"
+    },
+    {
+      "q": "Figure out a solution to the following puzzle.",
+      "a": "Assume two base classes A and B, and two derived classes C and D where this relation between classes is unknown to end user. How do you find base class for each derived class? classA; classB; //Assumethisrelationishiddenfromenduser classCextendsB; classDextendsA; moduletb; initialbegin Am_a=new(); Bm_b=new(); Cm_c=new(); Dm_d=new(); //Successfulcastimpliesthatthesecondargisachildofthefirstarg if($cast(m_a,m_c)) $display(\"CisachildofA\"); if($cast(m_a,m_d)) $display(\"DisachildofA\"); if($cast(m_b,m_c)) $display(\"CisachildofB\"); if($cast(m_b,m_d)) $display(\"DisachildofB\"); end endmodule"
+    },
+    {
+      "q": "Write SV code to wait for a random delay in range 100 to 500 ns.",
+      "a": "Delays are indicated by the # construct and a random delay can be written as follows. `timescale1ns/1ps moduletb; initialbegin intdelay; std::randomize(delay)with{ delayinside{[100:500]}; }; $display(\"Statementprintedafter%0ddelay\",delay); //Thisisalsogoodenough,althoughthere'snovariabletoprintthe actualrandomizeddelay $display(\"Somedelaybetween100to500\"); end endmodule"
+    },
+    {
+      "q": "What is the difference between a parameter and typedef?",
+      "a": "parameter is used to define compile-time constants used within modules, which are values that can be evaluated and assigned before the simulation starts. It can be used to specify parameters such as width, depth, or delay of modules. modulemy_module#(parameterWIDTH=8)(input[WIDTH-1:0]data_in, output[WIDTH-1:0]data_out ); //modulelogichere endmodule typedef is used to define custom data types that can be reused throughout the design. It can be used to define complex data types such as structures, arrays, and enumerated types. It is used to make the code more readable and easier to understand by encapsulating complex data types within a single type name. typedefstruct{logic[7:0]addr; logic[31:0]data; }request_t; request_tmy_req; my_req.addr=8'h22;my_req.data=32'h12345678;"
+    },
+    {
+      "q": "What is constraint solve-before?",
+      "a": "In SystemVerilog, solve - before is a constraint solver directive that allows constraints to be solved in a specific order. This directive specifies that a particular constraint should be solved before another constraint. It is useful in cases where certain constraints must be solved before others to avoid conflicts or to ensure that specific constraints are satisfied."
+    },
+    {
+      "q": "What is an alias?",
+      "a": "alias is a keyword used to declare an alternate name for a variable or net. It allows access to the same object through multiple names. The new name created using the alias keyword refers to the same variable or memory location as the original variable. wire[7:0]_byte;wire_bit; aliasbits_9={_byte,_bit};"
+    },
+    {
+      "q": "Write code to extract 5 elements at a time from a queue.",
+      "a": "moduletb; bit[7:0]q[$]; bit[7:0]tmp[$]; initialbegin repeat(9)q.push_back($random); for(bytei=0;i"
+    },
+    {
+      "q": "What is the difference between the clocking block and modport?",
+      "a": "A clocking block is used to model clock and reset signals and their associated timing control signals. It provides a way of defining a set of timing signals as well as their phases and signal transitions. A modport is used to group a set of port declarations into a named entity. It allows designers to specify multiple port configurations and to limit access to specific module interfaces."
+    },
+    {
+      "q": "What is the difference between $random and $urandom?",
+      "a": "$random returns signed integer values, whereas $urandom returns an unsigned integer value. intdata1; bit[31:0]data2; data1=$random;//signedinteger data2=$urandom;//unsignedinteger"
+    },
+    {
+      "q": "Why can't program blocks have an always block in them ?",
+      "a": "An always block is a concurrent process that runs forever and gets triggered based on changes to signals in the sensitivity list. A program block is intended to be a testcase that applies stimulus to the DUT and finish at some point in time. Having an always block will stall the program from coming to an end and hence it doesn't make sense to include it in a program block. bit[7:0]data; std::randomize(data)with{data>7;};//in-lineconstraint"
+    },
+    {
+      "q": "What are the advantages of cross-coverage?",
+      "a": "Cross-coverage is a type of coverage measurement in SystemVerilog that combines coverage data for two or more variables or conditions. Here are some of the advantages of using cross-coverage: - 1) Better coverage granularity: Cross-coverage allows the user to define more specific coverage goals that combine multiple variables, instead of relying on individual coverage points. This provides better visibility into the overall behavior of the design, and helps to identify corner cases or unexpected interactions. - 2) Reduced verification effort: By combining coverage data for multiple variables or conditions, cross-coverage reduces the number of individual coverage points that need to be tested. This can save verification time and effort, especially for complex designs with many variables or conditions. - 3) Improved result analysis: Cross-coverage generates more detailed coverage reports that show the correlation between different variables or conditions. This helps the user to identify "
+    },
+    {
+      "q": "What are constraints?",
+      "a": "SystemVerilog constraints are used to control the values that are randomized for variables during simulation. Constraints provide a way to specify the valid range of values for a variable, as well as any relationships or conditions between variables. randbit[7:0]data; constraintmyConstraint {datainside{[0:10]}; }"
+    },
+    {
+      "q": "How can we display hex values of a variable in uppercase?",
+      "a": "$display format specifier can have %h or %H , and quite intuitively we assume that the latter is used to display it in uppercase. However, that is not the case and we need a workaround. bit[31:0]y=32'hCAFE_4BED; stringstr; str.hextoa(y); $display(str.toupper);"
+    },
+    {
+      "q": "Constrain a dynamic array such that it does not pick values from another array.",
+      "a": "moduletb; bit[3:0]da[]; bit[3:0]myq[$]; initialbegin repeat(10)myq.push_back($random); std::randomize(da)with{ da.size==10; foreach(da[i]){ !(da[i]inside{myq}); } }; $display(\"Randomizedda:%p\",da); $display(\"myq:%p\",myq); end endmodule"
+    },
+    {
+      "q": "What is the output for the following code?",
+      "a": "initialbegin byteloop=5; repeat(loop)begin $display(\"hello\"); loop-=1;"
+    },
+    {
+      "q": "`end end`",
+      "a": "The repeat loop iterates a fixed number of times and the iteration count cannot be changed once in the loop. The output will be: hello hello hello hello hello"
+    },
+    {
+      "q": "What is the difference between overriding and overloading?",
+      "a": "Overriding is a concept in object-oriented programming that involves providing a new implementation for a method inherited from a superclass in a subclass. In this process, the subclass redefines a method with the same signature (name, return type, and parameters) as the one in the superclass. When an object of the subclass calls the overridden method, the new implementation in the subclass is executed instead of the original implementation in the superclass. The main objective of method overriding is to implement a different behavior for the same method in the subclass, allowing for customization and specialization. In contrast to some programming languages like C++, SystemVerilog does not support function overloading, where multiple functions with the same name but different parameter lists can exist. SystemVerilog allows only a single function with a specific name in a scope. Therefore, function overloading, as supported in some other languages, is not possible in SystemVerilog."
+    },
+    {
+      "q": "What are the different types of verification approaches?",
+      "a": "- 1) Functional Simulation: Running the digital design on a computer or simulator to validate its functionality. Involves test vectors and various inputs to ensure expected behavior. - 2) Formal Verification: Using mathematical proofs to verify the correctness of the design. Applied to critical designs, especially in safety-critical systems. - 3) Emulation:Testing the digital designon specialized hardware emulating the system's behavior. Suitable for large, complex designs that cannot be simulated on a computer. - 4) Prototyping: Building a physical prototype to test the system's functionality in a real-world environment. Applied when real-world inputs and conditions are essential for testing. Effective verification ensures a design meets specifications and standards, identifying and eliminating errors before deployment. The choice of the method is project-dependent and should adequately validate the design to ensure correctness."
+    },
+    {
+      "q": "What is the difference between always_comb() and always@()?",
+      "a": "always_comb is automatically triggered once at time zero, after all initial and always procedures have been started, whereas always @ (*) will be triggered first when any signal in the sensitivity list changes. always_comb is sensitive to changes of contents in a function where the latter is sensitive only to the arguments of the function when invoked inside it. always_comb cannot have statements that have delays or timing constructs in it. Variables used on the LHS inside an always_comb block cannot be assigned to in any other parallel process."
+    },
+    {
+      "q": "What is `timescale?",
+      "a": "The `timescale directive is used to set the time units and precision for a design. It specifies the time scale used in the simulation and the unit of time for delays and times associated with signal assignments and other operations. - ``timescale` **`timeunit/`** `precision`"
+    },
+    {
+      "q": "What are the basic testbench components?",
+      "a": "A basic testbench consists of the following components: - Stimulus generation: Stimulus generation involves creating test vectors or other input signals that will be applied to the inputs of the design under test (DUT). - Interface: The interface provides the communication between the testbench and the DUT. It includes input and output ports, which are connected to the corresponding signals in the DUT. - Driver: The driver is responsible for converting stimulus into pin toggles appropriate to the - bus protocol used by the DUT. - Monitor: The monitor observes the output signals of the DUT and produces a stream of data that the testbench can analyze. - Scoreboard: The scoreboard compares the output of the DUT with the expected output, and generates an error message or other notification if there is a mismatch. - Coverage analysis: Coverage analysis measures how much of the design has been exercised during simulation, and helps identify parts of the design that may not have been tested t"
+    },
+    {
+      "q": "What is circular dependency?",
+      "a": "Circular dependency is a situation in which two or more components or entities of a system depend on each other in a circular way, creating a cycle. It can occur between modules, functions, or libraries that depend on each other in a way that creates a loop. This can lead to issues when trying to compile or link the code, as the dependencies cannot be resolved. This can be solved with forward declaration by typedef. //ForwarddeclarationofclassB typedefclassB; //DeclarationofclassA classA; Bb; //...othermembersofclassA endclass //DefinitionofclassB classB; Aa; //...othermembersofclassB endclass"
+    },
+    {
+      "q": "What are the advantages of a SystemVerilog program block?",
+      "a": "Statements inside a program block are executed in the reactive region which is executed the last in a Verilog simulator event scheduler and hence can react on final state of design signals. It acts as an entry point for test stimulus to be executed by the testbench. It can contain functions, tasks and other supported constructs that enable user to create meaningful test stimulus."
+    },
+    {
+      "q": "What is scope randomization?",
+      "a": "Scope randomization allows to define different randomization constraints for different parts or scopes of the design hierarchy. **`module`** `tb` **`; byte`** `data` **`; initial begin`** `randomize` **`(`** `data` **`) with {`** `data` **`>`** `0` **`};`** `$display` **`(`** `\"data = 0x%0h\"` **`,`** `data` **`); end endmodule`** Note that std:: is required if you need to call from within a class method to distinguish it from the class's built-in randomize method."
+    },
+    {
+      "q": "What is the input skew and output skew in the clocking block?",
+      "a": "A clocking block is a feature in SystemVerilog used to manage clock signals in a design. Input skew refers to when a signal defined as input to the clocking block should be sampled relative to the given edge of the clock. Output skew refers to when a signal declared as an output to the clocking block should be driven relative to the given edge of the clock. clockingcb@(posedgeclk); defaultinput#1stepoutput#1ns; inputhready; outputhaddr; endclocking"
+    },
+    {
+      "q": "What is casting?",
+      "a": "Casting is a fundamental concept in programming and refers to the process of converting one data type into another data type. In SystemVerilog, casting is mainly used for type conversion between numeric and non-numeric data types. realpi=3.14; inta=int'(pi)*10;//Castrealintoanintegernumber $cast(aa,a);//Castobject'a'into'aa'"
+    },
+    {
+      "q": "How to generate array without randomization?",
+      "a": "This solution does not generate fully random numbers, however it does give unique values. moduletb; bytedata_q[10]; initialbegin //Storenumbers0through10 foreach(data_q[i]) data_q[i]=i; //Shufflethearray data_q.shuffle(); end endmodule"
+    },
+    {
+      "q": "Write randomization constraints for the following requirements on an array.",
+      "a": "An array of size 9 should contain any value from 1 to 9. Two values should be the same between indices 0 and 7. moduletb; bit[3:0]data_q[9]; initialbegin bit[2:0]idx_q[2]; randomize(data_q,idx_q)with{ //Letidx_qrepresenttworandomindices //whichshouldcontainthesamevalue unique{idx_q}; solveidx_qbeforedata_q; //Whenindicesmatch,assignthesamevaluetodata_q[i] //elsefollowthegeneralruletokeepbetween1:9 foreach(data_q[i]) {if(i==idx_q[1]) { data_q[i]==data_q[idx_q[0]]; }else{ data_q[i]inside{[1:9]}; } } }; $display(\"idx_q=%p\",idx_q); $display(\"data_q=%p\",data_q); end endmodule"
+    },
+    {
+      "q": "What is SVA?",
+      "a": "SVA or SystemVerilog Assertions provides a syntax for expressing assertions that describe the expected behavior of a design, allowing for direct verification of its correctness. Assertions expressed using SVA can be used to verify various types of design properties, such as proper data flow, correct timing constraints, and correct synchronization between different parts of the design. SVA can be used as a standalone language or in conjunction with other formal verification techniques such as model checking and theorem proving. It is an important tool for ensuring the correctness and reliability of digital designs in VLSI and other fields."
+    },
+    {
+      "q": "When you will say that verification is completed?",
+      "a": "Verification is typically considered complete when all the specified verification goals and requirements have been met and demonstrated through testing and analysis of the design. This means that all of the verification tests have been run and that the design has passed all of the necessary functional and performance requirements. Verification is a continuous process that starts early in the design cycle and continues until the final stages of the design and development process. Throughout this process, different verification techniques and methodologies are used to ensure that the design is free from errors. Verification completeness is typically determined using a set of predefined metrics and criteria that are used to evaluate the overall quality and reliability of the design. Such metrics may include functional coverage, code coverage, and timing analysis. Ultimately, the decision to declare verification complete is based on the verification team's confidence in the design's functi"
+    },
+    {
+      "q": "What are system tasks?",
+      "a": "System tasks are pre-defined functions or built-in functions in SystemVerilog that are used to execute certain tasks related to the simulation and verification of a design. Some common system tasks in SystemVerilog include: **$display:** Used to display formatted output to the console or log file. **$time:** Used to retrieve simulation time and wall-clock time, respectively. **$finish:** Used to end the simulation after a specific amount of time or when a specific condition is met. **$random:** Used to generate random values for variables or signals."
+    },
+    {
+      "q": "In SystemVerilog which array type is preferred for memory declaration and why?",
+      "a": "The preferredarray type for memory declaration is an associative array because it is more efficient in storing data at random address locations. It does not require all addresses in memory to be pre-allocated before usage unlike a dynamic array."
+    },
+    {
+      "q": "What is the advantage of seed in randomization?",
+      "a": "In SystemVerilog, seed is used as a starting point or initial value for the random number generator. The advantage of using the seed in randomization is that it allows for a more deterministic and reproducible behavior of the randomized simulation. By setting a seed, a specific set of randomized values can be generated consistently, making it easier to replicate specific test scenarios and debug issues that arise during simulation. It also allows for better verification of the design as specific tests can be rerun with the same seed to ensure that issues have been resolved and that the behavior of the design is as expected."
+    },
+    {
+      "q": "Is it possible to write assertions in a class?",
+      "a": "Yes, assertions using assert and assume are used to check the correctness of the design, and they can be written in any of the SystemVerilog constructs including modules, interfaces, programs or classes. In SystemVerilog, assertions can be written using the assert and assume keywords. These keywords can be used directly inside a SystemVerilog class, with the assertion check being triggered when the appropriate method of the class is called."
+    },
+    {
+      "q": "What is a clocking block?",
+      "a": "A clocking block is a SystemVerilog construct that provides a way to model clock-related events that occur in a design. It is specifically used to define the timing and synchronization of signals that are driven by a clock. The clocking block can be used to drive and sample signals using the clock signal, with the signals being synchronized at specific edges of the clock."
+    },
+    {
+      "q": "What is an abstract class?",
+      "a": "An abstract class is a class in object-oriented programming that cannot be instantiated, meaning it cannot be used to create objects. Instead, it is used as a superclass to other classes, providing a common set of properties and methods that subclasses can inherit and implement as necessary."
+    },
+    {
+      "q": "How to disable a coverpoint ?",
+      "a": "Covergroups and coverpoint weight can be disabled by setting its weight to zero. covergroupcg_ahb@(posedgehclk); cp_haddr:coverpointhaddr; cp_htrans:coverpointhtrans; ... endgroup cg_ahbm_cg_ahb=new(); m_cg_ahb.cp_htrans.option.weight=0;//disablecoverpointbysettingweight to0"
+    },
+    {
+      "q": "What is super keyword ?",
+      "a": "The super keyword in SystemVerilog or even any OOP language refers to the superclass of a class. It is used to access methods and variables of the superclass from within a subclass. BY SRINIVAS PALLI"
+    },
+    {
+      "q": "`DIFFERENT TOPICS COVERED`",
+      "a": "By Gowtham Seela **System Verilog Basic & Fundamental Interview Questions**"
+    },
+    {
+      "q": "What is SystemVerilog, and how does it differ from Verilog?",
+      "a": "SystemVerilog is an extension of Verilog, which is a hardware description and verification language. It combines Verilog with features from hardware verification languages (HVL) to enhance design verification. SystemVerilog adds data types, control flow structures, and a rich set of verification capabilities, making it more powerful for both design and verification."
+    },
+    {
+      "q": "What are the key features of SystemVerilog?",
+      "a": "Key features of SystemVerilog include: - Extended data types (`logic`, `bit`, `byte`, etc.) - Enhanced procedural blocks (`initial`, `always_comb`, `always_ff`, etc.) - Interfaces and virtual interfaces - Assertions for design verification - Randomization for testbench creation - Object-oriented programming features"
+    },
+    {
+      "q": "SystemVerilog?",
+      "a": "- **Module** : A basic building block in SystemVerilog used to define a hardware component. Modules can contain ports, parameters, and instances of other modules. - **Interface** : Used to group related signals and their associated logic, making the connections between modules cleaner and more manageable. Interfaces can also include tasks, functions, and modports to control access to their members. **Page 1 of 70** **System Verilog Basic & Fundamental Interview Questions**"
+    },
+    {
+      "q": "How do you declare a variable in SystemVerilog?",
+      "a": " Variables in SystemVerilog can be declared using various data types. Here's an example:5. What is the scope of a variable in SystemVerilog? Variables in SystemVerilog can be declared using various data types. Here's an example:"
+    },
+    {
+      "q": "What is the scope of a variable in SystemVerilog?",
+      "a": "The scope of a variable in SystemVerilog is determined by where it is declared: - **Local variables** :declaredd within a block (e.g., `begin-end`) and scoped to that block. - **Module-level variables** :declaredd within a module and accessible throughout the module. - **Global variables** :declaredd outside of any module or block, accessible throughout the - compilation unit. **Page 2 of 70** **System Verilog Basic & Fundamental Interview Questions**"
+    },
+    {
+      "q": "What are the data types available in SystemVerilog?",
+      "a": "SystemVerilog offers a rich set of data types, including: - `logic`, `bit`, `byte`, `shortint`, `int`, `longint` - `reg` (legacy from Verilog) - `wire`, `tri`, etc. (for net types) - Enumerations (`enum`) - Structures (`struct`) - Unions (`union`) - Arrays (packed and unpacked) - Classes (for object-oriented programming)"
+    },
+    {
+      "q": "How do you perform arithmetic operations in SystemVerilog?",
+      "a": " Arithmetic operations in SystemVerilog are similar to those in C/C++. Here are some examples:8. What is the difference between `logic` and `reg` in SystemVerilog? Arithmetic operations in SystemVerilog are similar to those in C/C++. Here are some examples:"
+    },
+    {
+      "q": "What is the difference between `logic` and `reg` in SystemVerilog?",
+      "a": "- **`logic`** : A new data type introduced in SystemVerilog that can be used for both combinational and sequential logic. It is more flexible than `reg`. - **`reg`** : A legacy data type from Verilog used primarily for sequential logic (e.g., within `always` blocks). In SystemVerilog, `logic` is preferred over `reg`. **Page 3 of 70** **System Verilog Basic & Fundamental Interview Questions**"
+    },
+    {
+      "q": "How do you declare an array in SystemVerilog?",
+      "a": " Arrays can be declared in SystemVerilog as packed or unpacked:10. What is the purpose of the `typedef` keyword in SystemVerilog? Arrays can be declared in SystemVerilog as packed or unpacked:"
+    },
+    {
+      "q": "What is the purpose of the `typedef` keyword in SystemVerilog?",
+      "a": " `typedef` is used to create an alias for an existing data type, making code more readable andeasier to maintain.11. How do you define a struct in SystemVerilog? `typedef` is used to create an alias for an existing data type, making code more readable and easier to maintain."
+    },
+    {
+      "q": "How do you define a struct in SystemVerilog?",
+      "a": " A `struct` in SystemVerilog is a composite data type that groups different data types together: A `struct` in SystemVerilog is a composite data type that groups different data types together: **Page 4 of 70** **System Verilog Basic & Fundamental Interview Questions**"
+    },
+    {
+      "q": "What is the difference between `packed` and `unpacked` arrays in SystemVerilog?",
+      "a": "- **Packed arrays** : a contiguous collection of bits treated as a single unit. They are used for defining widths and bit slicing.  defining widths and bit slicing. Unpacked arrays :separatee elements, each of which can be accessed independently.13. How do you use the `enum` keyword in SystemVerilog? - **Unpacked arrays** :separatee elements, each of which can be accessed independently."
+    },
+    {
+      "q": "How do you use the `enum` keyword in SystemVerilog?",
+      "a": " `enum` is used to define an enumeration, a set of named values: - `enum` is used to define an enumeration, a set of named values: **Page 5 of 70** **System Verilog Basic & Fundamental Interview Questions**"
+    },
+    {
+      "q": "What is the purpose of the `const` keyword in SystemVerilog?",
+      "a": " `const` is used to declare constants, which are variables whose value cannot be changed afterinitialization:15. How do you declare a parameter in SystemVerilog? `const` is used to declare constants, which are variables whose value cannot be changed after initialization:"
+    },
+    {
+      "q": "How do you declare a parameter in SystemVerilog?",
+      "a": " Parameters are used to define constants within a module, which can be overridden during moduleinstantiation:16. What is the difference between `localparam` and `parameter` in Parameters are used to define constants within a module, which can be overridden during module instantiation:"
+    },
+    {
+      "q": "What is the difference between `localparam` and `parameter` in SystemVerilog?",
+      "a": " `parameter` : Can be overridden during module instantiation. `localparam` : Cannot be overridden, making it a constant within the module. - **`parameter`** : Can be overridden during module instantiation. - **`localparam`** : Cannot be overridden, making it a constant within the module. **Page 6 of 70** **System Verilog Basic & Fundamental Interview Questions**  17. How do you use the `import` keyword in SystemVerilog?`import` is used to include packages or specific items from packages:18. What is the purpose of the `export` keyword in SystemVerilog?"
+    },
+    {
+      "q": "How do you use the `import` keyword in SystemVerilog?",
+      "a": "`import` is used to include packages or specific items from packages:"
+    },
+    {
+      "q": "What is the purpose of the `export` keyword in SystemVerilog?",
+      "a": " `export` is used in DPI (Direct Programming Interface) to export SystemVerilog functions to beaccessible from foreign languages like C:19. How do you declare a macro in SystemVerilog? `export` is used in DPI (Direct Programming Interface) to export SystemVerilog functions to be accessible from foreign languages like C:  19. How do you declare a macro in SystemVerilog?Macros are declared using `define`:20. What is the difference between `define` and `macro` in SystemVerilog?"
+    },
+    {
+      "q": "How do you declare a macro in SystemVerilog?",
+      "a": "Macros are declared using `define`:"
+    },
+    {
+      "q": "What is the difference between `define` and `macro` in SystemVerilog?",
+      "a": "- **`define`** : Used to define a macro.  Macro:  refers to the code or constant defined by `define`. - **Macro:** refers to the code or constant defined by `define`. **Page 7 of 70** **System Verilog Data Types & Operators**"
+    },
+    {
+      "q": "What is the difference between `bit` and `logic` in SystemVerilog?",
+      "a": "- **`bit`** : A 2-state data type that can hold values 0 and 1. It is used for simple binary data.  `logic` : A 4-state data type that can hold values 0, 1, X (unknown), and Z (high-impedance). Itis more versatile for representing digital logic where unknown and high-impedance states need tobe modeled.d.22. How do you declare a vector in SystemVerilog? - **`logic`** : A 4-state data type that can hold values 0, 1, X (unknown), and Z (high-impedance). It is more versatile for representing digital logic where unknown and high-impedance states need to be modeled.d.  22. How do you declare a vector in SystemVerilog?A vector is an array of bits or logic types. Here’s how you declare it:23. What is the purpose of the `signed` and `unsigned` keywords inSystemVerilog?"
+    },
+    {
+      "q": "How do you declare a vector in SystemVerilog?",
+      "a": "A vector is an array of bits or logic types. Here’s how you declare it:"
+    },
+    {
+      "q": "What is the purpose of the `signed` and `unsigned` keywords in SystemVerilog?",
+      "a": "- **`signed`** : Indicates that a variable or vector is signed, meaning it can represent positive and negative values.  negative values. `unsigned` : Indicates that a variable or vector is unsigned, meaning it can only representnon-negative values.24. How do you perform bit-wise operations in SystemVerilog? - **`unsigned`** : Indicates that a variable or vector is unsigned, meaning it can only represent non-negative values."
+    },
+    {
+      "q": "How do you perform bit-wise operations in SystemVerilog?",
+      "a": "Bit-wise operations are performed using operators like `&`, `|`, `^`, and `~`. **Page 8 of 70** **System Verilog Data Types & Operators**"
+    },
+    {
+      "q": "What is the difference between `&` and `&&` in SystemVerilog?",
+      "a": "- **`&`** : Bit-wise AND operator, operates on each bit of the operand.  `&&` : Logical AND operator, evaluates to true if both operands are true. - **`&&`** : Logical AND operator, evaluates to true if both operands are true."
+    },
+    {
+      "q": "How do you perform logical operations in SystemVerilog?",
+      "a": " Logical operations are performed using `&&`, `||`, and `!`. Logical operations are performed using `&&`, `||`, and `!`. **Page 9 of 70** **System Verilog Data Types & Operators**"
+    },
+    {
+      "q": "What is the purpose of the `?` operator in System Verilog?",
+      "a": " The `?` operator is the conditional (ternary) operator, which selects one of two values based on acondition.28. How do you use the `case` statement in System Verilog? The `?` operator is the conditional (ternary) operator, which selects one of two values based on a condition."
+    },
+    {
+      "q": "How do you use the `case` statement in System Verilog?",
+      "a": " The `case` statement is used to select one of several possible blocks of code to execute based onthe value of an expression.29. What is the difference between `case` and `casex` in SystemVerilog? The `case` statement is used to select one of several possible blocks of code to execute based on the value of an expression."
+    },
+    {
+      "q": "What is the difference between `case` and `casex` in SystemVerilog?",
+      "a": "- **`case`** : Performs exact matching and does not treat `x` and `z` as wildcards. - **`casex`** : Treats `x` and `z` as wildcards, ignoring them during matching. **Page 10 of 70** **System Verilog Data Types & Operators**"
+    },
+    {
+      "q": "How do you use the `if` statement in SystemVerilog?",
+      "a": " The `if` statement is used for conditional execution of code blocks.31. What is the purpose of the `else` clause in SystemVerilog? The `if` statement is used for conditional execution of code blocks."
+    },
+    {
+      "q": "What is the purpose of the `else` clause in SystemVerilog?",
+      "a": "The `else` clause is used to specify a block of code to execute if the `if` condition is false."
+    },
+    {
+      "q": "How do you use the `while` loop in SystemVerilog?",
+      "a": "The `while` loop repeatedly executes a block of code as long as the condition is true. **Page 11 of 70** **System Verilog Data Types & Operators**"
+    },
+    {
+      "q": "What is the purpose of the `do-while` loop in SystemVerilog?",
+      "a": " The `do-while` loop is similar to the `while` loop but guarantees at least one execution of the loop bodybefore checking the condition.34. How do you use the `for` loop in System Verilog? The `do-while` loop is similar to the `while` loop but guarantees at least one execution of the loop body before checking the condition."
+    },
+    {
+      "q": "How do you use the `for` loop in System Verilog?",
+      "a": " 34. How do you use the `for` loop in System Verilog?The `for` loop is used for iterative execution of a block of code with a counter. The `for` loop is used for iterative execution of a block of code with a counter. **Page 12 of 70** **System Verilog Data Types & Operators**"
+    },
+    {
+      "q": "What is the purpose of the `repeat` loop in SystemVerilog?",
+      "a": " The `repeat` loop executes a block of code a fixed number of times.36. How do you use the `break` and `continue` statements in SystemVerilog? The `repeat` loop executes a block of code a fixed number of times."
+    },
+    {
+      "q": "How do you use the `break` and `continue` statements in SystemVerilog?",
+      "a": " `break` : Exits the nearest enclosing loop. `continue` : Skips the remaining code in the current iteration and starts the next iteration of theloop. - **`break`** : Exits the nearest enclosing loop. - **`continue`** : Skips the remaining code in the current iteration and starts the next iteration of the loop. **Page 13 of 70** **System Verilog Data Types & Operators**"
+    },
+    {
+      "q": "What is the purpose of the `return` statement in SystemVerilog?",
+      "a": " The `return` statement is used to exit a function or task and, optionally, return a value.38. How do you use the `assert` statement in SystemVerilog? The `return` statement is used to exit a function or task and, optionally, return a value."
+    },
+    {
+      "q": "How do you use the `assert` statement in SystemVerilog?",
+      "a": " The `assert` statement is used for verification purposes to check if a condition is true. If thecondition is false, an error is reported.39. What is the purpose of the `assume` statement in SystemVerilog? The `assert` statement is used for verification purposes to check if a condition is true. If the condition is false, an error is reported."
+    },
+    {
+      "q": "What is the purpose of the `assume` statement in SystemVerilog?",
+      "a": " The `assume` statement is used in formal verification to specify conditions that are assumed tobe true during analysis.40. How do you use the `cover` statement in SystemVerilog? The `assume` statement is used in formal verification to specify conditions that are assumed to be true during analysis."
+    },
+    {
+      "q": "How do you use the `cover` statement in SystemVerilog?",
+      "a": "The `cover` statement is used to specify scenarios that should be covered during simulation or formal verification, ensuring that all specified conditions occur. **Page 14 of 70** **System Verilog Data Types & Operators** **Page 15 of 70** **System Verilog Classes & Objects**"
+    },
+    {
+      "q": "What is a class in SystemVerilog?",
+      "a": "A class in SystemVerilog is a blueprint for creating objects that encapsulate data (properties) and functions (methods). Classes support object-oriented programming features like inheritance, polymorphism, and encapsulation."
+    },
+    {
+      "q": "How do you declare a class in SystemVerilog?",
+      "a": " A class is declared using the `class` keyword. Here’s a simple example:43. What is the purpose of the `new` keyword in SystemVerilog? A class is declared using the `class` keyword. Here’s a simple example:"
+    },
+    {
+      "q": "What is the purpose of the `new` keyword in SystemVerilog?",
+      "a": "The `new` keyword is used to create a new instance (object) of a class. It is also used to define a constructor within the class.  44. How do you create an object in SystemVerilog?You create an object by declaring a variable of the class type and using the `new` keyword."
+    },
+    {
+      "q": "How do you create an object in SystemVerilog?",
+      "a": "You create an object by declaring a variable of the class type and using the `new` keyword. **Page 16 of 70** **System Verilog Classes & Objects**"
+    },
+    {
+      "q": "What is the difference between `static` and `dynamic` objects in SystemVerilog?",
+      "a": "- **Static objects** : Declared and instantiated at compile time. They have a fixed memory - allocation. - **Dynamic objects** : Created at runtime using the `new` keyword. They provide flexibility and - are managed dynamically.  are managed dynamically.46. How do you use the `this` keyword in SystemVerilog?  46. How do you use the `this` keyword in SystemVerilog?The `this` keyword is used to refer to the current instance of the class.47. What is the purpose of the `super` keyword in SystemVerilog?"
+    },
+    {
+      "q": "How do you use the `this` keyword in SystemVerilog?",
+      "a": "The `this` keyword is used to refer to the current instance of the class."
+    },
+    {
+      "q": "What is the purpose of the `super` keyword in SystemVerilog?",
+      "a": "The `super` keyword is used to refer to the base class in a derived class. It is commonly used to call the base class constructor or methods. **Page 17 of 70** **System Verilog Classes & Objects**"
+    },
+    {
+      "q": "How do you use inheritance in SystemVerilog?",
+      "a": " Inheritance is used to create a new class based on an existing class. The new class inheritsproperties and methods from the existing class.49. What is the purpose of polymorphism in SystemVerilog? Inheritance is used to create a new class based on an existing class. The new class inherits properties and methods from the existing class."
+    },
+    {
+      "q": "What is the purpose of polymorphism in SystemVerilog?",
+      "a": "Polymorphism allows objects of different classes to be treated as objects of a common base class. It enables methods to behave differently based on the object that invokes them."
+    },
+    {
+      "q": "How do you use encapsulation in SystemVerilog?",
+      "a": " Encapsulation is the concept of bundling data and methods that operate on the data within aclass, restricting direct access to some of the class’s components. Encapsulation is the concept of bundling data and methods that operate on the data within a class, restricting direct access to some of the class’s components. **Page 18 of 70** **System Verilog Classes & Objects**"
+    },
+    {
+      "q": "What is the purpose of abstraction in SystemVerilog?",
+      "a": "Abstraction allows you to hide complex implementation details and expose only the necessary parts of an object or a system. This simplifies interaction and promotes reuse."
+    },
+    {
+      "q": "How do you use the `virtual` keyword in SystemVerilog?",
+      "a": " The `virtual` keyword is used to declare methods in a base class that can be overridden in derived classes.It supports polymorphism.53. What is the purpose of the `pure` keyword in SystemVerilog? The `virtual` keyword is used to declare methods in a base class that can be overridden in derived classes. It supports polymorphism."
+    },
+    {
+      "q": "What is the purpose of the `pure` keyword in SystemVerilog?",
+      "a": "In SystemVerilog, the term `pure` is not used explicitly. Instead, `pure virtual` functions are declared by using `virtual` followed by the `;` without a method body, indicating the method must be overridden in derived classes.  derived classes. **Page 19 of 70** **System Verilog Classes & Objects**"
+    },
+    {
+      "q": "How do you use the `const` keyword with classes in SystemVerilog?",
+      "a": " after initialization. The `const` keyword is used to declare constants within a class, ensuring their values cannot be changed after initialization."
+    },
+    {
+      "q": "What is the purpose of the `static` keyword with classes in SystemVerilog?",
+      "a": " The `static` keyword is used to declare class members (variables or methods) that are shared among allinstances of the class. Static members belong to the class itself rather than any particular instance.56. How do you use the `local` keyword with classes in SystemVerilog? The `static` keyword is used to declare class members (variables or methods) that are shared among all instances of the class. Static members belong to the class itself rather than any particular instance."
+    },
+    {
+      "q": "How do you use the `local` keyword with classes in SystemVerilog?",
+      "a": "The `local` keyword restricts the visibility of class members to the class itself, preventing access from derived classes or external entities. **Page 20 of 70** **System Verilog Classes & Objects**"
+    },
+    {
+      "q": "What is the purpose of the `protected` keyword with classes in SystemVerilog?",
+      "a": " The `protected` keyword restricts access to class members to the class itself and its derived classes. Itprovides a level of encapsulation that allows inheritance but not external access.58. How do you use the `private` keyword with classes in SystemVerilog? The `protected` keyword restricts access to class members to the class itself and its derived classes. It provides a level of encapsulation that allows inheritance but not external access."
+    },
+    {
+      "q": "How do you use the `private` keyword with classes in SystemVerilog?",
+      "a": " The `private` keyword restricts access to class members to the class itself, preventing access from bothderived classes and external entities.59. What is the purpose of the `public` keyword with classes inSystemVerilog? The `private` keyword restricts access to class members to the class itself, preventing access from both derived classes and external entities."
+    },
+    {
+      "q": "What is the purpose of the `public` keyword with classes in SystemVerilog?",
+      "a": "The `public` keyword allows access to class members from anywhere. Public members are accessible from outside the class, derived classes, and any other part of the code. **Page 21 of 70** **System Verilog Classes & Objects**"
+    },
+    {
+      "q": "How do you use the `interface` keyword with classes in SystemVerilog?",
+      "a": "In SystemVerilog, `interface` is not used directly with classes. Instead, it is used to define signal groups for modules. However, `virtual interfaces` can be used within classes to facilitate communication with interfaces.  interfaces. **Page 22 of 70** **SV Interfaces and Modports**"
+    },
+    {
+      "q": "What is an interface in SystemVerilog?",
+      "a": "An interface in SystemVerilog is a construct that bundles together signals and functionality that multiple modules can share. It simplifies connectivity and enhances code modularity and readability.  62. How do you declare an interface in SystemVerilog?You declare an interface using the `interface` keyword. Here’s an example:63. What is the purpose of the `modport` keyword in SystemVerilog?"
+    },
+    {
+      "q": "How do you declare an interface in SystemVerilog?",
+      "a": "You declare an interface using the `interface` keyword. Here’s an example:"
+    },
+    {
+      "q": "What is the purpose of the `modport` keyword in SystemVerilog?",
+      "a": "The `modport` keyword in SystemVerilog is used within an interface to define the direction (input, output, or inout) of the signals for different modules that connect to the interface. It allows for flexible and structured communication between modules."
+    },
+    {
+      "q": "How do you declare a modport in SystemVerilog?",
+      "a": " 64. How do you declare a modport in SystemVerilog?You declare a modport inside an interface using the `modport` keyword. Here’s an example: You declare a modport inside an interface using the `modport` keyword. Here’s an example: **Page 23 of 70** **SV Interfaces and Modports**"
+    },
+    {
+      "q": "What is the difference between `import` and `export` in SystemVerilog interfaces?",
+      "a": "- **`import`** : Brings in external tasks or functions into the interface or module. - **`export`** : Makes tasks or functions within an interface available to modules that connect to it."
+    },
+    {
+      "q": "How do you use the `clocking` block in SystemVerilog interfaces?",
+      "a": " A `clocking` block groups signals that are sampled or driven synchronously with a particularclock. Here’s how you use it:67. What is the purpose of the `default` clocking block in SystemVeriloginterfaces? A `clocking` block groups signals that are sampled or driven synchronously with a particular clock. Here’s how you use it:"
+    },
+    {
+      "q": "What is the purpose of the `default` clocking block in SystemVerilog interfaces?",
+      "a": "The `default` clocking block is a special clocking block that can be set as the default for sampling or driving signals within a module or interface, simplifying the code by avoiding the need to specify the clocking block every time."
+    },
+    {
+      "q": "How do you use the `input` and `output` keywords in SystemVerilog interfaces?",
+      "a": "The `input` and `output` keywords are used in modports and clocking blocks to specify the direction of the signals. **Page 24 of 70** **SV Interfaces and Modports**  SV Interfaces and Modports69. What is the purpose of the `inout` keyword in SystemVerilog interfaces?"
+    },
+    {
+      "q": "What is the purpose of the `inout` keyword in SystemVerilog interfaces?",
+      "a": " The `inout` keyword is used to declare bidirectional signals in an interface, meaning the signalcan be both read and written.70. How do you use the `ref` keyword in SystemVerilog interfaces? The `inout` keyword is used to declare bidirectional signals in an interface, meaning the signal can be both read and written."
+    },
+    {
+      "q": "How do you use the `ref` keyword in SystemVerilog interfaces?",
+      "a": "The `ref` keyword is used to pass arguments by reference to tasks or functions, allowing the called function to modify the argument's value.  called function to modify the argument's value. **Page 25 of 70** **SV Interfaces and Modports**"
+    },
+    {
+      "q": "What is the purpose of the `const` keyword in SystemVerilog interfaces?",
+      "a": " The `const` keyword is used to declare constants within an interface, ensuring that their values cannot bechanged after initialization.72. How do you use the `virtual` keyword in SystemVerilog interfaces? The `const` keyword is used to declare constants within an interface, ensuring that their values cannot be changed after initialization."
+    },
+    {
+      "q": "How do you use the `virtual` keyword in SystemVerilog interfaces?",
+      "a": "The `virtual` keyword is used to declare a virtual interface, which is a reference to an actual interface instance. It allows classes to interact with interfaces.  The `virtual` keyword is used to declare a virtual interface, which is a reference to an actualinterface instance. It allows classes to interact with interfaces.73. What is the purpose of the `pure` keyword in SystemVerilog interfaces?"
+    },
+    {
+      "q": "What is the purpose of the `pure` keyword in SystemVerilog interfaces?",
+      "a": "SystemVerilog doesn't use the `pure` keyword explicitly. Instead, the concept of `pure` functions is implied in `pure virtual` functions (abstract methods) declared using `virtual` followed by a `;` in the base class. **Page 26 of 70** **SV Interfaces and Modports**"
+    },
+    {
+      "q": "How do you use the `interface` keyword with modports in SystemVerilog?",
+      "a": " Modports are defined within interfaces to specify signal directions for different roles.75. What is the purpose of the `modport` keyword with interfaces in Modports are defined within interfaces to specify signal directions for different roles."
+    },
+    {
+      "q": "What is the purpose of the `modport` keyword with interfaces in SystemVerilog?",
+      "a": "The `modport` keyword defines roles for different modules that connect to the interface, specifying the direction (input, output, or inout) of signals for each role."
+    },
+    {
+      "q": "How do you use the `import` keyword with interfaces in SystemVerilog?",
+      "a": " The `import` keyword is used to bring tasks or functions from packages into an interface or module. The `import` keyword is used to bring tasks or functions from packages into an interface or module. **Page 27 of 70** **SV Interfaces and Modports**"
+    },
+    {
+      "q": "What is the purpose of the `export` keyword with interfaces in SystemVerilog?",
+      "a": " The `export` keyword makes tasks or functions within an interface available to modules that connect to it.78. How do you use the `interface` keyword with classes in SystemVerilog? The `export` keyword makes tasks or functions within an interface available to modules that connect to it."
+    },
+    {
+      "q": "How do you use the `interface` keyword with classes in SystemVerilog?",
+      "a": " In SystemVerilog, you can use `virtual interfaces` within classes to facilitate interaction withinterfaces.79. What is the purpose of the `modport` keyword with classes in In SystemVerilog, you can use `virtual interfaces` within classes to facilitate interaction with interfaces."
+    },
+    {
+      "q": "What is the purpose of the `modport` keyword with classes in SystemVerilog?",
+      "a": "The `modport` keyword is not directly used with classes. However, classes can interact with modports by using virtual interfaces to connect to specific modports. **Page 28 of 70** **SV Interfaces and Modports**  SV Interfaces and Modports80. How do you use the `interface` keyword with modules in SystemVerilog?"
+    },
+    {
+      "q": "How do you use the `interface` keyword with modules in SystemVerilog?",
+      "a": "Modules use interfaces to group and manage related signals, enhancing modularity and reducing the complexity of signal declarations.  the complexity of signal declarations. **Page 29 of 70** **SV Assertions and Coverage**"
+    },
+    {
+      "q": "What is an assertion in SystemVerilog?",
+      "a": "An assertion in SystemVerilog is a statement used to check that certain conditions hold true in a design. It helps verify the correctness of the design by catching errors during simulation or formal verification."
+    },
+    {
+      "q": "How do you declare an assertion in SystemVerilog?",
+      "a": " Assertions are declared using the `assert` keyword. Here’s a basic example:83. What is the purpose of the `assert` keyword in SystemVerilog? Assertions are declared using the `assert` keyword. Here’s a basic example:"
+    },
+    {
+      "q": "What is the purpose of the `assert` keyword in SystemVerilog?",
+      "a": "The `assert` keyword is used to check if a condition is true. If the condition is false, it triggers an action, such as displaying an error message or halting the simulation."
+    },
+    {
+      "q": "How do you use the `assume` keyword in SystemVerilog?",
+      "a": " The `assume` keyword is used to specify assumptions about the design's environment or inputs.It is often used in formal verification to constrain the inputs.85. What is the purpose of the `cover` keyword in SystemVerilog? The `assume` keyword is used to specify assumptions about the design's environment or inputs. It is often used in formal verification to constrain the inputs."
+    },
+    {
+      "q": "What is the purpose of the `cover` keyword in SystemVerilog?",
+      "a": "The `cover` keyword is used to specify coverage points that monitor how often certain conditions or events occur in a design, helping to measure the completeness of verification."
+    },
+    {
+      "q": "How do you use the `coverpoint` keyword in System Verilog?",
+      "a": "The `coverpoint` keyword is used within covergroups to define specific conditions or ranges of values that should be covered during simulation. **Page 30 of 70** **SV Assertions and Coverage**  SV Assertions and Coverage87. What is the purpose of the `cross` keyword in SystemVerilog?"
+    },
+    {
+      "q": "What is the purpose of the `cross` keyword in SystemVerilog?",
+      "a": " The `cross` keyword is used within covergroups to define coverage points for combinations ofmultiple variables or conditions, ensuring all possible combinations are exercised.88. How do you use the `expect` keyword in SystemVerilog? The `cross` keyword is used within covergroups to define coverage points for combinations of multiple variables or conditions, ensuring all possible combinations are exercised."
+    },
+    {
+      "q": "How do you use the `expect` keyword in SystemVerilog?",
+      "a": " The `expect` keyword is used to specify expected behavior or values in a simulation. It can beused for post-simulation analysis to ensure the design behaves as expected. The `expect` keyword is used to specify expected behavior or values in a simulation. It can be used for post-simulation analysis to ensure the design behaves as expected. **Page 31 of 70** **SV Assertions and Coverage**"
+    },
+    {
+      "q": "What is the purpose of the `prove` keyword in SystemVerilog?",
+      "a": "The `prove` keyword is not a standard part of SystemVerilog. Instead, `prove` is a concept used in formal verification tools to ensure that assertions hold under all possible conditions."
+    },
+    {
+      "q": "How do you use the `assert` keyword with classes in SystemVerilog?",
+      "a": " Assertions can be used inside class methods to check the correctness of class behavior. Assertions can be used inside class methods to check the correctness of class behavior."
+    },
+    {
+      "q": "What is the purpose of the `assume` keyword with classes in SystemVerilog?",
+      "a": " The `assume` keyword is used within class methods to specify assumptions about the class'senvironment or inputs, aiding in formal verification.92. How do you use the `cover` keyword with classes in SystemVerilog? The `assume` keyword is used within class methods to specify assumptions about the class's environment or inputs, aiding in formal verification."
+    },
+    {
+      "q": "How do you use the `cover` keyword with classes in SystemVerilog?",
+      "a": "The `cover` keyword can be used within class methods to monitor the occurrence of specific conditions or events related to the class’s data members. **Page 32 of 70** **SV Assertions and Coverage**"
+    },
+    {
+      "q": "What is the purpose of the `coverpoint` keyword with classes in SystemVerilog?",
+      "a": " The `coverpoint` keyword within classes is used to define specific conditions or ranges forcoverage analysis, similar to how it is used in covergroups.94. How do you use the `cross` keyword with classes in SystemVerilog? The `coverpoint` keyword within classes is used to define specific conditions or ranges for coverage analysis, similar to how it is used in covergroups."
+    },
+    {
+      "q": "How do you use the `cross` keyword with classes in SystemVerilog?",
+      "a": "The `cross` keyword within classes is used to define coverage for combinations of multiple data members. **Page 33 of 70** **SV Assertions and Coverage**"
+    },
+    {
+      "q": "What is the purpose of the `expect` keyword with classes in SystemVerilog?",
+      "a": "The `expect` keyword is used within class methods to specify expected behavior or values for post-simulation analysis.  post-simulation analysis.96. How do you use the `prove` keyword with classes in SystemVerilog?"
+    },
+    {
+      "q": "How do you use the `prove` keyword with classes in SystemVerilog?",
+      "a": "The `prove` keyword itself is not part of SystemVerilog, but formal verification tools use the concept of proving assertions within classes to ensure correctness under all conditions. **Page 34 of 70** **SV Assertions and Coverage**"
+    },
+    {
+      "q": "What is the purpose of the `assert` keyword with interfaces in SystemVerilog?",
+      "a": " The `assert` keyword within interfaces ensures that the signals and behavior of the interfacecomply with specified conditions.98. How do you use the `assume` keyword with interfaces in SystemVerilog? The `assert` keyword within interfaces ensures that the signals and behavior of the interface comply with specified conditions."
+    },
+    {
+      "q": "How do you use the `assume` keyword with interfaces in SystemVerilog?",
+      "a": " The `assume` keyword within interfaces specifies assumptions about the signals or environmentof the interface. The `assume` keyword within interfaces specifies assumptions about the signals or environment of the interface. **Page 35 of 70** **SV Assertions and Coverage**"
+    },
+    {
+      "q": "What is the purpose of the `cover` keyword with interfaces in SystemVerilog?",
+      "a": " The `cover` keyword within interfaces monitors the occurrence of specific conditions or eventsto ensure comprehensive verification coverage.100. How do you use the `coverpoint` keyword with interfaces inSystemVerilog? The `cover` keyword within interfaces monitors the occurrence of specific conditions or events to ensure comprehensive verification coverage."
+    },
+    {
+      "q": "How do you use the `coverpoint` keyword with interfaces in SystemVerilog?",
+      "a": " The `coverpoint` keyword within interfaces defines specific conditions or ranges for coverageanalysis. The `coverpoint` keyword within interfaces defines specific conditions or ranges for coverage analysis. **Page 36 of 70** **System Verilog Randomization & Constraints**"
+    },
+    {
+      "q": "What is randomization in SystemVerilog?",
+      "a": "Randomization in SystemVerilog is the process of generating random values for variables within constraints to thoroughly test and verify the design's behavior under various scenarios."
+    },
+    {
+      "q": "How do you declare a random variable in SystemVerilog?",
+      "a": " You declare a random variable using the `rand` or `randc` keyword inside a class.103. What is the purpose of the `rand` keyword in SystemVerilog? You declare a random variable using the `rand` or `randc` keyword inside a class."
+    },
+    {
+      "q": "What is the purpose of the `rand` keyword in SystemVerilog?",
+      "a": "The `rand` keyword designates a variable as a random variable, which can be randomized using the `randomize` method."
+    },
+    {
+      "q": "How do you use the `randc` keyword in SystemVerilog?",
+      "a": " The `randc` keyword is used for cyclic random variables, where values are generated withoutrepetition until all possible values are exhausted.105. What is the purpose of the `constraint` keyword in SystemVerilog? The `randc` keyword is used for cyclic random variables, where values are generated without repetition until all possible values are exhausted."
+    },
+    {
+      "q": "What is the purpose of the `constraint` keyword in SystemVerilog?",
+      "a": "The `constraint` keyword is used to define rules and conditions that random variables must satisfy during randomization. **Page 37 of 70** **System Verilog Randomization & Constraints**  106. How do you declare a constraint in SystemVerilog?Constraints are declared within a `constraint` block inside a class.107. What is the purpose of the `solve` keyword in SystemVerilog?"
+    },
+    {
+      "q": "How do you declare a constraint in SystemVerilog?",
+      "a": "Constraints are declared within a `constraint` block inside a class."
+    },
+    {
+      "q": "What is the purpose of the `solve` keyword in SystemVerilog?",
+      "a": "The `solve` keyword specifies the order in which constraints are solved, helping to control dependencies between variables during randomization."
+    },
+    {
+      "q": "How do you use the `randomize` keyword in SystemVerilog?",
+      "a": " The `randomize` method is used to generate random values for the variables in a class.109. What is the purpose of the `post_randomize` keyword in SystemVerilog? The `randomize` method is used to generate random values for the variables in a class."
+    },
+    {
+      "q": "What is the purpose of the `post_randomize` keyword in SystemVerilog?",
+      "a": "The `post_randomize` function is called automatically after successful randomization, allowing for additional operations or checks on the randomized values. **Page 38 of 70** **System Verilog Randomization & Constraints**"
+    },
+    {
+      "q": "How do you use the `pre_randomize` keyword in SystemVerilog?",
+      "a": " The `pre_randomize` function is called automatically before randomization, allowing for setupoperations or checks before the random values are generated.111. What is the purpose of the `random` keyword in SystemVerilog? The `pre_randomize` function is called automatically before randomization, allowing for setup operations or checks before the random values are generated."
+    },
+    {
+      "q": "What is the purpose of the `random` keyword in SystemVerilog?",
+      "a": "The `random` function generates a random value for the variable it is called on. It’s part of the `$urandom` and `$urandom_range` family of functions."
+    },
+    {
+      "q": "How do you use the `std::randomize` function in SystemVerilog?",
+      "a": "The `std::randomize` function is used to randomize variables in a standard way, typically within a class. **Page 39 of 70** **System Verilog Randomization & Constraints**"
+    },
+    {
+      "q": "What is the purpose of the `std::uniform` function in SystemVerilog?",
+      "a": " The `std::uniform` function generates random numbers with a uniform distribution, providing arandom float between 0.0 and 1.0.114. How do you use the `std::normal` function in SystemVerilog? The `std::uniform` function generates random numbers with a uniform distribution, providing a random float between 0.0 and 1.0."
+    },
+    {
+      "q": "How do you use the `std::normal` function in SystemVerilog?",
+      "a": " The `std::normal` function generates random numbers following a normal (Gaussian) distributionwith a specified mean and standard deviation.115. What is the purpose of the `std::exponential` function in SystemVerilog?The `std::exponential` function generates random numbers following an exponential distribution The `std::normal` function generates random numbers following a normal (Gaussian) distribution with a specified mean and standard deviation."
+    },
+    {
+      "q": "What is the purpose of the `std::exponential` function in SystemVerilog?",
+      "a": "The `std::exponential` function generates random numbers following an exponential distribution with a specified rate parameter. **Page 40 of 70** **System Verilog Randomization & Constraints**"
+    },
+    {
+      "q": "How do you use the `std::poisson` function in SystemVerilog?",
+      "a": " The `std::poisson` function generates random numbers following a Poisson distribution with aspecified mean.117. What is the purpose of the `std::bernoulli` function in SystemVerilog? The `std::poisson` function generates random numbers following a Poisson distribution with a specified mean."
+    },
+    {
+      "q": "What is the purpose of the `std::bernoulli` function in SystemVerilog?",
+      "a": " The `std::bernoulli` function generates random boolean values based on a specified probability ofsuccess.118. How do you use the `std::binomial` function in SystemVerilog? The `std::bernoulli` function generates random boolean values based on a specified probability of success."
+    },
+    {
+      "q": "How do you use the `std::binomial` function in SystemVerilog?",
+      "a": " The `std::binomial` function generates random numbers following a binomial distribution withspecified number of trials and probability of success. The `std::binomial` function generates random numbers following a binomial distribution with specified number of trials and probability of success. **Page 41 of 70** **System Verilog Randomization & Constraints**"
+    },
+    {
+      "q": "What is the purpose of the `std::geometric` function in SystemVerilog?",
+      "a": " The `std::geometric` function generates random numbers following a geometric distribution witha specified probability of success.120. How do you use the `std::uniform_int` function in SystemVerilog? The `std::geometric` function generates random numbers following a geometric distribution with a specified probability of success."
+    },
+    {
+      "q": "How do you use the `std::uniform_int` function in SystemVerilog?",
+      "a": " The `std::uniform_int` function generates random integers uniformly distributed within aspecified range. The `std::uniform_int` function generates random integers uniformly distributed within a specified range. **Page 42 of 70** **SV Object-Oriented Programming**"
+    },
+    {
+      "q": "What is the concept of inheritance in SystemVerilog?",
+      "a": "Inheritance in SystemVerilog is an object-oriented concept where a class (child class) can inherit properties and methods from another class (parent class). This allows for code reuse and extension of existing functionality."
+    },
+    {
+      "q": "How do you use inheritance in SystemVerilog?",
+      "a": " You use inheritance by using the `extends` keyword to create a child class that inherits from aparent class. You use inheritance by using the `extends` keyword to create a child class that inherits from a parent class."
+    },
+    {
+      "q": "What is the concept of polymorphism in SystemVerilog?",
+      "a": "Polymorphism allows objects of different classes to be treated as objects of a common superclass. It enables a single interface to represent different underlying forms (data types). **Page 43 of 70** **SV Object-Oriented Programming**"
+    },
+    {
+      "q": "How do you use polymorphism in SystemVerilog?",
+      "a": " Polymorphism is achieved by using virtual methods and overriding them in derived classes. Polymorphism is achieved by using virtual methods and overriding them in derived classes. **Page 44 of 70** **SV Object-Oriented Programming**"
+    },
+    {
+      "q": "What is the concept of encapsulation in SystemVerilog?",
+      "a": "Encapsulation is the bundling of data (variables) and methods (functions) that operate on the data into a single unit, i.e., a class. It restricts direct access to some of the object's components, which is a way of limiting and controlling access to the data."
+    },
+    {
+      "q": "How do you use encapsulation in SystemVerilog?",
+      "a": " Encapsulation is used by defining classes with private and public members, and using methods tointeract with the private data. Encapsulation is used by defining classes with private and public members, and using methods to interact with the private data."
+    },
+    {
+      "q": "What is the concept of abstraction in SystemVerilog?",
+      "a": "Abstraction in SystemVerilog is the process of hiding the complex implementation details and showing only the essential features of an object. It allows the programmer to focus on interactions at a higher level without worrying about the low-level details. **Page 45 of 70** **SV Object-Oriented Programming**"
+    },
+    {
+      "q": "How do you use abstraction in SystemVerilog?",
+      "a": " Abstraction is achieved by using abstract classes and methods (declared with the `virtual` and`pure` keywords).129. What is the purpose of the `virtual` keyword in SystemVerilog? Abstraction is achieved by using abstract classes and methods (declared with the `virtual` and `pure` keywords)."
+    },
+    {
+      "q": "What is the purpose of the `virtual` keyword in SystemVerilog?",
+      "a": "The `virtual` keyword is used to declare a method that can be overridden in a derived class. It enables polymorphism by allowing methods to be defined in a base class but implemented in derived classes."
+    },
+    {
+      "q": "How do you use the `pure` keyword in SystemVerilog?",
+      "a": " The `pure` keyword is used in conjunction with `virtual` to declare a pure virtual method, whichmust be overridden in a derived class. The `pure` keyword is used in conjunction with `virtual` to declare a pure virtual method, which must be overridden in a derived class. **Page 46 of 70** **SV Object-Oriented Programming**"
+    },
+    {
+      "q": "What is the purpose of the `abstract` keyword in SystemVerilog?",
+      "a": "SystemVerilog doesn't have an `abstract` keyword. Instead, abstract classes are created by defining one or more pure virtual functions."
+    },
+    {
+      "q": "How do you use the `extends` keyword in SystemVerilog?",
+      "a": " The `extends` keyword is used to derive a new class from an existing class, inheriting itsproperties and methods.133. What is the purpose of the `implements` keyword in SystemVerilog? The `extends` keyword is used to derive a new class from an existing class, inheriting its properties and methods."
+    },
+    {
+      "q": "What is the purpose of the `implements` keyword in SystemVerilog?",
+      "a": "SystemVerilog does not have an `implements` keyword. However, it supports interfaces and virtual classes for similar functionality."
+    },
+    {
+      "q": "How do you use the `interface` keyword in SystemVerilog?",
+      "a": " The `interface` keyword is used to define an interface, which can encapsulate signals and providea common connection between modules. The `interface` keyword is used to define an interface, which can encapsulate signals and provide a common connection between modules. **Page 47 of 70** **SV Object-Oriented Programming**"
+    },
+    {
+      "q": "What is the purpose of the `class` keyword in SystemVerilog?",
+      "a": "The `class` keyword is used to define a class, which is a blueprint for creating objects (instances) with properties and methods."
+    },
+    {
+      "q": "How do you use the `struct` keyword in SystemVerilog?",
+      "a": " The `struct` keyword is used to define a composite data type that groups multiple variables underone name.137. What is the purpose of the `union` keyword in SystemVerilog? The `struct` keyword is used to define a composite data type that groups multiple variables under one name."
+    },
+    {
+      "q": "What is the purpose of the `union` keyword in SystemVerilog?",
+      "a": " The `union` keyword is used to define a union, a data type that allows storing different data typesin the same memory location.138. How do you use the `enum` keyword in SystemVerilog? The `union` keyword is used to define a union, a data type that allows storing different data types in the same memory location."
+    },
+    {
+      "q": "How do you use the `enum` keyword in SystemVerilog?",
+      "a": " The `enum` keyword is used to define an enumeration, a user-defined data type consisting of aset of named values. The `enum` keyword is used to define an enumeration, a user-defined data type consisting of a set of named values. **Page 48 of 70** **SV Object-Oriented Programming**"
+    },
+    {
+      "q": "What is the purpose of the `typedef` keyword in SystemVerilog?",
+      "a": " The `typedef` keyword is used to create a new data type name for an existing data type, whichcan improve code readability and maintainability.140. How do you use the `alias` keyword in SystemVerilog? The `typedef` keyword is used to create a new data type name for an existing data type, which can improve code readability and maintainability."
+    },
+    {
+      "q": "How do you use the `alias` keyword in SystemVerilog?",
+      "a": " The `alias` keyword is used to create an alias for a net or variable, allowing multiple names torefer to the same data. The `alias` keyword is used to create an alias for a net or variable, allowing multiple names to refer to the same data. **Page 49 of 70** **SV Advanced Topics**"
+    },
+    {
+      "q": "What is the concept of phasing in SystemVerilog?",
+      "a": "Phasing in SystemVerilog is used to divide a testbench simulation into several well-defined phases to ensure proper execution order of operations, such as configuration, reset, stimulus generation, and checking."
+    },
+    {
+      "q": "How do you use phasing in SystemVerilog?",
+      "a": " Phasing is typically implemented using the UVM (Universal Verification Methodology) library,which provides built-in phases like `build_phase`, `connect_phase`, `run_phase`, and more.143. What is the concept of clock domains in SystemVerilog? Phasing is typically implemented using the UVM (Universal Verification Methodology) library, which provides built-in phases like `build_phase`, `connect_phase`, `run_phase`, and more."
+    },
+    {
+      "q": "What is the concept of clock domains in SystemVerilog?",
+      "a": "Clock domains refer to different sections of a design that operate on different clock signals. Proper handling of clock domains is crucial for ensuring correct timing and synchronization across the design. **Page 50 of 70** **SV Advanced Topics**"
+    },
+    {
+      "q": "How do you use clock domains in SystemVerilog?",
+      "a": " Clock domains are managed by defining separate clock signals and using appropriatesynchronizers for crossing clock domains.145. What is the concept of asynchronous FIFOs in SystemVerilog? Clock domains are managed by defining separate clock signals and using appropriate synchronizers for crossing clock domains."
+    },
+    {
+      "q": "What is the concept of asynchronous FIFOs in SystemVerilog?",
+      "a": "Asynchronous FIFOs are used to transfer data between different clock domains. They allow for safe data transfer between modules operating at different clock frequencies."
+    },
+    {
+      "q": "How do you use asynchronous FIFOs in SystemVerilog?",
+      "a": "An asynchronous FIFO typically involves using dual-port memory and synchronizing the write and read pointers between the clock domains. **Page 51 of 70** **SV Advanced Topics**"
+    },
+    {
+      "q": "What is the concept of synchronous FIFOs in SystemVerilog?",
+      "a": "Synchronous FIFOs are used to buffer data within the same clock domain, allowing for temporary storage and retrieval of data at the same clock frequency."
+    },
+    {
+      "q": "How do you use synchronous FIFOs in SystemVerilog?",
+      "a": " A synchronous FIFO is implemented using a single clock signal for both reading and writingoperations. A synchronous FIFO is implemented using a single clock signal for both reading and writing operations. **Page 52 of 70** **SV Advanced Topics**"
+    },
+    {
+      "q": "What is the concept of mailbox in SystemVerilog?",
+      "a": "A mailbox in SystemVerilog is a communication mechanism used to transfer data between different processes or threads. It allows for synchronization and data exchange between different parts of the testbench."
+    },
+    {
+      "q": "How do you use a mailbox in SystemVerilog?",
+      "a": " A mailbox is created and used with the `mailbox` class, which provides methods like `put()` and`get()` for sending and receiving data.151. What is the concept of semaphore in SystemVerilog? A mailbox is created and used with the `mailbox` class, which provides methods like `put()` and `get()` for sending and receiving data."
+    },
+    {
+      "q": "What is the concept of semaphore in SystemVerilog?",
+      "a": "A semaphore in SystemVerilog is used to control access to shared resources by multiple processes. It helps manage concurrency and ensure that only a limited number of processes can access a resource at the same time."
+    },
+    {
+      "q": "How do you use semaphore in SystemVerilog?",
+      "a": "A semaphore is created and used with the `semaphore` class, which provides methods like `get()` and `put()` for acquiring and releasing resources. **Page 53 of 70** **SV Advanced Topics**"
+    },
+    {
+      "q": "What is the concept of event in SystemVerilog?",
+      "a": "An event in SystemVerilog is a synchronization primitive used to signal and wait for occurrences of specific conditions. Events are used to coordinate the actions of multiple processes."
+    },
+    {
+      "q": "How do you use event in SystemVerilog?",
+      "a": "Events are declared using the `event` keyword and can be triggered with the `->` operator. Processes can wait for events using the `@` operator. **Page 54 of 70** **SV Advanced Topics**"
+    },
+    {
+      "q": "What is the concept of fork-join in SystemVerilog?",
+      "a": "The `fork-join` construct in SystemVerilog allows parallel execution of multiple processes. All processes within a `fork-join` block start executing concurrently and the join ensures that all processes complete before proceeding."
+    },
+    {
+      "q": "How do you use fork-join in SystemVerilog?",
+      "a": " You use `fork-join` to execute multiple statements in parallel.. You use `fork-join` to execute multiple statements in parallel.. **Page 55 of 70** **SV Advanced Topics**"
+    },
+    {
+      "q": "What is the concept of disable fork in SystemVerilog?",
+      "a": "`disable fork` is used to terminate all processes within a `fork-join` block before they complete. This can be useful in case of errors or when certain conditions are met."
+    },
+    {
+      "q": "How do you use disable fork in SystemVerilog?",
+      "a": " 158. How do you use disable fork in SystemVerilog?You use `disable fork` to stop all concurrent processes in a `fork-join` block. You use `disable fork` to stop all concurrent processes in a `fork-join` block."
+    },
+    {
+      "q": "What is the concept of wait fork in SystemVerilog?",
+      "a": "`wait fork` waits for all processes within a `fork-join` block to complete before proceeding. This ensures that all concurrent operations have finished. **Page 56 of 70** **SV Advanced Topics**"
+    },
+    {
+      "q": "How do you use wait fork in SystemVerilog?",
+      "a": " You use `wait fork` to wait for the completion of all processes in a `fork-join` block. You use `wait fork` to wait for the completion of all processes in a `fork-join` block. **Page 57 of 70** **SystemVerilog for Verification**"
+    },
+    {
+      "q": "What is the concept of verification in SystemVerilog?",
+      "a": "Verification in SystemVerilog involves checking that a design behaves as expected. This is done using a combination of testbenches, assertions, and coverage to ensure that all parts of the design are functioning correctly."
+    },
+    {
+      "q": "How do you use SystemVerilog for verification?",
+      "a": "SystemVerilog provides several features for verification, including assertions, coverage, randomization, and advanced constructs like classes and interfaces. A typical verification flow includes writing testbenches, using assertions for checking conditions, and collecting coverage data.  data.163. What is the concept of testbenches in SystemVerilog?"
+    },
+    {
+      "q": "What is the concept of testbenches in SystemVerilog?",
+      "a": "A testbench is a piece of code used to apply stimulus to the design under test (DUT) and check its response. It is used to verify the functionality of the DUT."
+    },
+    {
+      "q": "How do you write a testbench in SystemVerilog?",
+      "a": "A basic testbench involves instantiating the DUT, applying stimulus, and checking the output. **Page 58 of 70** **SystemVerilog for Verification**"
+    },
+    {
+      "q": "What is the concept of assertions in SystemVerilog?",
+      "a": "Assertions are used to check if certain conditions hold true during simulation. They help in identifying design errors early in the verification process."
+    },
+    {
+      "q": "How do you use assertions in SystemVerilog?",
+      "a": " Assertions can be used with the `assert` keyword to check conditions. Assertions can be used with the `assert` keyword to check conditions."
+    },
+    {
+      "q": "What is the concept of coverage in SystemVerilog?",
+      "a": "Coverage is used to measure how thoroughly a design has been tested. It helps identify untested parts of the design and ensures all functionality is verified."
+    },
+    {
+      "q": "How do you use coverage in SystemVerilog?",
+      "a": " Coverage is typically defined using covergroups, which specify what to cover and how to collectcoverage data. Coverage is typically defined using covergroups, which specify what to cover and how to collect coverage data. **Page 59 of 70** **SystemVerilog for Verification**"
+    },
+    {
+      "q": "What is the concept of constrained randomization in SystemVerilog?",
+      "a": "Constrained randomization involves generating random values for variables within specified constraints. This helps in testing a wide range of scenarios automatically."
+    },
+    {
+      "q": "How do you use constrained randomization in SystemVerilog?",
+      "a": "You use the `constraint` keyword to specify constraints on variables and the `randomize()` method to generate random values."
+    },
+    {
+      "q": "What is the concept of scenario-based verification in SystemVerilog?",
+      "a": "Scenario-based verification involves testing the design with realistic and complex sequences of operations that mimic actual use cases."
+    },
+    {
+      "q": "How do you use scenario-based verification in SystemVerilog?",
+      "a": "Scenario-based verification is implemented using sequences and transactions that define specific scenarios to be tested. **Page 60 of 70** **SystemVerilog for Verification**"
+    },
+    {
+      "q": "What is the concept of UVM (Universal Verification Methodology) in SystemVerilog?",
+      "a": "UVM is a standardized methodology for verifying complex digital designs. It provides a framework for creating reusable and scalable verification environments."
+    },
+    {
+      "q": "How do you use UVM in SystemVerilog?",
+      "a": "UVM is used by creating components like agents, drivers, monitors, and scoreboards, and integrating them into a testbench. **Page 61 of 70** **SystemVerilog for Verification**"
+    },
+    {
+      "q": "What is the concept of OVM (Open Verification Methodology) in SystemVerilog?",
+      "a": "OVM is an earlier verification methodology that provides a framework for building modular, reusable verification environments. It has since been replaced by UVM."
+    },
+    {
+      "q": "How do you use OVM in SystemVerilog?",
+      "a": "OVM is used similarly to UVM, with components like drivers, monitors, and scoreboards, but using OVM base classes. **Page 62 of 70** **SystemVerilog for Verification**"
+    },
+    {
+      "q": "What is the concept of VMM (Verification Methodology Manual) in SystemVerilog?",
+      "a": "VMM is a methodology developed by Synopsys for creating structured and reusable verification environments. It provides guidelines and a set of base classes for building testbenches."
+    },
+    {
+      "q": "How do you use VMM in SystemVerilog?",
+      "a": " VMM uses base classes and guidelines to build verification components and testbenches. VMM uses base classes and guidelines to build verification components and testbenches. **Page 63 of 70** **SystemVerilog for Verification**"
+    },
+    {
+      "q": "What is the concept of AVM (Assertion-Based Verification Methodology) in SystemVerilog?",
+      "a": "AVM focuses on using assertions to verify the correctness of a design. Assertions are embedded in the design to check for specific conditions during simulation."
+    },
+    {
+      "q": "How do you use AVM in SystemVerilog?",
+      "a": "You use AVM by writing assertions that check for conditions in the design and integrating them into the testbench.  into the testbench. **Page 64 of 70** **SV Miscellaneous**"
+    },
+    {
+      "q": "What is the difference between SystemVerilog and Verilog?",
+      "a": "SystemVerilog is an extension of Verilog that includes additional features for design and verification, such as advanced data types, object-oriented programming, assertions, and coverage. Verilog is primarily focused on hardware description, whereas SystemVerilog adds capabilities to support verification and complex modeling."
+    },
+    {
+      "q": "How do you use SystemVerilog with other languages?",
+      "a": "SystemVerilog can interface with other programming languages using the Direct Programming Interface (DPI), allowing C/C++ functions to be called from SystemVerilog and vice versa."
+    },
+    {
+      "q": "What is the concept of DPI (Direct Programming Interface) in SystemVerilog?",
+      "a": "DPI allows SystemVerilog to interface with C/C++ code, enabling the use of external functions and procedures within a SystemVerilog environment."
+    },
+    {
+      "q": "How do you use DPI in SystemVerilog?",
+      "a": " To use DPI, you declare the external function or task in SystemVerilog and implement it inC/C++. To use DPI, you declare the external function or task in SystemVerilog and implement it in C/C++. **Page 65 of 70** **SV Miscellaneous**"
+    },
+    {
+      "q": "What is the concept of PLI (Programming Language Interface) in SystemVerilog?",
+      "a": "PLI is an older interface that allows Verilog/SystemVerilog code to interact with C/C++ programs, typically used for tasks such as file I/O and other system-level interactions."
+    },
+    {
+      "q": "How do you use PLI in SystemVerilog?",
+      "a": "PLI involves creating a C/C++ function, registering it with the simulator, and invoking it from Verilog/SystemVerilog.  PLI involves creating a C/C++ function, registering it with the simulator, and invoking it fromVerilog/SystemVerilog."
+    },
+    {
+      "q": "What is the concept of VPI (Verilog Procedural Interface) in SystemVerilog?",
+      "a": "VPI is an interface for interacting with the Verilog simulation environment from C/C++ programs. It provides more control and capabilities compared to PLI."
+    },
+    {
+      "q": "How do you use VPI in SystemVerilog?",
+      "a": "VPI involves creating and registering C/C++ functions and calling them from SystemVerilog. **Page 66 of 70** **SV Miscellaneous**  SV Miscellaneous"
+    },
+    {
+      "q": "What is the concept of FLI (Foreign Language Interface) in SystemVerilog?",
+      "a": "FLI is an interface for interfacing with foreign languages (typically VHDL). It allows for mixed-language simulation environments."
+    },
+    {
+      "q": "How do you use FLI in SystemVerilog?",
+      "a": "FLI usage is more common with VHDL simulators and requires specific tools and methodologies provided by the simulator vendors."
+    },
+    {
+      "q": "What is the concept of SystemVerilog compiler directives?",
+      "a": "Compiler directives in SystemVerilog are commands that control the compilation process, such as defining macros or including files. **Page 67 of 70** **SV Miscellaneous**"
+    },
+    {
+      "q": "How do you use SystemVerilog compiler directives?",
+      "a": " Common compiler directives include `define`, `include`, and `ifdef`.193. What is the concept of SystemVerilog pragmas? Common compiler directives include `define`, `include`, and `ifdef`."
+    },
+    {
+      "q": "What is the concept of SystemVerilog pragmas?",
+      "a": "Pragmas are special instructions to the compiler to alter its behavior or to provide additional information."
+    },
+    {
+      "q": "How do you use SystemVerilog pragmas?",
+      "a": "Pragmas are typically vendor-specific and used for optimization or special processing."
+    },
+    {
+      "q": "What is the concept of SystemVerilog attributes?",
+      "a": "Attributes are metadata annotations attached to language constructs that provide additional information to tools."
+    },
+    {
+      "q": "How do you use SystemVerilog attributes?",
+      "a": " Attributes are specified using the `(* ... *)` syntax. Attributes are specified using the `(* ... *)` syntax. **Page 68 of 70** **SV Miscellaneous**"
+    },
+    {
+      "q": "What is the concept of SystemVerilog macros?",
+      "a": "Macros in SystemVerilog are used to define reusable pieces of code that can be expanded inline during compilation."
+    },
+    {
+      "q": "How do you use SystemVerilog macros?",
+      "a": " Macros are defined using `define` and used with the macro name.199. What is the concept of SystemVerilog file I/O? Macros are defined using `define` and used with the macro name."
+    },
+    {
+      "q": "What is the concept of SystemVerilog file I/O?",
+      "a": "File I/O in SystemVerilog allows reading from and writing to files, useful for testbenches and logging."
+    },
+    {
+      "q": "How do you use SystemVerilog file I/O?",
+      "a": " 200. How do you use SystemVerilog file I/O?You use the built-in file I/O system tasks like `$fopen`, `$fclose`, `$fwrite`, and `$fscanf`. You use the built-in file I/O system tasks like `$fopen`, `$fclose`, `$fwrite`, and `$fscanf`. **Page 69 of 70**"
+    }
+  ],
+  "uvm": [
+    {
+      "q": "Why do we need UVM methodology?",
+      "a": "The Universal Verification Methodology (UVM) is a standardized methodology for verifying digital designs that helps develop a reusable, modular, and well-structured verification test bench. UVM provides pre-defined base classes and allows users to extend and reuse pre-defined methods. UVM uses a set of rules and approaches for verification that allows different teams to collaborate more effectively and understand each other’s code. This helps to improve communication across teams. UVM also provides standardized ways like verbosity control, phases, analysis ports for communication, pre-built components like uvm_driver, uvm_monitor, uvm_env, etc"
+    },
+    {
+      "q": "Difference between uvm_object and uvm_component",
+      "a": "- 1) The uvm_transaction class is inherited from uvm_object that adds additional information of a timing, notification events, and recording interface. - 2) The uvm_sequence_item class is derived from the uvm_transaction class that adds basic functionality for sequence and sequence items like get_sequence_id, set_sequencer, get_sequence, etc. - 3) It is important to note that uvm_transaction usage is deprecated as a base class for user-defined transactions. Hence, the uvm_sequence_item class shall be used as a base class for user-defined transactions."
+    },
+    {
+      "q": "Difference between uvm_transaction and uvm_sequence_item",
+      "a": "- 1) The uvm_transaction class is inherited from uvm_object that adds additional information on timing, notification events, and recording interface. - 2) The uvm_sequence_item class is derived from the uvm_transaction class that adds basic functionality for sequence and sequence items like get_sequence_id, set_sequencer, get_sequence, etc. - 3) It is important to note that uvm_transaction usage is deprecated as a base class for user-defined transactions. Hence, the uvm_sequence_item class shall be used as a base class for user-defined transactions - ."
+    },
+    {
+      "q": "Difference between create and new()",
+      "a": "The new method is a constructor for SystemVerilog classes to create an object instance. The create() method of the wrapper class is used to create objects for the uvm_object and uvm_component class which is commonly known as factory registration. In UVM based testbench, it is valid to use a new() function to create class objects, but factory registration has its benefits. The UVM factory allows an object of one type to be overridden with an object of its derived type without changing the testbench structure. This is known as the UVM factory override mechanism. This is applicable for uvm objects and components."
+    },
+    {
+      "q": "Difference between copy and clone.",
+      "a": "The copy method makes a copy of the mentioned object. It performs a deep copy. The clone method is called the create() method followed by copy(). Thus, it creates and returns a copy of an object. 1. While using copy mtheod we will make sure object for destination handle already created but for clone there is no need to create a destination object 2. clone does two things --->  create+copy 1. first it will create object for destination 2. then it call the copy method after the copy the object which is created it will return that object reference  through the parent handle. 3. The return type of clone is uvm_object"
+    },
+    {
+      "q": "Difference between uvm_resource_db and uvm_config_db",
+      "a": "- 1) Although both classes provide a convenience layer on top of the uvm resource facility, uvm_config_db is derived from uvm_resource_db. This adds up additional methods on top of uvm_resource_db methods. - 2) With respect to component hierarchy, the uvm_config_db  has an argument as a context that has the type of uvm_component and instance name as a string that provides more flexibility as compared to uvm_resource that has two strings scope and name. Since component hierarchy is mentioned in the context, it provides more control over the hierarchical path. The `context = this` argument provides a relative path from the component. The `context = null` provides an absolute path which means there is no hierarchical path above. Thus, it is recommended to use uvm_config_db always."
+    },
+    {
+      "q": "What is severity and verbosity in UVM?",
+      "a": "The severity and verbosity are parameters used for controlling the reporting and logging of messages during the verification process. **Severity:** It represents the importance of a message generated during the simulation. 1. UVM_INFO: Provides general information about the progress of the simulation and also we can print variable values for ease in debugging 2. UVM_WARNING: Indicates non-critical errors or potential issues 3. UVM_ERROR: Indicates critical errors that require attention. 4. UVM_FATAL: Indicates fatal errors that lead to the termination of the simulation. **Verbosity:** It controls the print messages generated by simulation and it helps to print messages in well well-structured way without flooding the log with all messages. Levels: UVM_NONE: No messages are displayed. UVM_LOW: Minimal information is displayed. UVM_MEDIUM: Moderate level of information, suitable for regular debugging. UVM_HIGH: High level of information, providing detailed debugging messages."
+    },
+    {
+      "q": "Difference between sequence and sequencer.",
+      "a": "The uvm_sequence defines a sequence of transactions or stimuli that will be applied to the DUT. Users can also develop complex sequences which consist of multiple subsequences. The uvm_sequencer manages the execution of uvm_sequence that schedules sequences in an order. Uvm_sequencer ensures synchronization and coordination."
+    },
+    {
+      "q": "Execution of the test",
+      "a": "The test execution is a time-consuming activity that runs sequence or sequences for DUT functionality. On executing the test, it builds a complete UVM testbench structure in the build_phase and time consuming activities are performed in the run_phase with the help of sequences. It is mandatory to register tests in the UVM factory otherwise, the simulation will terminate with UVM_FATAL (test not found)."
+    },
+    {
+      "q": "run_test() task",
+      "a": "The run_test task is a global task declared in the uvm_root class and responsible for running a test case. **Declaration:** virtualtask run_test (string test_name =\"\") 1. The run_test task starts the phasing mechanism that executes phases in a pre- defined order. 2. It is called in the initial block of the testbench top and accepts test_name as a string. Example: // initial block of tb_top initialbegin run_test(\"my_test\"); end 3. Passing an argument to the run_test task causes recompilation while executing different tests. To avoid it, UVM provides an alternative way using the +UVM_TESTNAME command-line argument. In this case, the run_test task does not require passing any argument in the initial block of the testbench top. // initial block of tb_top initialbegin run_test(); end // Passing command line argument to the simulator +UVM_TESTNAME = my_test 4. After execution of all phases, run_test finally calls $finish task for simulator exit."
+    },
+    {
+      "q": "Write a simple uvm sequence template and explain each line.",
+      "a": "UVM sequence is a container that holds data items (uvm_sequence_items) which are sent to the driver via the sequencer."
+    },
+    {
+      "q": "uvm_sequence class declaration:",
+      "a": "virtualclass uvm_seqence #(type REQ = uvm_sequence_item,type RSP = REQ) extends uvm_sequence_base"
+    },
+    {
+      "q": "uvm_sequence class structure",
+      "a": "class my_sequence extends uvm_sequence #(my_seq_item); `uvm_object_utils(my_sequence) functionnew(string name =\"my_sequnce\"); super.new(name); endfunction task body(); ... endtask endclass **Why `uvm_object_utils is used in sequence, why `uvm_sequence_utils are not used?** `uvm_sequence_utils is a string-based sequence library that is deprecated in UVM."
+    },
+    {
+      "q": "What is the body() method?",
+      "a": "The operation which is intended to do by sequence is defined inside a body method. Along with a body() method,  pre_body, and post_body methods are called by default. class my_sequence extends uvm_sequence #(my_seq_item); `uvm_object_utils(my_sequence) functionnew(string name =\"my_sequnce\"); super.new(name); endfunction task pre_body(); ... endtask task body(); ... endtask task post_body(); ... endtask endclass **Note:** 1. These pre_body and post_body tasks are additional (can be named as callbacks) which are useful to perform any operation before and after the execution of the body() method. 2. pre_body() and post_body() methods are optional."
+    },
+    {
+      "q": "How to write a sequence?",
+      "a": "An intention is to create a seq_item, randomize it, and then send it to the driver. To perform this operation any one of the following approaches is followed in the sequence. 1. Using macros like `uvm_do , `uvm_create, `uvm_send etc 2. Using existing methods from the base class - a. Using wait_for_grant(), send_request(), wait_for_item_done() etc b. Using start_item/finish_item methods."
+    },
+    {
+      "q": "How is scoreboard connected to different components?",
+      "a": "The UVM scoreboard is a component that checks the functionality of the DUT. It receives transactions from the monitor using the analysis export for checking purposes. The analysis port is used to connect the uvm monitor to the scoreboard to send the sequence items or transactions for comparison."
+    },
+    {
+      "q": "What are the UVM factory and its use?",
+      "a": "The UVM factory is used to create UVM objects and components. This is commonly known as factory registration. The factory registration for UVM objects and components are lightweight proxies of the actual objects and components. In UVM based testbench, it is valid to use a new() function to create class objects, but factory registration has its benefits. The UVM factory allows an object of one type to be overridden with an object of its derived type without changing the testbench structure. This is known as the UVM factory override mechanism. This is applicable for uvm objects and components."
+    },
+    {
+      "q": "Why phases are introduced in UVM? What are all phases present in UVM?",
+      "a": "All components are static in the Verilog-based testbench whereas System Verilog introduced the OOP (Object Oriented Programming) feature in the testbench. In Verilog, as modules are static, users don’t have to care about their creation as they would have already created at the beginning of the simulation. In the case of UVM based System Verilog testbench, class objects can be created at any time during the simulation based on the requirement. Hence, it is required to have proper synchronization to avoid objects/components being called before they are created, The UVM phasing mechanism serves the purpose of synchronization. We have the following phases present in UVM: 1. build_phase 2. connect_phase 3. end_of_elaboration_phase 4. start_of_simulation_phase 5. run_phase 6. pre_reset 7. reset 8. post_reset 9. pre_configure 10. configure 11. post_configure 12. pre_main 13. main 14. post_main 15. pre_shutdown 16. shutdown 17. post_shutdown 18. extract 19. check 20. report 21. final"
+    },
+    {
+      "q": "What approach does build_phase use and why?",
+      "a": "The build_phase uses a top-down approach because build_phase creates the parent component first so that the parent component can be configured and then recursively calls their child components as per required customization. This ensures proper instantiation and hierarchical connectivity."
+    },
+    {
+      "q": "Draw and explain the verification environment in UVM.",
+      "a": "The testbench top is a static container that has an instantiation of DUT and interfaces. The interface instance connects with DUT signals in the testbench top. The clock is generated and initially reset is applied to the DUT. It is also passed to the interface handle. An interface is stored in the uvm_config_db using the set method and it can be retrieved down the hierarchy using the get method. UVM testbench top is also used to trigger a test using run_test() call. `include\"uvm_macros.svh\" import uvm_pkg::*; module tb_top; bit clk; bit reset; always#5 clk =~clk; initialbegin clk =0; reset =1; reset =0; end add_if vif(clk, reset); // Instantiate design top adder DUT(.clk(vif.clk), .reset(vif.reset), .in1(vif.ip1), .in2(vif.ip2), .out(vif.out) ); initialbegin // set interface in config_db uvm_config_db#(virtual add_if)::set(uvm_root::get(),\"*\",\"vif\", vif); // Dump waves $dumpfile(\"dump.vcd\"); $dumpvars; end initialbegin run_test(\"base_test\"); end endmodule |**`endmodule`****UVM****testb"
+    },
+    {
+      "q": "What all UVM phases take time?",
+      "a": "All run phases (including its sub-phases) take time. 1. run_phase 2. pre_reset 3. reset 4. post_reset 5. pre_configure 6. configure 7. post_configure 8. pre_main 9. main 10. post_main 11. pre_shutdown 12. shutdown 13. post_shutdown"
+    },
+    {
+      "q": "What all phases are functions and tasks in UVM?",
+      "a": "To construct a testbench, it is necessary to build component objects first and then are connected to form a hierarchy, The build phase category consists a. build_phase b. connect_phase c. end_of_elaboration_phase |**Phase****Type**|**Phase Name**|**Description**|**Execution****approach**| |---|---|---|---| |function|build_phase|Build or create testbenchcomponent|Top todown| |function|connect_phase|Connect different testbenchcomponent using the TLM portmechanism|Bottom totop| |function|end_of_elaboration_phase|Before simulation starts, thisphase is used to make any finaladjustment to the structure,configuration, or connectivity ofthe testbench. It also displaysUVM topology.|Bottom totop|"
+    },
+    {
+      "q": "Run-time phases",
+      "a": "Once testbench components are created and connected in the testbench, it follows run phases where actual simulation time consumes. After completing, start_of_simulation phase, there are two paths for run-time phases. The run_phase and pre_reset phase both start at the same time. a. run_phase |**Phase****Type**|**Phase Name**|**Description**|**Execution****approach**| |---|---|---|---| |function|start_of_simulation_phase|Usedtodisplaytestbenchtopology or configuration.|Bottom totop| |**Phase****Type**|**Phase****Name**|**Description**| |---|---|---| |task|run_phase|Used for the stimulus generation, checking activities of thetestbench, and consumes simulation time cycles. The run_phasefor all components are executed in parallel.|"
+    },
+    {
+      "q": "Clean up phases",
+      "a": "The clean-up phases are used to collect information from functional coverage monitors and scoreboards to see whether the coverage goal has been reached or the test case has passed. The cleanup phases will start once the run phases are completed. They are implemented as functions and work from the bottom to the top of the component hierarchy. The extract, check, and report phase may be used by analysis components. |**Phase****Type**|**Phase****Name**|**Description**|**Execution****approach**| |---|---|---|---| |function|extract|Used to retrieve and process the information fromfunctional coverage monitors and scoreboards. Thisphase may also calculate any statistical informationthat will be used by report_phase.|Bottom totop| |function|check|Checks DUT behavior and identity for any error thatoccurred during the execution of the testbench.|Bottom totop| |function|report|Used to display simulation results. It can also writeresults to the file.|Bottom totop| |function|final|Used to complete "
+    },
+    {
+      "q": "Why do we use the super keyword in phases likes super.build_phase, super.main_phase etc?",
+      "a": "The super keyword is used to refer to class members (like build_phase, main_phase, run_phase, etc) of its immediate base class or uvm_component (if derived class is extended directly from uvm_component)."
+    },
+    {
+      "q": "Difference between `uvm_do and `uvm_rand_send.",
+      "a": "Both are uvm sequence macros that are used to generate the sequence or seq_item. **`uvm_do (seq/item)** –  On calling this macro, create, randomize and send to the driver will be executed Example: class my_sequence extends uvm_sequence #(seq_item); `uvm_object_utils(my_sequence) functionnew(string name =\"my_sequence\") super.new(name); endfunction task body(); `uvm_do(req); endtask endclass class my_sequence extends uvm_sequence #(seq_item); `uvm_object_utils(my_sequence) functionnew(string name =\"my_sequence\") super.new(name); endfunction task body(); `uvm_do(seq1);// calling seq1 `uvm_do(seq2);// calling seq2 endtask endclass **`uvm_rand_send(seq/item)** –  It directly sends a randomized seq/item without creating it. So, make sure the seq/item is created first. Example: class my_sequence extends uvm_sequence #(seq_item); `uvm_object_utils(my_sequence) functionnew(string name =\"my_sequence\") super.new(name); endfunction task body(); `uvm_create(req); `uvm_rand_send(req); endtask endcla"
+    },
+    {
+      "q": "What are bottom-up and top-down approaches in UVM phases?",
+      "a": "These approaches are associated with the execution of various phases of UVM based verification environment. 1. Bottom-Up Approach: Lower-level components being built and configured before higher-level components. Example: connect_phase, start_of_simulation_phase, etc 2. Top-Down Approach: On the contrary, higher-level components are built and configured before lower-level components. Example: build_phase, final_phase"
+    },
+    {
+      "q": "How do uvm_config_db set/get work?",
+      "a": "The uvm_config_db class is derived from the uvm_resource_db class. It is another layer of convenience layer on the top of uvm_resource_db that simplifies the basic interface (access methods of resource database) used for uvm_component instances. The below code snippet for the uvm_config_db class is taken from the uvm source code. class uvm_config_db#(type T=int)extends uvm_resource_db#(T); static uvm_pool#(string,uvm_resource#(T)) m_rsc[uvm_component]; staticlocal uvm_queue#(m_uvm_waiter) m_waiters[string]; staticfunctionbit get(uvm_component cntxt, string inst_name, string field_name, inout T value); ... endfunction staticfunctionvoid set(uvm_component cntxt, string inst_name, string field_name, T value); ... endfunction ... ... endclass Syntax for set method void uvm_config_db#(type T =int)::set(uvm_component cntxt, string inst_name, string field_name, T value); Syntax for get method bit uvm_config_db#(type T=int)::get(uvm_component cntxt, string inst_name, string field_name, ref T v"
+    },
+    {
+      "q": "What is an analysis port?",
+      "a": "The uvm_analysis_port is a TLM-based class that provides a write method for communication. TLM analysis port broadcasts transactions to one or multiple components. Example: seq_item.sv class seq_item extends uvm_sequence_item; randbit[3:0] value; `uvm_object_utils(seq_item) functionnew(string name =\"seq_item\"); super.new(name); endfunction constraint val_c {value >0;} endclass `include\"uvm_macros.svh\" import uvm_pkg::*; `include\"seq_item.sv\" class producer extends uvm_component; seq_item req; uvm_analysis_port #(seq_item) a_put; `uvm_component_utils(producer) functionnew(string name =\"producer\", uvm_component parent =null); super.new(name, parent); a_put =new(\"a_put\",this); endfunction task run_phase(uvm_phase phase); super.run_phase(phase); req = seq_item::type_id::create(\"req\"); assert(req.randomize()); `uvm_info(get_type_name(),$sformatf(\"Send value = %0h\", req.value), UVM_NONE); a_put.write(req); endtask endclass class consumer_A extends uvm_component; seq_item req; uvm_analysis_im"
+    },
+    {
+      "q": "What are pre_body and post_body used in sequence?",
+      "a": "Both are user-defined callback tasks and will be called when the sequence is started. pre_body: It is a user-definable callback that is called before the execution of body only when the sequence is started with a ‘start’ task. post_body: It is a user-definable callback task that is called after the execution of the body only when the sequence is started with the start method."
+    },
+    {
+      "q": "What is an active and passive agent?",
+      "a": "**Active Agent:** An Active agent drives stimulus to the DUT. It instantiates all three components driver, monitor, and sequencer. **Passive Agent:** A passive agent does not drive stimulus to the DUT. It instantiates only a monitor component. It is used as a sample interface for coverage and checker purposes."
+    },
+    {
+      "q": "Difference between UVM subscriber and UVM scoreboard",
+      "a": "The UVM scoreboard is a component that checks the functionality of the DUT. It receives transactions from the monitor using the analysis export for checking purposes whereas the uvm_subscriber class provides a built-in analysis export that connects with the analysis port. As the name suggests, it subscribes to the broadcaster i.e. analysis port to receive broadcasted transactions. It is used to implement a functional coverage monitor."
+    },
+    {
+      "q": "What is uvm objection and why do we need it?",
+      "a": "The uvm_objection class provides a mechanism to coordinate status information between two or more components, objects. The uvm_objection class is extended from uvm_report_object."
+    },
+    {
+      "q": "Class Declaration",
+      "a": "class uvm_objection extends uvm_report_object The objection deals with the concept of raise and drop objection which means the internal counter is increment and decrement respectively. Each participating component and object may raise or drop objections asynchronously. When all objections are dropped, the counter value will become zero. The objection has to be raised before starting any process and drop it once it is completed."
+    },
+    {
+      "q": "UVM Objection Usage",
+      "a": "- 1) UVM phasing mechanism uses objections to coordinate with each other and the phase should be ended when all objections are dropped. They can be used in all UVM phases. - 2) It allows proceeding for the “End of test”. The simulation time-consuming activity happens in the run phase. If all objections dropped for run phases, it means simulation activity is completed. The test can be ended after executing clean up phases. task reset_phase( uvm_phase phase); phase.raise_objection(this); ... phase.drop_objection(this); endtask task run_phase(uvm_phase phase); phase.raise_objection(this,\"Raised Objection\"); ... phase.drop_objection(this,\"Dropped Objection\"); endtask **Note:** 1. Objections are generally used in components and sequences. 2. Other objects can also use them but they must use a component or sequence object context."
+    },
+    {
+      "q": "Methods in uvm_objection",
+      "a": "|**Methods**|**Description**| |---|---| |raise_objection (uvm_object obj = null,string description = ” “, int count = 1)|Raisesnumberofobjectionsforcorresponding object with default count =1| |drop_objection (uvm_object obj = null,string description = ” “, int count = 1)|Dropsnumberofobjectionsforcorresponding object with default count =1| |set_drain_time (uvm_object obj=null, timedrain)|Sets drain time for corresponding objects.|"
+    },
+    {
+      "q": "What are the different ways of exiting the code execution?",
+      "a": "- 1) **Using UVM Objections (Recommended approach):** It allows proceeding for the “End of test”. The simulation time-consuming activity happens in the run phase. If all objections are dropped for run phases, it means the simulation activity is completed. The test can be ended after executing clean-up phases. - 2) **$finish:** It tells the simulator to exit the simulation. However, it is not a graceful simulation for a UVM-based environment. - 3) **`uvm_fatal:** Based on certain conditions as per requirement, it can be used to terminate the simulation. Example: If class config class is being used during run_phase and if this config class is not available in config_db, then uvm_fatal is used to terminate simulation right away."
+    },
+    {
+      "q": "What is a sequence item in UVM?",
+      "a": "Sequence Items in UVM All user-defined sequence items are extended from the uvm_sequence_item class as it leverages generating stimulus and has control capabilities for the sequence-sequencer mechanism."
+    },
+    {
+      "q": "Explain how the sequence starts.",
+      "a": "A sequence is started by calling the start method that accepts a pointer to the sequencer through which sequence_items are sent to the driver. A pointer to the sequencer is also commonly known as m_sequencer. The start method assigns a sequencer pointer to the m_sequencer and then calls the body() task. On completing the body task with the interaction with the driver, the start() method returns. As it requires interaction with the driver, the start is a blocking method."
+    },
+    {
+      "q": "How do sequence, driver, and sequencer communicate?",
+      "a": "Refer sequence-driver-sequencer-communication-in-uvm"
+    },
+    {
+      "q": "What are lock and grab methods?",
+      "a": "Lock and Grab Methods in UVM sequencer The UVM sequencer provides the facility to have exclusive access for the sequence to a driver via a sequencer using a locking mechanism. This locking mechanism is implemented using lock and grab methods. Example: In controller or microprocessor, internal core services interrupt handling along with other operations. Sometimes, if a particular interrupt is raised by the device which needs immediate attention and stops ongoing process execution. Once this high-priority interrupt is serviced by the core, the previous process can be resumed."
+    },
+    {
+      "q": "Lock method",
+      "a": "On calling the lock method from a sequence, the sequencer will grant the sequence exclusive access to the driver when the sequence gets the next available slot via a sequencer arbitration mechanism. Until the sequence calls the unlock method, no other sequence will have access to the driver. On calling unlock method, the lock will be released. The lock is a blocking method and returns once the lock has been granted. `task lock (uvm_sequencer_base sequencer = null)`"
+    },
+    {
+      "q": "grab method",
+      "a": "The grab method is similar to the lock method except it takes immediate control to grab the next sequencer arbitration slot itself by overriding any other sequence priorities. The pre-existing lock or grab condition on the sequence will stop from grabbing the sequence for the current sequence. task grab (uvm_sequencer_base sequencer =null)"
+    },
+    {
+      "q": "unlock method",
+      "a": "The unlock method of the sequencer is called from the sequence to release its lock or grab. It is mandatory to call unlock method in order to avoid sequencer locked conditions. functionvoid unlock (uvm_sequencer_base sequencer =null)"
+    },
+    {
+      "q": "ungrab method",
+      "a": "The ungrab method is an alias of the unlock method functionvoidungrab( uvm_sequencer_base sequencer =null) Lock and unlock methods example There are three sequences seq_A, seq_B,and seq_C are forked at the same time. The only seq_B calls for lock and unlock methods. class seq_A extends uvm_sequence #(seq_item); seq_item req; `uvm_object_utils(seq_A) functionnew(string name =\"seq_A\"); super.new(name); endfunction task body(); req = seq_item::type_id::create(\"req\"); wait_for_grant(); assert(req.randomize()); send_request(req); `uvm_info(get_type_name(),$sformatf(\"%0t: seq_item is sent\",$time), UVM_LOW); wait_for_item_done(); endtask endclass class seq_B extends uvm_sequence #(seq_item); seq_item req; `uvm_object_utils(seq_B) functionnew(string name =\"seq_B\"); super.new(name); endfunction task body(); lock(m_sequencer); req = seq_item::type_id::create(\"req\"); wait_for_grant(); assert(req.randomize()); send_request(req); `uvm_info(get_type_name(),$sformatf(\"%0t: seq_item is sent\",$time), U"
+    },
+    {
+      "q": "What are the RAL model and its application?",
+      "a": "“The RAL model is an abstract model for registers and memories in DUT.” The register abstraction layer (RAL) provides standard base class libraries. It is used to create a memory-mapped model for registers in DUT using an object-oriented model. The UVM RAL is used to model DUT registers and memories as a set of classes. It generates stimulus to the DUT and covers some aspects of functional coverage."
+    },
+    {
+      "q": "What do you mean by the front-door and back-door register access?",
+      "a": "**Front door Access:** A register is said to be accessed as a front door if it involves a bus interface. It does consume time to access the register. **Back door Access:** A register is said to be accessed as a back door if it uses a simulator database to directly access the DUT register using design signals."
+    },
+    {
+      "q": "What is TLM?",
+      "a": "TLM establishes a connection between producer and consumer components through which transactions are sent. **TLM provides** 1. unidirectional, bidirectional, or broadcasting manner communication between components 2. Broadcasting of information promptly. 3. One component to multiple components connection. 4. The mechanism uses task and function methods to establish a connection. 5. FIFO can hold transactions and get them based on the requirement. 6. A higher level of abstraction. 7. Connection to systemC."
+    },
+    {
+      "q": "What is TLM FIFO?",
+      "a": "1. Both are initiator here and Generator sending the data so it should have put_port 2. Driver recieving the data so it should have get_port 3. TLM_FIFO have put_export & get_export 4. Methods like get(), put(), peek() etc are implemented inside TLM_FIFO Producer puts the transaction into uvm_tlm_fifo,while consumer gets the transaction from fifo. //APB GENERATOR:(Initiator) ---------------------------- class apb_gen extends uvm_component; uvm_blocking_put_port#(write_xtn) put_port; functionnew(string name,uvm_component parent); super.new(name,parent); put_port =new(\"put_port\",this); endfunction virtualtask run_phase(uvm_phase phase); write_xtn t; for(int i=0;i"
+    },
+    {
+      "q": "<mark>uvm_tlm_fifo Methods</mark>",
+      "a": "|**Methods**|**Description**| |---|---| |new|To create TLM FIFO.| ||function new (string        name,| ||uvm_component parent=null,| ||int           size=1| ||);Size – Represents the size of TLM FIFO.If a size is 0 then TLM FIFO is not bounded.| |size|Returns the size of TLM FIFO.| ||If a size is 0 then TLM FIFO is not bounded.| |---|---| |used|Return number of entries put into TLM FIFO.| |is_empty|No entries in TLM FIFO returns 1 else returns 0| |is_full|on  TLM FIFO full, returns 1 else returns 0.**Full condition:**FIFO size == number of entries in FIFO.| |flush|On calling, it removes all entries from TLM FIFOThus, on calling used method, it returns 0  (.used returns 0)On calling is_empty method, it returns 1 (,is_empty return 1)|"
+    },
+    {
+      "q": "What is run_test? Execution of the test",
+      "a": "The test execution is a time-consuming activity that runs sequence or sequences for DUT functionality. On executing the test, it builds a complete UVM testbench structure in the build_phase and time consuming activities are performed in the run_phase with the help of sequences. It is mandatory to register tests in the UVM factory otherwise, the simulation will terminate with UVM_FATAL (test not found)."
+    },
+    {
+      "q": "run_test() task",
+      "a": "The run_test task is a global task declared in the uvm_root class and responsible for running a test case."
+    },
+    {
+      "q": "Declaration:",
+      "a": "virtualtask run_test (string test_name =\"\") 1. The run_test task starts the phasing mechanism that executes phases in a pre-defined order. 2. It is called in the initial block of the testbench top and accepts test_name as a string. Example: // initial block of tb_top initialbegin run_test(\"my_test\"); end 3. Passing an argument to the run_test task causes recompilation while executing different tests. To avoid it, UVM provides an alternative way using the +UVM_TESTNAME command-line argument. In this case, the run_test task does not require passing any argument in the initial block of the testbench top. // initial block of tb_top initialbegin run_test(); end // Passing command line argument to the simulator +UVM_TESTNAME = my_test 4. After execution of all phases, run_test finally calls $finish task for simulator exit."
+    },
+    {
+      "q": "<mark>How to create a UVM monitor:</mark>",
+      "a": "- 1) Create a user-defined monitor class extended from uvm_monitor and register it in the factory. - 2) Declare virtual interface handle to retrieve actual interface handle using configuration database in the build_phase. - 3) Declare analysis port to broadcast the sequence items or transactions. - 4) Write standard new() function. Since the monitor is a uvm_component. The new() function has two arguments as string name and uvm_component parent. - 5) Implement build_phase and get interface handle from the configuration database. - 6) Implement run_phase to sample DUT interface using a virtual interface handle and translate into transactions. The write() method sends transactions to the collector component."
+    },
+    {
+      "q": "UVM Monitor Example",
+      "a": "class monitor extends uvm_monitor; // declaration for the virtual interface, analysis port, and monitor sequence item. virtual add_if vif; uvm_analysis_port #(seq_item) item_collect_port; seq_item mon_item; `uvm_component_utils(monitor) // constructor functionnew(string name =\"monitor\", uvm_component parent =null); super.new(name, parent); item_collect_port =new(\"item_collect_port\",this); mon_item =new(); endfunction functionvoid build_phase(uvm_phase phase); super.build_phase(phase); if(!uvm_config_db#(virtual add_if):: get(this,\"\",\"vif\", vif)) `uvm_fatal(get_type_name(),\"Not set at top level\"); endfunction task run_phase (uvm_phase phase); foreverbegin // Sample DUT information and translate into transaction item_collect_port.write(mon_item); end endtask endclass"
+    },
+    {
+      "q": "Scoreboard Usage",
+      "a": "- 1) Receive transactions from monitor using analysis export for checking purposes. - 2) The scoreboard has a reference model to compare with design behavior. The reference model is also known as a predictor that implements design behavior so that the scoreboard can compare DUT outcome with reference model outcome for the same driven stimulus."
+    },
+    {
+      "q": "How to write scoreboard code in UVM?",
+      "a": "1. Create a user-defined scoreboard class extended from uvm_scoreboard and register it in the factory. 2. Declare an analysis export to receive the sequence items or transactions from the monitor. 3. Write standard new() function. Since the scoreboard is a uvm_component. The new() function has two arguments as string name and uvm_component parent. 4. Implement build_phase and create a TLM analysis export instance. 5. Implement a write method to receive the transactions from the monitor. 6. Implement run_phase to check DUT functionality throughout simulation time."
+    },
+    {
+      "q": "Scoreboard Example",
+      "a": "class scoreboard extends uvm_scoreboard; uvm_analysis_imp #(seq_item, scoreboard) item_collect_export; seq_item item_q[$]; `uvm_component_utils(scoreboard) functionnew(string name =\"scoreboard\", uvm_component parent =null); super.new(name, parent); item_collect_export =new(\"item_collect_export\",this); endfunction functionvoid build_phase(uvm_phase phase); super.build_phase(phase); endfunction functionvoid write(seq_item req); `uvm_info(get_type_name,$sformatf(\"Received transaction = %s\", req), UVM_LOW); item_q.push_back(req); endfunction task run_phase (uvm_phase phase); seq_item sb_item; foreverbegin wait(item_q.size >0); if(item_q.size >0)begin sb_item = item_q.pop_front(); // Checking comparing logic ... end end endtask endclass"
+    },
+    {
+      "q": "UVM Scoreboad types",
+      "a": "Depends on design functionality scoreboards can be implemented in two ways. 1. In-order scoreboard 2. Out-of-order scoreboard"
+    },
+    {
+      "q": "In-order scoreboard",
+      "a": "The in-order scoreboard is useful for the design whose output order is the same as driven stimuli. The comparator will compare the expected and actual output streams in the same order. They will arrive independently. Hence, the evaluation must block until both expected and actual transactions are present. To implement such scoreboards, an easier way would be to implement TLM analysis FIFOs. In the below example, there are two monitors whose analysis port is connected to the scoreboard to provide input and output transactions. class inorder_sb extends uvm_scoreboard; `uvm_component_utils(inorder_sb) uvm_analysis_export #(txn) in_export, out_export; uvm_tlm_analysis_fifo #(txn) in_fifo, out_fifo; functionnew(string name =\"inorder_sb\", uvm_component parent =null); super.new(name, parent); endfunction functionvoid build_phase (uvm_phase phase); in_fifo    =new(\"in_fifo\",this); out_fifo   =new(\"out_fifo\",this); in_export  =new(\"in_export\",this); out_export =new(\"out_export\",this); endfuncti"
+    },
+    {
+      "q": "Out-of-order scoreboard",
+      "a": "The out-of-order scoreboard is useful for the design whose output order is different from driven input stimuli. Based on the input stimuli reference model will generate the expected outcome of DUT and the actual output is expected to come in any order. So, it is required to store such unmatched transactions generated from the input stimulus until the corresponding output has been received from the DUT to be compared. To store such transactions, an associative array is widely used. Based on index value, transactions are stored in the expected and actual associative arrays. The entries from associative arrays are deleted when comparison happens for the matched array index. class txn extends uvm_sequence_item; int id; // other class properties //... endclass class out_of_order_sb extends uvm_scoreboard; `uvm_component_utils(out_of_order_sb) uvm_analysis_export #(txn) in_export, out_export; uvm_tlm_analysis_fifo #(txn) in_fifo, out_fifo; // associative array of class type as txn and indexe"
+    },
+    {
+      "q": "Difference between p_sequencer and m_sequencer",
+      "a": "|**m_sequencer**|**p_sequencer**| |---|---| |m_sequencer is associated with amonitor and is responsible fordriving sequences.|p_sequencer does not actively drive sequencesor generate transactions, thus is also called avirtual sequencer| |Usedalongwithmonitorstodynamically respond to the designbehavior|Controls other sequencers and it is not attachedto any driver.| |m_sequencer is a handle availableby default in a sequence.|All sequences have a m_sequencer handle butthey do not have a p_sequencer handle.| |No separate macro is needed forthe declaration|Itisdefinedusingmacro`uvm_declare_p_sequencer(sequencer_name).|"
+    },
+    {
+      "q": "Virtual Sequence and Virtual Sequencers",
+      "a": "A virtual sequence is nothing but a container that starts multiple sequences on different sequencers. Virtual sequencer controls other sequencers and it is not attached to any driver."
+    },
+    {
+      "q": "Virtual Sequence and Virtual Sequencer Usage",
+      "a": "In SOC, there could be different modules that interact with different protocols So, we need different drivers to drive corresponding interfaces. So we usually keep separate agents to handle the different protocols. So, we need to execute sequences on corresponding sequencers. Another example can be thought of as multiple cores in SOC. There can be multiple cores present in SOC that can handle different operations on input provided and respond to the device differently. In this case, as well, different sequence execution becomes important on different sequencers. A virtual sequence is usually executed on the virtual sequencer. A virtual sequence gives control to start different sequences. It is recommended to use a virtual sequencer if you have multiple agents and stimulus coordination is required."
+    },
+    {
+      "q": "Why are the virtual_sequence and virtual_sequencer named virtual?",
+      "a": "System Verilog has virtual methods, virtual interfaces, and virtual classes. “virtual” keyword is common in all of them. But, virtual_sequence and virtual_sequencer do not require any virtual keyword. UVM does not have uvm_virtual_sequence and uvm_virtual_sequencer as base classes. A virtual sequence is derived from uvm_sequence. A virtual_sequencer is derived from uvm_sequencer as a base class. Virtual sequencer controls other sequencers. It is not attached to any driver and can not process any sequence_items too. Hence, it is named virtual. It is not necessary to have a virtual sequencer for a virtual sequence."
+    },
+    {
+      "q": "<mark>Examples</mark>",
+      "a": "Without virtualsequenceandvirtual sequencer // No Virtual Sequencer class core_A_sequencer extends uvm_sequencer #(seq_item); `uvm_component_utils(core_A_sequencer) functionnew(string name =\"core_A_sequencer\", uvm_component parent = null); super.new(name, parent); endfunction endclass class core_B_sequencer extends uvm_sequencer #(seq_item); `uvm_component_utils(core_B_sequencer) functionnew(string name =\"core_B_sequencer\", uvm_component parent = null); super.new(name, parent); endfunction endclass // base_test class base_test extends uvm_test; env env_o; core_A_seq Aseq; core_B_seq Bseq; `uvm_component_utils(base_test) functionnew(string name =\"base_test\", uvm_component parent =null); super.new(name, parent); endfunction functionvoid build_phase(uvm_phase phase); super.build_phase(phase); env_o = env::type_id::create(\"env_o\",this); endfunction task run_phase(uvm_phase phase); phase.raise_objection(this); Aseq = core_A_seq::type_id::create(\"Aseq\"); Bseq = core_B_seq::type_id::create(\"B"
+    },
+    {
+      "q": "UVM Barrier",
+      "a": "Similar to the UVM event, UVM provides another way to achieve synchronization with the UVM Barrier. The UVM barrier provides multi-process synchronization that blocks a set of processes until the desired number of processes reaches a particular synchronizing point at which all the processes are released."
+    },
+    {
+      "q": "UVM Barrier Class Declaration:",
+      "a": "class uvm_barrier extends uvm_object"
+    },
+    {
+      "q": "UVM Barrier Usage",
+      "a": "UVM Barrier is used to synchronize the number of processes based on the threshold value set by the set_threshold method. Once the threshold is reached, the processes are unblocked by the wait_for method."
+    },
+    {
+      "q": "A basic uvm_barrier example with set_threshold method",
+      "a": "In the below examples, the process task has two arguments string name and p_delay. The name argument denotes process name and p_delay indicates delay time taken by the process to complete. Total 10 processes are forked with different execution delay time. The processes will wait till the threshold being reached which is set by the set_threshold method to proceed further as demonstrated below. module barrier_example(); uvm_barrier br; taskautomatic process(string name,int p_delay); $display(\"@%0t: Process %s started\",$time, name); $display(\"@%0t: Process %s completed\",$time, name); br.wait_for(); $display(\"@%0t: Process %s wait_for is unblocked\",$time, name); endtask initialbegin br =new(\"br\"); br.set_threshold(4); fork process(\"A\",5); process(\"B\",10); process(\"C\",20); process(\"D\",25); process(\"E\",30); process(\"F\",40); process(\"G\",50); process(\"H\",55); process(\"I\",60); process(\"J\",70); join end endmodule Output: @0: Process A started @0: Process B started @0: Process C started @0: Proce"
+    },
+    {
+      "q": "UVM Heartbeat",
+      "a": "The UVM Heartbeat acts as a watchdog timer that provides a flexible way for the environment to ensure that their descendants are alive. The uvm_heartbeat class is derived from uvm_object and it is associated with a specific objection object."
+    },
+    {
+      "q": "UVM Heartbeat Usage",
+      "a": "The UVM heartbeat can detect simulation hang or lock-up conditions at an early stage rather than the expiry of the global simulation timeout. Thus, it can save the simulation time and terminate it at an early state. The lock-up may happen due to FSM issues, race around conditions between two communicating modules waiting for the response for transmitted packet or packet is not being transmitted, etc."
+    },
+    {
+      "q": "UVM Heartbeat Working",
+      "a": "The uvm_heartbeat monitor activity for an objection object. The UVM Heartbeat detects testbench activity for registered components based on raises or drops objections on that objection object during the heartbeat monitor window. If the heartbeat monitor does not see any activity in that window, FATAL is issued and simulation is terminated. **Note:** The UVM 1.1d has an objection object of type uvm_callbacks_objection which is derived from uvm_objection class and UVM 1.2 has an objection object of uvm_objection class."
+    },
+    {
+      "q": "Singleton Object in UVM",
+      "a": "The singleton object is nothing but a single object for the class. The same object is returned even if a user tries to create multiple new objects. The class that allows creating a single object is called a singleton class. In UVM, the uvm_root class has only one instance. Hence, it is said to be a singleton class."
+    },
+    {
+      "q": "Singleton Object Usage",
+      "a": "A singleton object is useful wherever it is required to create a single object and want to restrict the user to create another object. For example, configuration classes can be written to behave as a singleton class. **Note:** System Verilog and UVM do not have a separate construct to create a singleton object."
+    },
+    {
+      "q": "Singleton Object Example",
+      "a": "In the below example, there are two handles for the same singleton component sc1 and sc2 and objects have been tried to create twice. But on creating an object using handle sc2, separate memory will not be allotted and sc2 handle points to a memory allocated using handle sc1. `include\"uvm_macros.svh\" import uvm_pkg::*; class singleton_comp extends uvm_component; static singleton_comp s_comp; randbit[7:0] addr; randbit[7:0] data; `uvm_component_utils_begin(singleton_comp) `uvm_field_int(addr, UVM_ALL_ON) `uvm_field_int(data, UVM_ALL_ON) `uvm_component_utils_end functionnew(string name =\"singleton_comp\", uvm_component parent =null); super.new(name, parent); endfunction staticfunction singleton_comp create_singleton(); if(s_comp ==null)begin $display(\"creating new object as it found null\"); s_comp =new(); end else$display(\"object already exist, separate memory will not be allocated.\"); return s_comp; endfunction task run_phase(uvm_phase phase); super.run_phase(phase); endtask endclass cla"
+    },
+    {
+      "q": "Verification Architecture",
+      "a": "In the verification architectural phase, engineers decide what all verification components are required."
+    },
+    {
+      "q": "Verification Plan/ Testplan",
+      "a": "The verification plan includes a test plan(list of test cases that target design features), functional coverage planning, module/block assignments to the verification engineers, checker, and assertion planning. The verification plan also involves planning for how verification components can be reused at system/ SOC level verification."
+    },
+    {
+      "q": "Testbench Development",
+      "a": "As a part of testbench development, verification engineers develop testbench components, interface connections with the DUT, VIP integration with a testbench, intercomponent connections within testbench (like monitor to scoreboard connection), etc."
+    },
+    {
+      "q": "Testcase Coding",
+      "a": "A constraint-based random or dedicated test case is written for single or multiple features in the design. A test case also kicks off UVM-based sequences to generate required scenarios."
+    },
+    {
+      "q": "Simulation/ Debug",
+      "a": "In this phase, engineers validate whether a specific feature is targetted or not, If not, again test case is modified to target the feature. With the help of a checker/ scoreboard, the error is reported if the desired design does not behave as expected. Using waveform analysis or log prints, the design or verification environment is judged and a bug is reported to the design team if it comes out to be a design issue otherwise, simulation is re-run after fixing the verification component."
+    },
+    {
+      "q": "Analyze Metrics",
+      "a": "Assertions, code, and functional coverage are common metrics that are used as analysis metrics before we close the verification of the design."
+    }
+  ]
+}
