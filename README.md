@@ -18,7 +18,8 @@
 | **2. UVM 驗證方法論** (`/uvm/:id`) | **117 章節** | UVM Component / Object 階層、Factory 機制、Phases、TLM 通訊、Sequence / Sequencer 激勵生成、Scoreboard、RAL 暫存器模型 |
 | **3. SoC 系統設計** (`/soc/:id`) | **11 大核心章節 + 110 題測驗** | AMBA 匯流排 (AXI / AHB / APB)、Clock & Reset (CDC)、低功耗設計 (UPF)、DMA、中斷控制器、Memory Subsystem 與軟硬體協同驗證 |
 | **4. APB-to-SPI 實戰驗證專案** (`/soc-spi-project`) | **完整 RTL + UVM TB** | 相容 Motorola S12SPIV3 規範之 `apb_spi.sv` 橋接器設計、完整 UVM 驗證環境、暫存器讀寫與波型模擬互動展示 |
-| **5. DV 職涯指南與面試題庫** (`/career`, `/interview`) | **精選實戰問答** | IC 設計驗證工程師技能樹、履歷準備方向、常見一線 IC 設計公司面試真題與詳解 |
+| **5. 我的 DV 實務案例** (`/experience`) | **實戰案例 × 課程串聯** | 涵蓋 SPI/QSPI ownership、UCIe PHY training、PVT/SCU 低功耗驗證、PLL/Clock/Reset 時序 checker、Frequency Monitor 與系統級整合案例，並串聯面試問答與對應章節 |
+| **6. DV 職涯指南與面試題庫** (`/career`, `/interview`) | **精選實戰問答** | IC 設計驗證工程師技能樹、履歷準備方向、常見一線 IC 設計公司面試真題與詳解 |
 
 ---
 

@@ -77,6 +77,9 @@ export default function Sidebar() {
                         <NavLink to="/" className={({ isActive }) => `sidebar-link ${isActive ? 'active' : ''}`}>
                             <Home size={18} className="sidebar-link-icon" /> 首頁
                         </NavLink>
+                        <NavLink to="/experience" className={({ isActive }) => `sidebar-link ${isActive ? 'active' : ''}`}>
+                            <Briefcase size={18} className="sidebar-link-icon" /> 我的 DV 實務案例
+                        </NavLink>
                     </div>
 
                     {/* SV Chapters */}

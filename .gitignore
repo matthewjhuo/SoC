@@ -34,6 +34,3 @@ Thumbs.db
 .env.local
 .env.*.local
 
-# Temporary migration script
-cleanup_and_migrate_git.ps1
-

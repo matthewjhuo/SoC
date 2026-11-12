@@ -1,4 +1,5 @@
 import { Briefcase, Cpu, Wrench, TrendingUp, Shield, Zap, Network, BookOpen } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const skillCategories = [
     {
@@ -51,6 +52,11 @@ export default function DVCareerPage() {
             </p>
 
             {/* Career Path */}
+            <div className="card" style={{ marginBottom: '24px' }}>
+                <h2>把工作經驗變成升遷與面試證據</h2>
+                <p>以 Matthew 的 SPI/QSPI、UCIe、PVT、Clock/Reset 與 Frequency Monitor 案例，練習說明 ownership、驗證方法、成果與待確認事項。</p>
+                <Link to="/experience" className="btn btn-primary">查看我的 DV 實務案例</Link>
+            </div>
             <h2 style={{ marginBottom: '20px' }}>📈 職涯發展路徑</h2>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '48px' }}>
                 {careerPath.map((c, i) => (

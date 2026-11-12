@@ -73,6 +73,9 @@ export default function HomePage() {
                     <Link to="/career" className="btn btn-secondary btn-lg">
                         職涯指南
                     </Link>
+                    <Link to="/experience" className="btn btn-secondary btn-lg">
+                        我的 DV 實務案例 <ArrowRight size={18} />
+                    </Link>
                 </div>
             </section>
 
@@ -209,6 +212,19 @@ export default function HomePage() {
                         </p>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--color-accent-yellow)', fontSize: '0.875rem', fontWeight: 600 }}>
                             開始練習 <ArrowRight size={16} />
+                        </div>
+                    </Link>
+                    <Link to="/experience" className="card card-glow-cyan" style={{ textDecoration: 'none', gridColumn: 'span 2', borderColor: 'rgba(6,214,160,0.3)' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
+                            <Briefcase size={24} style={{ color: 'var(--color-accent-cyan)' }} />
+                            <h3 style={{ fontSize: '1.25rem' }}>我的 DV 實務案例 (SPI / UCIe / PVT / Clock / Frequency Monitor)</h3>
+                            <span className="skill-badge" style={{ background: 'var(--color-accent-cyan)', color: '#000', fontSize: '0.7rem', padding: '2px 8px', borderRadius: '4px', margin: 0, fontWeight: 700 }}>實戰經驗</span>
+                        </div>
+                        <p style={{ color: 'var(--color-text-secondary)', fontSize: '0.875rem', marginBottom: '16px' }}>
+                            從 SPI/QSPI ownership、UCIe PHY training、PVT/SCU 低功耗驗證到 PLL/Clock/Reset 時序 checker，將實務專案經驗與面試問答、課程章節完整串聯。
+                        </p>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--color-accent-cyan)', fontSize: '0.875rem', fontWeight: 600 }}>
+                            瀏覽實務案例 <ArrowRight size={16} />
                         </div>
                     </Link>
                 </div>

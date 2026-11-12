@@ -1,0 +1,26 @@
+.experience-page { max-width: 1060px; }
+.experience-intro { font-size: 1.1rem; color: var(--color-text-secondary); }
+.experience-note { font-size: .85rem; color: var(--color-text-muted); line-height: 1.8; margin: 16px 0 24px; }
+.experience-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin-bottom: 24px; }
+.experience-stats strong { display: block; font-size: 1.9rem; color: var(--color-accent-cyan); }
+.experience-stats span { font-size: .85rem; color: var(--color-text-secondary); }
+.experience-page h2 { font-size: 1.3rem; margin: 12px 0 16px; line-height: 1.5; }
+.experience-page h3 { font-size: .95rem; margin: 20px 0 8px; }
+.experience-page p, .experience-page li { line-height: 1.85; }
+.experience-path { margin-bottom: 24px; }
+.experience-path .btn { margin: 8px 12px 0 0; }
+.experience-filters { display: flex; gap: 16px; flex-wrap: wrap; }
+.experience-filters label { flex: 1; min-width: 180px; font-size: .9rem; }
+.experience-filters input, .experience-filters select { display: block; width: 100%; margin-top: 8px; padding: 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-bg-secondary, #141c2b); color: var(--color-text-primary); font: inherit; }
+.experience-filters input:focus-visible, .experience-filters select:focus-visible, .experience-page summary:focus-visible { outline: 2px solid var(--color-accent-cyan); outline-offset: 3px; }
+.experience-cases { display: grid; gap: 24px; }
+.experience-cases article { scroll-margin-top: 24px; }
+.experience-area { color: var(--color-accent-cyan); font-size: .8rem; font-weight: 700; }
+.experience-cases ul { padding-left: 22px; }
+.experience-result { padding: 4px 18px; border-left: 3px solid var(--color-accent-cyan); background: rgba(6,214,160,.05); }
+.experience-page details { margin-top: 20px; padding: 16px; border: 1px solid var(--color-border); border-radius: 10px; }
+.experience-page summary { cursor: pointer; line-height: 1.7; font-weight: 600; }
+.experience-next { color: var(--color-text-secondary); }
+.experience-related { display: flex; flex-wrap: wrap; gap: 12px; font-size: .85rem; border-top: 1px solid var(--color-border); padding-top: 16px; }
+.experience-related a { color: var(--color-accent-cyan); }
+@media (max-width: 650px) { .experience-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } .experience-filters { flex-direction: column; } }
