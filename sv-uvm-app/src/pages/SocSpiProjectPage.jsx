@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { Cpu, FileText, Layers, Video, Play, Activity, Check, Copy, TerminalSquare, Settings, ShieldCheck, Network, Send } from 'lucide-react';
+import { Cpu, FileText, Layers, Video, Play, Activity, Check, Copy, TerminalSquare, Settings, ShieldCheck, Network, Send, HardDrive } from 'lucide-react';
 import CodeBlock from '../components/CodeBlock';
+import Mx25l1605FlashPanel from '../components/Mx25l1605FlashPanel';
 
 // Code snippets
 const APB_SPI_RTL = `// apb_spi.sv - APB-to-SPI Bridge Module (Motorola S12SPIV3 Compliant)
@@ -653,7 +654,7 @@ export default function SocSpiProjectPage() {
                 SoC & SPI Block <span className="gradient-text-accent">UVM 驗證工作區</span>
             </h1>
             <p style={{ color: 'var(--color-text-secondary)', fontSize: '1.05rem', marginBottom: '32px', maxWidth: '800px' }}>
-                本模組以 Motorola <b>S12SPIV3</b> 規範為核心，在 AMBA APB 匯流排上整合完整的 SPI 設計，並延伸建構高覆蓋率、專業級的 UVM 驗證環境複本。
+                本模組以 Motorola <b>S12SPIV3</b> (APB-to-SPI Master Bridge) 與 Macronix <b>MX25L1605</b> (16Mbit SPI NOR Flash) 為核心，完整串聯主控端與記憶體驗證環境、UVM 架構與 Icarus Verilog 即時模擬。
             </p>
 
             {/* Tab select headers */}
@@ -669,6 +670,9 @@ export default function SocSpiProjectPage() {
                 </button>
                 <button className={`btn ${activeTab === 'sim' ? 'btn-primary' : 'btn-secondary'}`} onClick={() => setActiveTab('sim')} style={{ padding: '8px 16px', display: 'flex', name: 'sim', gap: '6px', alignItems: 'center' }}>
                     <Activity size={16} /> 4. 交互式模擬演練
+                </button>
+                <button className={`btn ${activeTab === 'flash' ? 'btn-primary' : 'btn-secondary'}`} onClick={() => setActiveTab('flash')} style={{ padding: '8px 16px', display: 'flex', gap: '6px', alignItems: 'center' }}>
+                    <HardDrive size={16} /> 5. SPI Flash 驗證 (MX25L1605)
                 </button>
             </div>
 
@@ -766,6 +770,9 @@ export default function SocSpiProjectPage() {
                     </div>
                 </div>
             )}
+
+            {/* Tab Content 5: MX25L1605 SPI Flash verification (merged from cursor-test) */}
+            {activeTab === 'flash' && <Mx25l1605FlashPanel />}
         </div>
     );
 }

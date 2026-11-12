@@ -148,7 +148,7 @@ export default function HomePage() {
                             <span className="skill-badge" style={{ background: 'var(--color-accent-purple)', color: '#fff', fontSize: '0.7rem', padding: '2px 8px', borderRadius: '4px', margin: 0 }}>精選專案</span>
                         </div>
                         <p style={{ color: 'var(--color-text-secondary)', fontSize: '0.875rem', marginBottom: '16px' }}>
-                            結合 AMBA APB 匯流排與 Motorola S12SPIV3 暫存器架構，搭建工業級 UVM Block-level 驗證環境。包含詳細驗證計畫、對照測試、RTL 與交互式時序模擬。
+                            結合 AMBA APB-to-SPI Bridge (S12SPIV3) 與 MX25L1605 16Mbit SPI Flash 驗證環境，涵蓋驗證計畫、RTL、UVM 元件、Debug 實戰與 Icarus Verilog 即時模擬。
                         </p>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--color-accent-cyan)', fontSize: '0.875rem', fontWeight: 600 }}>
                             進入專案驗證工作區 <ArrowRight size={16} />

@@ -57,6 +57,11 @@ function localEdaApi() {
               simulationInProgress = true
               const simDir = path.join(process.cwd(), 'sim_workspace')
               if (!fs.existsSync(simDir)) fs.mkdirSync(simDir)
+              const initDatSrc = path.resolve(process.cwd(), '../mx25l1605-spi-flash/init.dat')
+              const initDatDst = path.join(simDir, 'init.dat')
+              if (fs.existsSync(initDatSrc) && !fs.existsSync(initDatDst)) {
+                fs.copyFileSync(initDatSrc, initDatDst)
+              }
 
               fs.writeFileSync(path.join(simDir, 'tb.v'), code, 'utf8')
               execFile('iverilog', ['-g2012', '-o', 'tb.vvp', 'tb.v'], {
@@ -118,7 +123,10 @@ function localEdaApi() {
 export default defineConfig({
   plugins: [react(), localEdaApi(), mermaidVendorPlugin(), pwaPlugin()],
   // Do not expose the local simulation endpoint on the network by default.
-  server: { host: '127.0.0.1' },
+  server: {
+    host: '127.0.0.1',
+    fs: { allow: ['..'] }
+  },
   build: {
     minify: true,
     sourcemap: false
