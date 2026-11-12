@@ -25,24 +25,27 @@ jobs:
           npm install
           npm run build
 
-      - name: Add & Sync Capacitor iOS Platform (Swift Package Manager)
+      - name: Add & Sync Capacitor iOS Platform
         working-directory: ./sv-uvm-app
         run: |
           npm install @capacitor/core@7 @capacitor/cli@7 @capacitor/ios@7 --no-save
           if [ ! -d "ios" ]; then
-            npx cap add ios --packagemanager SPM
+            npx cap add ios || true
           fi
           npx cap copy ios
+          sed -i '' "s/platform :ios, .*/platform :ios, '16.0'/" ios/App/Podfile
+          cd ios/App
+          pod install
 
       - name: Build Unsigned iOS App via Xcodebuild
         working-directory: ./sv-uvm-app/ios/App
         run: |
-          xcodebuild -project App.xcodeproj \
+          xcodebuild -workspace App.xcworkspace \
             -scheme App \
             -configuration Release \
             -sdk iphoneos \
             -derivedDataPath build \
-            IPHONEOS_DEPLOYMENT_TARGET=15.0 \
+            IPHONEOS_DEPLOYMENT_TARGET=16.0 \
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
