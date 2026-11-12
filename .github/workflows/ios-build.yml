@@ -17,7 +17,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
 
       - name: Install dependencies & Build Web Assets
         working-directory: ./sv-uvm-app
@@ -25,14 +25,14 @@ jobs:
           npm install
           npm run build
 
-      - name: Add & Sync Capacitor iOS Platform
+      - name: Add & Sync Capacitor iOS Platform (Swift Package Manager)
         working-directory: ./sv-uvm-app
         run: |
-          npm install @capacitor/core @capacitor/cli @capacitor/ios --no-save
+          npm install @capacitor/core@7 @capacitor/cli@7 @capacitor/ios@7 --no-save
           if [ ! -d "ios" ]; then
-            npx cap add ios
+            npx cap add ios --packagemanager SPM
           fi
-          npx cap sync ios
+          npx cap copy ios
 
       - name: Build Unsigned iOS App via Xcodebuild
         working-directory: ./sv-uvm-app/ios/App
@@ -42,6 +42,7 @@ jobs:
             -configuration Release \
             -sdk iphoneos \
             -derivedDataPath build \
+            IPHONEOS_DEPLOYMENT_TARGET=15.0 \
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
@@ -51,8 +52,9 @@ jobs:
         working-directory: ./sv-uvm-app/ios/App
         run: |
           mkdir -p Payload
-          cp -r build/Build/Products/Release-iphoneos/App.app Payload/
-          zip -r SoC-DV-iOS.ipa Payload
+          APP_PATH=$(find build -name "App.app" -type d | head -n 1)
+          cp -r "$APP_PATH" Payload/
+          zip -qry SoC-DV-iOS.ipa Payload
 
       - name: Upload iOS .ipa & Xcode Project Artifacts
         uses: actions/upload-artifact@v4
@@ -61,4 +63,3 @@ jobs:
           path: |
             sv-uvm-app/ios/App/SoC-DV-iOS.ipa
             sv-uvm-app/ios/
-
