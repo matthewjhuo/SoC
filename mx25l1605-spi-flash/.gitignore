@@ -2,6 +2,8 @@
 # .gitignore file
 
 # Simulation generated files
+core
+core.*
 *.vvp
 *.vcd
 *.fst

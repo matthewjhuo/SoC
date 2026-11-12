@@ -20,6 +20,7 @@
 | **4. APB-to-SPI 實戰驗證專案** (`/soc-spi-project`) | **完整 RTL + UVM TB** | 相容 Motorola S12SPIV3 規範之 `apb_spi.sv` 橋接器設計、完整 UVM 驗證環境、暫存器讀寫與波型模擬互動展示 |
 | **5. 我的 DV 實務案例** (`/experience`) | **實戰案例 × 課程串聯** | 涵蓋 SPI/QSPI ownership、UCIe PHY training、PVT/SCU 低功耗驗證、PLL/Clock/Reset 時序 checker、Frequency Monitor 與系統級整合案例，並串聯面試問答與對應章節 |
 | **6. DV 職涯指南與面試題庫** (`/career`, `/interview`) | **精選實戰問答** | IC 設計驗證工程師技能樹、履歷準備方向、常見一線 IC 設計公司面試真題與詳解 |
+| **7. MX25L1605 SPI Flash 驗證環境** ([`mx25l1605-spi-flash/`](./mx25l1605-spi-flash)) | **SV TB + iverilog** | 16Mbit SPI Flash 模型的 SystemVerilog 驗證環境：interface、driver、monitor、scoreboard、sequence 與 ID / 讀寫測試案例（合併自 `cursor-test` repo） |
 
 ---
 
@@ -29,6 +30,9 @@
 SoC/
 ├── README.md                    # 專案說明文件
 ├── data_verify.test.mjs         # SoC 章節與 110 題隨堂測驗自動化結構驗證腳本
+├── mx25l1605-spi-flash/         # MX25L1605 SPI Flash SystemVerilog 驗證環境 (iverilog)
+│   ├── mx25L1605.v              # DUT - Flash 記憶體模型
+│   └── verification/            # interface / agents / scoreboard / sequences / test_cases / sim
 └── sv-uvm-app/                  # 前端互動式學習平台主程式 (React + Vite)
     ├── index.html
     ├── package.json
