@@ -53,6 +53,11 @@ export default function DVCareerPage() {
 
             {/* Career Path */}
             <div className="card" style={{ marginBottom: '24px' }}>
+                <h2>我的職涯管理站</h2>
+                <p>追蹤台灣 DV 職缺、整理面試準備，累積 Senior 升遷證據。</p>
+                <Link to="/career-manager" className="btn btn-primary">開啟職涯管理站</Link>
+            </div>
+            <div className="card" style={{ marginBottom: '24px' }}>
                 <h2>把工作經驗變成升遷與面試證據</h2>
                 <p>以 Matthew 的 SPI/QSPI、UCIe、PVT、Clock/Reset 與 Frequency Monitor 案例，練習說明 ownership、驗證方法、成果與待確認事項。</p>
                 <Link to="/experience" className="btn btn-primary">查看我的 DV 實務案例</Link>

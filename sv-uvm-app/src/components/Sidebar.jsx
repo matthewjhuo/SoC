@@ -76,6 +76,9 @@ export default function Sidebar() {
                 <nav className="sidebar-nav">
                     {/* Home */}
                     <div className="sidebar-section">
+                        <NavLink to="/career-manager" className={({ isActive }) => `sidebar-link ${isActive ? 'active' : ''}`}>
+                            <Briefcase size={18} className="sidebar-link-icon" /> 職涯管理站
+                        </NavLink>
                         <NavLink to="/" className={({ isActive }) => `sidebar-link ${isActive ? 'active' : ''}`}>
                             <Home size={18} className="sidebar-link-icon" /> 首頁
                         </NavLink>

@@ -3,6 +3,7 @@ import Sidebar from './components/Sidebar';
 import HomePage from './pages/HomePage';
 import ChapterPage from './pages/ChapterPage';
 import DVCareerPage from './pages/DVCareerPage';
+import CareerManagerPage from './pages/CareerManagerPage';
 import InterviewPage from './pages/InterviewPage';
 import SocSpiProjectPage from './pages/SocSpiProjectPage';
 import WorkExperiencePage from './pages/WorkExperiencePage';
@@ -22,6 +23,7 @@ export default function App() {
                     {/* Extended-course data is not published to the browser yet. */}
                     <Route path="/course/:courseId/:chapterId" element={<Navigate to="/" replace />} />
                     <Route path="/career" element={<DVCareerPage />} />
+                    <Route path="/career-manager" element={<CareerManagerPage />} />
                     <Route path="/experience" element={<WorkExperiencePage />} />
                     <Route path="/interview" element={<InterviewPage />} />
                     <Route path="/soc-spi-project" element={<SocSpiProjectPage />} />
