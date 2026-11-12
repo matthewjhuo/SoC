@@ -3,6 +3,8 @@ import react from '@vitejs/plugin-react'
 import { execFile, spawn } from 'child_process'
 import fs from 'fs'
 import path from 'path'
+import { pwaPlugin } from './scripts/pwa-plugin.mjs'
+import { mermaidVendorPlugin } from './scripts/mermaid-vendor-plugin.mjs'
 
 // API Plugin for a local Icarus Verilog environment. This is deliberately a
 // development-only convenience endpoint, not a sandbox for untrusted users.
@@ -114,7 +116,7 @@ function localEdaApi() {
 }
 
 export default defineConfig({
-  plugins: [react(), localEdaApi()],
+  plugins: [react(), localEdaApi(), mermaidVendorPlugin(), pwaPlugin()],
   // Do not expose the local simulation endpoint on the network by default.
   server: { host: '127.0.0.1' },
   build: {

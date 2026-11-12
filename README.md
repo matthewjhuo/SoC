@@ -83,6 +83,41 @@ node data_verify.test.mjs
 
 ---
 
+## 📱 iOS App 安裝與原生打包指南 (PWA & Capacitor)
+
+本專案同時支援 **iOS PWA 全螢幕離線 App** 與 **Capacitor 原生 iOS (Xcode / `.ipa`)** 兩種模式：
+
+### 方式一：iOS Safari「加入主畫面」全螢幕 App（免 Mac / 免開發者帳號）
+1. 在 iPhone 或 iPad 使用 **Safari** 開啟部署後的網站（或區網開發伺服器）。
+2. 點擊 Safari 底部導覽列的 **「分享」按鈕** ➔ 選擇 **「加入主畫面 (Add to Home Screen)」**。
+3. 從 iOS 桌面開啟 **SoC DV** 圖示，即可享有：
+   - **全螢幕獨立視窗**（隱藏 Safari 網址列與工具列）
+   - **iOS Safe Area 瀏海與動態島適配** (`viewport-fit=cover` + `env(safe-area-inset-*)`)
+   - **完整離線題庫與章節快取**（由 `pwa-plugin.mjs` 自動產生全站預快取 Service Worker）
+
+### 方式二：透過 GitHub Actions 自動雲端打包原生 `.ipa` 與 Xcode 專案
+本倉庫已內建 [.github/workflows/ios-build.yml](./.github/workflows/ios-build.yml) 雲端 macOS 打包流程：
+1. 每次推送到 `main` 分支（或至 GitHub **Actions ➔ Build Native iOS App ➔ Run workflow** 手動觸發），GitHub 的 `macos-latest` 伺服器會自動執行 Capacitor iOS 同步與 `xcodebuild`。
+2. 編譯完成後，至該次 Action 頁面下方的 **Artifacts** 下載 `SoC-DV-iOS-App`，內含：
+   - `SoC-DV-iOS.ipa`：可在 Windows 上透過 **Sideloadly** 或 **AltStore** 直接簽名安裝至 iPhone / iPad。
+   - `ios/` 原生 Xcode 專案目錄：可在 macOS 上直接以 Xcode 開啟並發佈至 TestFlight / App Store。
+
+### 方式三：本地 Capacitor CLI 指令（macOS + Xcode 環境）
+```bash
+cd sv-uvm-app
+
+# 首次安裝 Capacitor iOS 套件並建立 ios/ 原生目錄
+npm run ios:setup
+
+# 編譯前端並同步資源至 iOS 專案
+npm run ios:sync
+
+# 在 Xcode 中開啟原生 iOS 專案
+npm run ios:open
+```
+
+---
+
 ## 🛠️ 技術堆疊 (Tech Stack)
 
 - **前端框架**：React 19, React Router v7

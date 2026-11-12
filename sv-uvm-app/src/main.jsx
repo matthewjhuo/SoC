@@ -6,10 +6,10 @@ import './index.css'
 
 // Preload the large chapter JSON datasets before mounting the app
 Promise.all([
-    fetch('/svChapters.json').then(r => r.json()),
-    fetch('/uvmChapters.json').then(r => r.json()),
-    fetch('/socChapters.json').then(r => r.json()),
-    fetch('/interviewData.json').then(r => r.json())
+    fetch('./svChapters.json').then(r => r.json()),
+    fetch('./uvmChapters.json').then(r => r.json()),
+    fetch('./socChapters.json').then(r => r.json()),
+    fetch('./interviewData.json').then(r => r.json())
 ]).then(([svChapters, uvmChapters, socChapters, interviewData]) => {
     window.svChapters = svChapters;
     window.uvmChapters = uvmChapters;

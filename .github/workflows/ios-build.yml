@@ -1,0 +1,64 @@
+name: Build Native iOS App (.ipa & Xcode Project)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-ios:
+    name: Build Capacitor iOS App on macOS
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies & Build Web Assets
+        working-directory: ./sv-uvm-app
+        run: |
+          npm install
+          npm run build
+
+      - name: Add & Sync Capacitor iOS Platform
+        working-directory: ./sv-uvm-app
+        run: |
+          npm install @capacitor/core @capacitor/cli @capacitor/ios --no-save
+          if [ ! -d "ios" ]; then
+            npx cap add ios
+          fi
+          npx cap sync ios
+
+      - name: Build Unsigned iOS App via Xcodebuild
+        working-directory: ./sv-uvm-app/ios/App
+        run: |
+          xcodebuild -project App.xcodeproj \
+            -scheme App \
+            -configuration Release \
+            -sdk iphoneos \
+            -derivedDataPath build \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
+            clean build
+
+      - name: Package .app into Unsigned .ipa (for Sideloadly / AltStore)
+        working-directory: ./sv-uvm-app/ios/App
+        run: |
+          mkdir -p Payload
+          cp -r build/Build/Products/Release-iphoneos/App.app Payload/
+          zip -r SoC-DV-iOS.ipa Payload
+
+      - name: Upload iOS .ipa & Xcode Project Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: SoC-DV-iOS-App
+          path: |
+            sv-uvm-app/ios/App/SoC-DV-iOS.ipa
+            sv-uvm-app/ios/
+

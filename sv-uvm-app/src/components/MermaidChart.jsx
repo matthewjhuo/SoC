@@ -1,5 +1,8 @@
 import { useEffect, useRef } from 'react';
-import mermaid from 'mermaid';
+let mermaidPromise;
+function loadMermaid() {
+    const url = '/vendor/mermaid/mermaid.js';
+    if (!mermaidPromise) mermaidPromise = import(/* @vite-ignore */ url).then(({ default: mermaid }) => {
 
 mermaid.initialize({
     startOnLoad: false,
@@ -16,6 +19,10 @@ mermaid.initialize({
     // Chapter data is rendered as SVG. Keep Mermaid's DOM sanitisation enabled.
     securityLevel: 'strict',
 });
+        return mermaid;
+    }).catch(error => { mermaidPromise = null; throw error; });
+    return mermaidPromise;
+}
 
 export default function MermaidChart({ chart }) {
     const containerRef = useRef(null);
@@ -24,7 +31,7 @@ export default function MermaidChart({ chart }) {
         let isMounted = true;
         if (chart && containerRef.current) {
             const renderId = `mermaid-${Math.random().toString(36).substr(2, 9)}`;
-            mermaid.render(renderId, chart).then(({ svg }) => {
+            loadMermaid().then(mermaid => mermaid.render(renderId, chart)).then(({ svg }) => {
                 if (isMounted && containerRef.current) {
                     containerRef.current.innerHTML = svg;
                 }

@@ -6,12 +6,14 @@ import DVCareerPage from './pages/DVCareerPage';
 import InterviewPage from './pages/InterviewPage';
 import SocSpiProjectPage from './pages/SocSpiProjectPage';
 import WorkExperiencePage from './pages/WorkExperiencePage';
+import PwaControls from './components/PwaControls';
 
 export default function App() {
     return (
         <div className="app-layout">
             <Sidebar />
             <main className="main-content">
+                <PwaControls />
                 <Routes>
                     <Route path="/" element={<HomePage />} />
                     <Route path="/sv/:chapterId" element={<ChapterPage type="sv" />} />

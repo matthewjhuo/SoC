@@ -1,0 +1,6 @@
+.pwa-controls { max-width: 1060px; margin: 0 auto 24px; padding: 14px 18px; border: 1px solid var(--color-border-accent); border-radius: 12px; background: var(--color-bg-secondary); font-size: .85rem; color: var(--color-text-secondary); }
+.pwa-bar { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; }
+.pwa-bar > :first-child { flex: 1; min-width: 160px; }
+.pwa-controls summary { cursor: pointer; margin-top: 10px; color: var(--color-accent-cyan); }
+.pwa-controls p { line-height: 1.8; margin-top: 10px; }
+.pwa-controls summary:focus-visible { outline: 2px solid var(--color-accent-cyan); outline-offset: 3px; }

@@ -32,6 +32,8 @@ export default function Sidebar() {
     const [activeSvGroup, setActiveSvGroup] = useState(null);
     const [activeUvmGroup, setActiveUvmGroup] = useState(null);
     const [activeSocGroup, setActiveSocGroup] = useState(null);
+    const [iosGuideOpen, setIosGuideOpen] = useState(false);
+    const isStandalone = typeof window !== 'undefined' && (window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches);
 
     // Group Extractor
     const extractGroups = (chaps) => {
@@ -208,9 +210,51 @@ export default function Sidebar() {
                         <NavLink to="/interview" className={({ isActive }) => `sidebar-link ${isActive ? 'active' : ''}`}>
                             <MessageSquare size={18} className="sidebar-link-icon" /> 面試準備
                         </NavLink>
+                        <button
+                            type="button"
+                            onClick={() => setIosGuideOpen(true)}
+                            className="sidebar-link"
+                            style={{ width: '100%', background: 'none', border: 'none', textAlign: 'left', fontFamily: 'inherit', marginTop: '4px', color: 'var(--color-accent-cyan)' }}
+                        >
+                            <Share2 size={18} className="sidebar-link-icon" style={{ color: 'var(--color-accent-cyan)', opacity: 1 }} />
+                            <span>{isStandalone ? '✓ iOS App 模式運行中' : '📲 安裝為 iOS App'}</span>
+                        </button>
                     </div>
                 </nav >
             </aside >
+
+            {iosGuideOpen && (
+                <div className="ios-modal-backdrop" onClick={() => setIosGuideOpen(false)}>
+                    <div className="ios-modal-card" onClick={(e) => e.stopPropagation()}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                            <h3 style={{ fontSize: '1.15rem', color: 'var(--color-text-primary)' }}>📲 安裝 SoC DV iOS App</h3>
+                            <button type="button" onClick={() => setIosGuideOpen(false)} style={{ background: 'none', border: 'none', color: 'var(--color-text-muted)', cursor: 'pointer' }}>
+                                <X size={20} />
+                            </button>
+                        </div>
+                        <p style={{ fontSize: '0.85rem', color: 'var(--color-text-secondary)', lineHeight: 1.6 }}>
+                            本平台已支援 <strong>iOS 全螢幕 Web App (PWA) 離線快取</strong> 與 <strong>Capacitor 原生封裝</strong>：
+                        </p>
+                        <ul className="ios-step-list">
+                            <li className="ios-step-item">
+                                <span className="ios-step-num">1</span>
+                                <div>在 iPhone / iPad 使用 <strong>Safari</strong> 開啟本網站，點擊底部導覽列的 <strong>「分享」按鈕 (方框向上箭頭)</strong>。</div>
+                            </li>
+                            <li className="ios-step-item">
+                                <span className="ios-step-num">2</span>
+                                <div>向下滑動選單，點選 <strong>「加入主畫面 (Add to Home Screen)」</strong> 並點擊右上角「新增」。</div>
+                            </li>
+                            <li className="ios-step-item">
+                                <span className="ios-step-num">3</span>
+                                <div>從桌面開啟 <strong>SoC DV</strong> 圖示，即可享受<strong>無網址列全螢幕、瀏海 Safe Area 適配與離線題庫瀏覽</strong>！</div>
+                            </li>
+                        </ul>
+                        <button type="button" className="btn btn-primary" style={{ width: '100%', justifyContent: 'center' }} onClick={() => setIosGuideOpen(false)}>
+                            知道了
+                        </button>
+                    </div>
+                </div>
+            )}
         </>
     );
 }

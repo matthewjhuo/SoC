@@ -1,6 +1,7 @@
 # Dependency and build outputs
 node_modules/
 dist/
+public/vendor/mermaid/
 
 # Local EDA simulation artifacts
 sim_workspace/

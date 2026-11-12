@@ -1,0 +1,17 @@
+{
+  "appId": "com.matthewjhuo.socdv",
+  "appName": "SoC DV",
+  "webDir": "dist",
+  "bundledWebRuntime": false,
+  "server": {
+    "iosScheme": "capacitor"
+  },
+  "ios": {
+    "backgroundColor": "#0a0e1a",
+    "contentInset": "automatic",
+    "preferredContentMode": "mobile",
+    "allowsLinkPreview": false,
+    "scrollEnabled": true
+  }
+}
+
